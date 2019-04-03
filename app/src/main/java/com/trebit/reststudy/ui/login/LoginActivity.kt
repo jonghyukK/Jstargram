@@ -4,8 +4,8 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import com.trebit.reststudy.R
 import com.trebit.reststudy.addFragment
@@ -13,6 +13,7 @@ import com.trebit.reststudy.databinding.ActivityLoginBinding
 import com.trebit.reststudy.removeFragment
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.fragment_name_regi.*
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import javax.inject.Inject
 
@@ -51,24 +52,30 @@ class LoginActivity : AppCompatActivity() {
                 et_pw.setText("")
                 et_pw.requestFocus()
             }
+            // clear pNumber or email
+            R.id.iv_clearValue -> {
+                viewModel.inputValue.value = ""
+                et_inputValue.setText("")
+            }
+            // clear name
+            R.id.iv_clearName -> {
+                viewModel.inputName.value = ""
+                et_name.setText("")
+            }
         }
     }
 
-    // Go SignUp Page.
-    fun goSignUp(view: View){
-        fl_container.visibility = View.VISIBLE
-        addFragment(SignUpFragment.newInstance(), R.id.fl_container)
+    fun navigatePage(view: View) {
+
+        when (view.id) {
+            // Do Sign Up
+            R.id.tv_signup -> {
+                fl_container.visibility = View.VISIBLE
+                addFragment(SignUpFragment.newInstance(), R.id.fl_container)
+            }
+            // pNumber, email Next Page
+            R.id.btn_next -> addFragment(NameRegiFragment.newInstance(), R.id.fl_container)
+            R.id.tv_login -> removeFragment()
+        }
     }
-
-    fun goNameInput(view: View) {
-        addFragment(NameRegiFragment.newInstance(), R.id.fl_container)
-    }
-
-    fun removeFragment(view: View) {
-        removeFragment()
-    }
-
-
-
-
 }

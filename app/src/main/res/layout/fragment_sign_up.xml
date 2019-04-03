@@ -117,7 +117,7 @@
 
 
             <ImageView
-                    android:id="@+id/iv_clear"
+                    android:id="@+id/iv_clearValue"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
@@ -125,7 +125,7 @@
                     android:padding="10dp"
                     android:visibility="gone"
                     android:src="@drawable/icon_clear"
-                    android:onClick="@{fragment::clearText}"
+                    android:onClick="@{activity::clearText}"
                     app:clearImage="@{viewModel.inputValue}"
                     />
         </RelativeLayout>
@@ -145,7 +145,7 @@
                 android:textStyle="bold"
                 android:text="@string/next"
                 android:enabled="false"
-                android:onClick="@{activity::goNameInput}"
+                android:onClick="@{activity::navigatePage}"
                 app:textValue="@{viewModel.inputValue}"
                 />
 
@@ -200,7 +200,7 @@
                         android:focusable="true"
                         android:textColor="@drawable/color_text"
                         android:text="@string/login"
-                        android:onClick="@{activity::removeFragment}"
+                        android:onClick="@{activity::navigatePage}"
                         />
 
             </LinearLayout>

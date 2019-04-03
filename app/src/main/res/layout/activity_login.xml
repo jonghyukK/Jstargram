@@ -219,7 +219,7 @@
                                 android:focusable="true"
                                 android:textColor="@drawable/color_text"
                                 android:text="@string/join"
-                                android:onClick="@{activity::goSignUp}"
+                                android:onClick="@{activity::navigatePage}"
                                 />
 
                     </LinearLayout>

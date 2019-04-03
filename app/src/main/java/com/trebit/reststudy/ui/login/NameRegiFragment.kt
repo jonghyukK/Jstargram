@@ -14,6 +14,7 @@ import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_name_regi.*
 import javax.inject.Inject
 
+
 /**
  * Rest_study
  * Class: NameRegiFragment
@@ -47,9 +48,10 @@ class NameRegiFragment : Fragment() {
         return mBinding.root
     }
 
-    fun clearText(view: View) {
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         viewModel.inputName.value = ""
-        et_name.setText("")
     }
 
     companion object {

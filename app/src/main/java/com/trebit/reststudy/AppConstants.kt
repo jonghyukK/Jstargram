@@ -1,12 +1,10 @@
 package com.trebit.reststudy
 
-import android.app.Fragment
 import android.content.ContextWrapper
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import io.reactivex.internal.util.BackpressureHelper.add
 
 /**
  * TrebitM-AOS
@@ -49,7 +47,18 @@ fun AppCompatActivity.replaceFragment(fragment: android.support.v4.app.Fragment,
 }
 
 fun AppCompatActivity.removeFragment() {
-    supportFragmentManager.inTransaction {
-        remove(supportFragmentManager.findFragmentById(R.id.fl_container)!!)
+    val backStackEntry = supportFragmentManager.backStackEntryCount
+    if ( backStackEntry > 0 ){
+        for ( i in 0 until backStackEntry) {
+            supportFragmentManager.popBackStackImmediate()
+        }
+    }
+
+    if(supportFragmentManager.fragments.size > 0) {
+        for ( i in 0 until supportFragmentManager.fragments.size) {
+            val frag = supportFragmentManager.fragments[i]
+            if ( frag != null)
+                supportFragmentManager.beginTransaction().remove(frag).commit()
+        }
     }
 }
