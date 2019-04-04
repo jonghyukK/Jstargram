@@ -24,42 +24,41 @@ class MainViewModel @Inject constructor(
     private val compositeDisposable by lazy { CompositeDisposable() }
     private val repository by lazy { DataRepository(apiService) }
 
-    fun getAllContents(){
-
-        compositeDisposable.add(
-            repository.getContents()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-
-                        for(i in 0 until it.size) {
-                            Logger.d("""
-                                id     : ${it[i].id}
-                                title  : ${it[i].title}
-                                writer : ${it[i].writer}
-                            """.trimIndent())
-                        }
-                    },
-                    {
-                        Logger.e(it.message.toString())
-                    }
-                ))
-    }
-
-    fun createContents(){
-
-        compositeDisposable.add(
-            repository.createContents("Hello", "World")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        Logger.d(it)
-                    },
-                    {
-                        Logger.e(it.message.toString())
-                    }
-                ))
-    }
+//    fun getAllContents(){
+//
+//        compositeDisposable.add(
+//            repository.getContents()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                    {
+//                        for(i in 0 until it.size) {
+//                            Logger.d("""
+//                                id     : ${it[i].id}
+//                                title  : ${it[i].title}
+//                                writer : ${it[i].writer}
+//                            """.trimIndent())
+//                        }
+//                    },
+//                    {
+//                        Logger.e(it.message.toString())
+//                    }
+//                ))
+//    }
+//
+//    fun createContents(){
+//
+//        compositeDisposable.add(
+//            repository.createContents("Hello", "World")
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                    {
+//                        Logger.d(it)
+//                    },
+//                    {
+//                        Logger.e(it.message.toString())
+//                    }
+//                ))
+//    }
 }

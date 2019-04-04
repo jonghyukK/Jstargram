@@ -8,13 +8,13 @@
     <data>
         <variable
                 name="viewModel"
-                type="com.trebit.reststudy.ui.login.LoginViewModel" />
+                type="com.trebit.reststudy.ui.login.viewmodel.LoginViewModel" />
         <variable
                 name="fragment"
-                type="com.trebit.reststudy.ui.login.NameRegiFragment" />
+                type="com.trebit.reststudy.ui.login.fragment.NameRegiFragment" />
         <variable
                 name="activity"
-                type="com.trebit.reststudy.ui.login.LoginActivity" />
+                type="com.trebit.reststudy.ui.login.activity.LoginActivity" />
     </data>
 
     <RelativeLayout
@@ -83,14 +83,14 @@
                     android:padding="10dp"
                     android:visibility="gone"
                     android:src="@drawable/icon_clear"
-                    android:onClick="@{activity::clearText}"
+                    android:onClick="@{fragment::clearText}"
                     app:clearImage="@{viewModel.inputName}"
                     />
         </RelativeLayout>
 
         <!-- 다음 버튼 -->
         <Button
-                android:id="@+id/btn_next"
+                android:id="@+id/btn_nameNext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_nameLayout"
@@ -103,6 +103,7 @@
                 android:textStyle="bold"
                 android:text="@string/next"
                 android:enabled="false"
+                android:onClick="@{activity::navigatePage}"
                 app:textValue="@{viewModel.inputName}"
                 />
 
@@ -145,7 +146,7 @@
                         android:focusable="true"
                         android:textColor="@drawable/color_text"
                         android:text="@string/login"
-                        android:onClick="@{activity::navigatePage}"
+                        android:onClick="@{activity::removeFragment}"
                         />
 
             </LinearLayout>

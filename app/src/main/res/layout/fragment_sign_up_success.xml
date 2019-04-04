@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+                name="viewModel"
+                type="com.trebit.reststudy.ui.login.viewmodel.LoginViewModel"/>
+        <variable
+                name="fragment"
+                type="com.trebit.reststudy.ui.login.fragment.SignUpSuccessFragment"/>
+        <variable
+                name="activity"
+                type="com.trebit.reststudy.ui.login.activity.LoginActivity"/>
+
+    </data>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+        <TextView
+                android:id="@+id/tv_signUpDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="70dp"
+                android:text="@string/desc_sign_up_success"
+                android:textColor="@color/black"
+                android:textSize="23sp"/>
+
+        <TextView
+                android:id="@+id/tv_descSignUpAfter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_signUpDesc"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@string/desc_sign_up_after"
+                android:textColor="@color/black"
+                android:textSize="13sp"/>
+
+        <!-- 다음 버튼 -->
+        <Button
+                android:id="@+id/btn_goLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_descSignUpAfter"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/background_button"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="@string/login"
+                android:enabled="true"
+                android:onClick="@{activity::removeFragment}"
+                />
+
+
+    </RelativeLayout>
+
+</layout>

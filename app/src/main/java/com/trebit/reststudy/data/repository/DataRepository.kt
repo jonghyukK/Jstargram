@@ -1,9 +1,7 @@
 package com.trebit.reststudy.data.repository
 
-import com.trebit.reststudy.data.model.ContentVo
-import com.trebit.reststudy.data.model.CreateBody
+import com.trebit.reststudy.data.model.UserDataVo
 import com.trebit.reststudy.data.remote.ApiService
-import io.reactivex.Single
 import javax.inject.Singleton
 
 /**
@@ -17,8 +15,11 @@ import javax.inject.Singleton
 @Singleton
 class DataRepository(private val apiService: ApiService){
 
-    fun getContents(): Single<List<ContentVo>> = apiService.getContents()
+    fun createUser(email    : String,
+                   name     : String,
+                   password : String)
+            = apiService.createUser(UserDataVo(email, name, password))
 
-    fun createContents(title : String, writer: String): Single<ContentVo>
-            = apiService.createContents(CreateBody(title, writer))
+    fun getUser(email: String)
+            = apiService.getUser(email)
 }

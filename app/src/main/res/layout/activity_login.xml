@@ -10,234 +10,218 @@
 
         <variable
                 name="viewModel"
-                type="com.trebit.reststudy.ui.login.LoginViewModel"
+                type="com.trebit.reststudy.ui.login.viewmodel.LoginViewModel"
                 />
 
         <variable
                 name="activity"
-                type="com.trebit.reststudy.ui.login.LoginActivity"
+                type="com.trebit.reststudy.ui.login.activity.LoginActivity"
                 />
     </data>
 
-
-    <RelativeLayout
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fillViewport="true"
             >
 
-        <ScrollView
+        <RelativeLayout
+                android:id="@+id/rl_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
                 >
 
+            <!-- Center Layout -->
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:layout_centerInParent="true"
+                    android:paddingBottom="60dp"
                     >
 
-                <!-- Center Layout -->
-                <RelativeLayout
-                        android:layout_width="match_parent"
+
+                <!-- App Title -->
+                <TextView
+                        android:id="@+id/tv_mainLogo"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:paddingBottom="60dp"
-                        >
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="35sp"
+                        android:text="ABCDEFG"
+                        />
 
 
-                    <!-- App Title -->
-                    <TextView
-                            android:id="@+id/tv_mainLogo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="35sp"
-                            android:text="ABCDEFG"
-                            />
-
-
-                    <!-- Email Input Layout -->
-                    <RelativeLayout
-                            android:id="@+id/rl_emailLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_below="@+id/tv_mainLogo"
-                            >
-
-                        <EditText
-                                android:id="@+id/et_email"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:hint="@string/email"
-                                android:textColorHint="@android:color/darker_gray"
-                                android:textColor="@color/black"
-                                android:background="@color/gray_1"
-                                android:textSize="15sp"
-                                android:paddingStart="15dp"
-                                android:paddingEnd="50dp"
-                                android:singleLine="true"
-                                android:text="@={viewModel.inputEmail}"
-                                android:inputType="textEmailAddress"
-                                />
-
-                        <ImageView
-                                android:id="@+id/iv_clearEmail"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:padding="10dp"
-                                android:visibility="gone"
-                                android:src="@drawable/icon_clear"
-                                android:onClick="@{activity::clearText}"
-                                app:clearImage="@{viewModel.inputEmail}"
-                                />
-                    </RelativeLayout>
-
-
-                    <!-- Password Input Layout -->
-                    <RelativeLayout
-                            android:id="@+id/rl_pwLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_below="@+id/rl_emailLayout"
-                            >
-
-                        <EditText
-                                android:id="@+id/et_pw"
-                                android:layout_width="match_parent"
-                                android:layout_height="45dp"
-                                android:hint="@string/password"
-                                android:textColorHint="@android:color/darker_gray"
-                                android:textColor="@color/black"
-                                android:background="@color/gray_1"
-                                android:textSize="15sp"
-                                android:paddingStart="15dp"
-                                android:paddingEnd="50dp"
-                                android:singleLine="true"
-                                android:text="@={viewModel.inputPw}"
-                                android:inputType="textPassword"
-                                />
-
-                        <ImageView
-                                android:id="@+id/iv_clearPW"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:padding="10dp"
-                                android:visibility="gone"
-                                android:src="@drawable/icon_clear"
-                                android:onClick="@{activity::clearText}"
-                                app:clearImage="@{viewModel.inputPw}"
-                                />
-
-                    </RelativeLayout>
-
-
-                    <!-- ㅂㅣ밀번호를 잊으셨나요 Layout -->
-                    <TextView
-                            android:id="@+id/tv_lostPw"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/rl_pwLayout"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="20dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:text="@string/desc_lost_password"
-                            android:textColor="@drawable/color_text"
-                            />
-
-
-                    <!-- 로그인 버튼 -->
-                    <Button
-                            android:id="@+id/btn_login"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_lostPw"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/background_button"
-                            android:textColor="@android:color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:text="@string/login"
-                            android:enabled="false"
-                            app:textEmail="@{viewModel.inputEmail}"
-                            app:textPw="@{viewModel.inputPw}"
-                            />
-                </RelativeLayout>
-
-
-                <!-- Bottom Layout -->
+                <!-- Email Input Layout -->
                 <RelativeLayout
+                        android:id="@+id/rl_emailLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_alignParentBottom="true"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_below="@+id/tv_mainLogo"
                         >
 
-                    <View
-                            android:id="@+id/divider"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#e9e9e9"
-                            />
-
-                    <LinearLayout
+                    <EditText
+                            android:id="@+id/et_email"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_below="@+id/divider"
-                            android:layout_centerInParent="true"
-                            android:orientation="horizontal"
-                            android:gravity="center"
-                            >
+                            android:hint="@string/email"
+                            android:textColorHint="@android:color/darker_gray"
+                            android:textColor="@color/black"
+                            android:background="@color/gray_1"
+                            android:textSize="15sp"
+                            android:paddingStart="15dp"
+                            android:paddingEnd="50dp"
+                            android:singleLine="true"
+                            android:text="@={viewModel.inputEmail}"
+                            android:inputType="textEmailAddress"
+                            />
 
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@android:color/darker_gray"
-                                android:text="@string/desc_have_not_id"
-                                />
-
-                        <TextView
-                                android:id="@+id/tv_signup"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:textColor="@drawable/color_text"
-                                android:text="@string/join"
-                                android:onClick="@{activity::navigatePage}"
-                                />
-
-                    </LinearLayout>
+                    <ImageView
+                            android:id="@+id/iv_clearEmail"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:padding="10dp"
+                            android:visibility="gone"
+                            android:src="@drawable/icon_clear"
+                            android:onClick="@{activity::clearText}"
+                            app:clearImage="@{viewModel.inputEmail}"
+                            />
                 </RelativeLayout>
 
+
+                <!-- Password Input Layout -->
+                <RelativeLayout
+                        android:id="@+id/rl_pwLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_below="@+id/rl_emailLayout"
+                        >
+
+                    <EditText
+                            android:id="@+id/et_pw"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:hint="@string/password"
+                            android:textColorHint="@android:color/darker_gray"
+                            android:textColor="@color/black"
+                            android:background="@color/gray_1"
+                            android:textSize="15sp"
+                            android:paddingStart="15dp"
+                            android:paddingEnd="50dp"
+                            android:singleLine="true"
+                            android:text="@={viewModel.inputPw}"
+                            android:inputType="textPassword"
+                            />
+
+                    <ImageView
+                            android:id="@+id/iv_clearPW"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:padding="10dp"
+                            android:visibility="gone"
+                            android:src="@drawable/icon_clear"
+                            android:onClick="@{activity::clearText}"
+                            app:clearImage="@{viewModel.inputPw}"
+                            />
+
+                </RelativeLayout>
+
+
+                <!-- ㅂㅣ밀번호를 잊으셨나요 Layout -->
+                <TextView
+                        android:id="@+id/tv_lostPw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rl_pwLayout"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="20dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="@string/desc_lost_password"
+                        android:textColor="@drawable/color_text"
+                        />
+
+
+                <!-- 로그인 버튼 -->
+                <Button
+                        android:id="@+id/btn_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_lostPw"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/background_button"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="@string/login"
+                        android:enabled="false"
+                        app:textEmail="@{viewModel.inputEmail}"
+                        app:textPw="@{viewModel.inputPw}"
+                        />
             </RelativeLayout>
-        </ScrollView>
 
 
-        <FrameLayout
-                android:id="@+id/fl_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                />
-    </RelativeLayout>
+            <!-- Bottom Layout -->
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_alignParentBottom="true"
+                    >
 
+                <View
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#e9e9e9"
+                        />
 
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/divider"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        >
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/darker_gray"
+                            android:text="@string/desc_have_not_id"
+                            />
+
+                    <TextView
+                            android:id="@+id/tv_signup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:textColor="@drawable/color_text"
+                            android:text="@string/join"
+                            android:onClick="@{activity::navigatePage}"
+                            />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
 
 
 </layout>

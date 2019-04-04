@@ -9,110 +9,69 @@
 
         <variable
                 name="viewModel"
-                type="com.trebit.reststudy.ui.login.LoginViewModel"
-                />
-
+                type="com.trebit.reststudy.ui.login.viewmodel.LoginViewModel"/>
         <variable
                 name="fragment"
-                type="com.trebit.reststudy.ui.login.SignUpFragment"/>
+                type="com.trebit.reststudy.ui.login.fragment.SignUpFragment"/>
         <variable
                 name="activity"
-                type="com.trebit.reststudy.ui.login.LoginActivity" />
+                type="com.trebit.reststudy.ui.login.activity.LoginActivity" />
     </data>
 
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            tools:context=".ui.login.SignUpFragment"
+            tools:context=".ui.login.fragment.SignUpFragment"
             >
 
+        <TextView
+                android:id="@+id/tv_emailDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:text="@string/email_regi"
+                android:textColor="@color/black"
+                android:textSize="25sp"/>
 
-        <!-- 전화번호 / 이메일 탭 레이아웃 -->
-        <LinearLayout
-                android:id="@+id/ll_tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:layout_marginTop="50dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
-                >
-
-
-            <RelativeLayout
-                    android:id="@+id/rl_pNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/black"
-                    android:onClick="@{fragment::selectTab}"
-                    >
-
-                <TextView
-                        android:id="@+id/tv_pNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="1dp"
-                        android:gravity="center"
-                        android:background="@color/white"
-                        android:text="@string/phone_number"
-                        android:textSize="25sp"
-                        android:textColor="@android:color/black"
-                        />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                    android:id="@+id/rl_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/gray_3"
-                    android:onClick="@{fragment::selectTab}"
-                    >
-
-                <TextView
-                        android:id="@+id/tv_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="1dp"
-                        android:gravity="center"
-                        android:background="@color/white"
-                        android:text="@string/email"
-                        android:textSize="25sp"
-                        android:textColor="@color/gray_3"
-                        />
-
-            </RelativeLayout>
-        </LinearLayout>
+        <TextView
+                android:id="@+id/tv_emailRegiDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_emailDesc"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text="@string/desc_email_regist"
+                android:textColor="@color/black"
+                android:textSize="13sp"/>
 
 
-        <!-- 전화번호 / 이메일 입력 레이아웃 -->
+        <!-- 이메일 입력 레이아웃 -->
         <RelativeLayout
                 android:id="@+id/rl_inputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@id/ll_tabLayout"
+                android:layout_below="@id/tv_emailRegiDesc"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 >
 
             <EditText
-                    android:id="@+id/et_inputValue"
+                    android:id="@+id/et_inputMakeEmail"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:textColorHint="@android:color/darker_gray"
                     android:textColor="@color/black"
-                    android:hint="@string/phone_number"
+                    android:hint="@string/email_addr"
                     android:background="@color/gray_1"
                     android:textSize="15sp"
                     android:paddingStart="15dp"
                     android:paddingEnd="50dp"
                     android:singleLine="true"
-                    android:inputType="phone"
-                    android:text="@={viewModel.inputValue}"
+                    android:inputType="textEmailAddress"
+                    android:text="@={viewModel.inputMakeEmail}"
                     />
 
 
@@ -125,17 +84,29 @@
                     android:padding="10dp"
                     android:visibility="gone"
                     android:src="@drawable/icon_clear"
-                    android:onClick="@{activity::clearText}"
-                    app:clearImage="@{viewModel.inputValue}"
+                    android:onClick="@{fragment::clearText}"
+                    app:clearImage="@{viewModel.inputMakeEmail}"
                     />
         </RelativeLayout>
+
+        <TextView
+                android:id="@+id/tv_alreadyRegiEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_inputLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text="@string/desc_already_regi_id"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="12sp"
+                android:visibility="gone"/>
 
         <!-- 다음 버튼 -->
         <Button
                 android:id="@+id/btn_next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_inputLayout"
+                android:layout_below="@+id/tv_alreadyRegiEmail"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
@@ -145,8 +116,8 @@
                 android:textStyle="bold"
                 android:text="@string/next"
                 android:enabled="false"
-                android:onClick="@{activity::navigatePage}"
-                app:textValue="@{viewModel.inputValue}"
+                android:onClick="@{fragment::navigatePage}"
+                app:textValue="@{viewModel.inputMakeEmail}"
                 />
 
         <TextView
@@ -200,7 +171,7 @@
                         android:focusable="true"
                         android:textColor="@drawable/color_text"
                         android:text="@string/login"
-                        android:onClick="@{activity::navigatePage}"
+                        android:onClick="@{activity::removeFragment}"
                         />
 
             </LinearLayout>

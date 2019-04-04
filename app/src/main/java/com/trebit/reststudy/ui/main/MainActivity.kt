@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.trebit.reststudy.R
 import com.trebit.reststudy.databinding.ActivityMainBinding
-import com.trebit.reststudy.ui.login.LoginActivity
+import com.trebit.reststudy.ui.login.activity.LoginActivity
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 

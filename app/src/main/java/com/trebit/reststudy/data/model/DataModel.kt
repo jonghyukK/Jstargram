@@ -8,9 +8,9 @@ package com.trebit.reststudy.data.model
  * Description:
  */
 
-data class ContentVo(val id        : Int,
-                     val title     : String,
-                     val writer    : String)
 
-data class CreateBody(val title: String,
-                      val writer: String)
+data class UserDataVo(
+    val email    : String,
+    val name     : String,
+    val password : String
+)

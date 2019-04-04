@@ -3,7 +3,7 @@ package com.trebit.reststudy.di.module
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.trebit.reststudy.di.ViewModelFactory
-import com.trebit.reststudy.ui.login.LoginViewModel
+import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import com.trebit.reststudy.ui.main.MainViewModel
 import dagger.Binds
 import dagger.Module
