@@ -11,17 +11,11 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.trebit.reststudy.*
 import com.trebit.reststudy.databinding.ActivityLoginBinding
-import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
-import com.trebit.reststudy.ui.login.fragment.NameRegiFragment
-import com.trebit.reststudy.ui.login.fragment.PasswordFragment
 import com.trebit.reststudy.ui.login.fragment.SignUpFragment
-import com.trebit.reststudy.ui.login.fragment.SignUpSuccessFragment
+import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import com.trebit.reststudy.ui.main.MainActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.fragment_name_regi.*
-import kotlinx.android.synthetic.main.fragment_password.*
-import kotlinx.android.synthetic.main.fragment_sign_up.*
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
@@ -51,6 +45,8 @@ class LoginActivity : AppCompatActivity() {
                 RES_FAILED -> toast { getString(R.string.desc_login_falied) }
             }
         })
+
+        R.layout.layout_test
     }
 
     // Email, Password EditText Clear.
