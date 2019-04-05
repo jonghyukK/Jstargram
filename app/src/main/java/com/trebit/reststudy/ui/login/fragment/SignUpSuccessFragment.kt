@@ -63,14 +63,6 @@ class SignUpSuccessFragment : Fragment() {
         val res = resources
         val registedID = String.format(res.getString(R.string.desc_sign_up_success), viewModel.inputName.value)
         tv_signUpDesc.text = registedID
-
-        Logger.d("""
-            value : ${viewModel.inputMakeEmail.value}
-            name  : ${viewModel.inputName.value}
-            pw    : ${viewModel.inputMakePW.value}
-        """.trimIndent())
-
-        viewModel.createUser()
     }
 
     companion object {

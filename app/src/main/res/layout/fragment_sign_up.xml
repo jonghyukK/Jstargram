@@ -96,7 +96,7 @@
                 android:layout_below="@+id/rl_inputLayout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:text="@string/desc_already_regi_id"
+                android:text="@string/desc_invalid_email"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="12sp"
                 android:visibility="gone"/>
@@ -116,7 +116,7 @@
                 android:textStyle="bold"
                 android:text="@string/next"
                 android:enabled="false"
-                android:onClick="@{fragment::navigatePage}"
+                android:onClick="@{fragment::validateEmail}"
                 app:textValue="@{viewModel.inputMakeEmail}"
                 />
 

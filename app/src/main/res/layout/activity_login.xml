@@ -169,6 +169,7 @@
                         android:textStyle="bold"
                         android:text="@string/login"
                         android:enabled="false"
+                        android:onClick="@{activity::doLogin}"
                         app:textEmail="@{viewModel.inputEmail}"
                         app:textPw="@{viewModel.inputPw}"
                         />
@@ -214,7 +215,7 @@
                             android:focusable="true"
                             android:textColor="@drawable/color_text"
                             android:text="@string/join"
-                            android:onClick="@{activity::navigatePage}"
+                            android:onClick="@{activity::goSignUpPage}"
                             />
 
                 </LinearLayout>

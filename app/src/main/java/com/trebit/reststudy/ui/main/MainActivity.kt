@@ -28,14 +28,7 @@ class MainActivity : AppCompatActivity() {
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         mBinding.viewModel = mViewModel
 
-//        showAllContents()
 
-        startActivity(Intent(this, LoginActivity::class.java))
     }
 
-    private fun showAllContents(){
-        mViewModel.getAllContents()
-
-        mViewModel.createContents()
-    }
 }

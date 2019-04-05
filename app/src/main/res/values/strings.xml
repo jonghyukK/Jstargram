@@ -22,6 +22,10 @@
     <string name="desc_sign_up_after"   >팔로우할 사람을 찾고, 사진을 공유해보세요.\n 사용자 이름은 언제든지 변경할 수 있습니다.</string>
     <string name="desc_email_regist"    >등록하신 이메일은 로그인 할 때 사용됩니다.</string>
     <string name="desc_already_regi_id" >이 이메일은 다른 계정에서 사용하고 있습니다.</string>
+    <string name="desc_invalid_email"   >잘못된 이메일이거나, 이미 등록된 이메일입니다.</string>
+    <string name="desc_sign_up_failed"  >계정 생성에 실패하였습니다. \n잠시 후에 시도해 주세요.</string>
+    <string name="desc_email_auth_error">이메일이 잘못되었습니다. \n다시 한 번 확인해 주세요.</string>
+    <string name="desc_login_falied"    >이메일 혹은 비밀번호가 올바르지 않습니다. \n다시 한 번 확인해 주세요.</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

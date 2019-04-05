@@ -1,5 +1,6 @@
 package com.trebit.reststudy.ui.login.fragment
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -9,7 +10,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.trebit.reststudy.R
+import com.trebit.reststudy.*
 import com.trebit.reststudy.databinding.FragmentPasswordBinding
 import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
@@ -51,14 +52,30 @@ class PasswordFragment : Fragment() {
         return mBinding.root
     }
 
-    fun clearText(v: View){
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel.signUpResult.observe(this, Observer {
+            when(it) {
+                RES_SUCCESS -> mBinding.activity?.addFragment(SignUpSuccessFragment.newInstance())
+                RES_FAILED  -> context?.toast { getString(R.string.desc_sign_up_failed) }
+            }
+        })
+    }
+
+    fun clearText(v: View) {
         viewModel.inputMakePW.value = ""
         et_makePw.setText("")
+    }
+
+    fun doSignUpFinish(v: View) {
+        viewModel.createUser()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.inputMakePW.postValue("")
+        viewModel.signUpResult.postValue("")
     }
 
     companion object {

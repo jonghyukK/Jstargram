@@ -1,6 +1,7 @@
 package com.trebit.reststudy.data.repository
 
-import com.trebit.reststudy.data.model.UserDataVo
+import com.trebit.reststudy.data.model.RequestLoginBody
+import com.trebit.reststudy.data.model.CreateUserBody
 import com.trebit.reststudy.data.remote.ApiService
 import javax.inject.Singleton
 
@@ -18,8 +19,12 @@ class DataRepository(private val apiService: ApiService){
     fun createUser(email    : String,
                    name     : String,
                    password : String)
-            = apiService.createUser(UserDataVo(email, name, password))
+            = apiService.createUser(CreateUserBody(email, name, password))
 
-    fun getUser(email: String)
-            = apiService.getUser(email)
+    fun validateEmail(email: String)
+            = apiService.validateEmail(email)
+
+    fun requestLogin(email    : String,
+                     password : String)
+            = apiService.requestLogin(RequestLoginBody(email, password))
 }

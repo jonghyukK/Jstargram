@@ -103,7 +103,7 @@
                 android:textStyle="bold"
                 android:text="@string/next"
                 android:enabled="false"
-                android:onClick="@{activity::navigatePage}"
+                android:onClick="@{fragment::nextPage}"
                 app:textValue="@{viewModel.inputName}"
                 />
 

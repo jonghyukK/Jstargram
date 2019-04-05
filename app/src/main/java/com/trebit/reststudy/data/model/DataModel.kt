@@ -9,8 +9,42 @@ package com.trebit.reststudy.data.model
  */
 
 
-data class UserDataVo(
+/****************************************************************
+ *
+ *   Request Body.
+ *
+ ***************************************************************/
+
+// Create User
+data class CreateUserBody(
     val email    : String,
     val name     : String,
     val password : String
 )
+
+// Login
+data class RequestLoginBody(
+    val email    : String,
+    val password : String
+)
+
+
+
+
+/****************************************************************
+ *
+ *   Response Vo.
+ *
+ ***************************************************************/
+data class ResponseVo(
+    val resCode: String,
+    val resMsg : String
+)
+
+// Validate Email
+data class ValidateEmailVo(
+    val resCode    : String,
+    val resMsg     : String,
+    val isValidate : String
+)
+

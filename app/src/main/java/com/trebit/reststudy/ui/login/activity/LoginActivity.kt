@@ -1,20 +1,22 @@
 package com.trebit.reststudy.ui.login.activity
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.trebit.reststudy.R
-import com.trebit.reststudy.addFragment
+import com.trebit.reststudy.*
 import com.trebit.reststudy.databinding.ActivityLoginBinding
-import com.trebit.reststudy.removeFragment
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import com.trebit.reststudy.ui.login.fragment.NameRegiFragment
 import com.trebit.reststudy.ui.login.fragment.PasswordFragment
 import com.trebit.reststudy.ui.login.fragment.SignUpFragment
 import com.trebit.reststudy.ui.login.fragment.SignUpSuccessFragment
+import com.trebit.reststudy.ui.main.MainActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_name_regi.*
@@ -39,6 +41,16 @@ class LoginActivity : AppCompatActivity() {
         mBinding.viewModel = viewModel
         mBinding.activity  = this
 
+        viewModel.loginResult.observe(this, Observer {
+            when(it) {
+                RES_SUCCESS -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                }
+
+                RES_FAILED -> toast { getString(R.string.desc_login_falied) }
+            }
+        })
     }
 
     // Email, Password EditText Clear.
@@ -57,14 +69,16 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun navigatePage(view: View) {
-        addFragment( when(view.id) {
-            R.id.tv_signup      -> SignUpFragment.newInstance()
-            R.id.btn_next       -> NameRegiFragment.newInstance()
-            R.id.btn_nameNext   -> PasswordFragment.newInstance()
-            R.id.btn_makePwNext -> SignUpSuccessFragment.newInstance()
-            else -> return
-        }, R.id.rl_container)
+    fun doLogin(v: View) {
+        viewModel.requestLogin()
+    }
+
+    fun goSignUpPage(v: View) {
+        addFragment(SignUpFragment.newInstance())
+    }
+
+    fun addFragment(fragment: Fragment) {
+        addFragment(fragment, R.id.rl_container)
     }
 
     fun removeFragment(v: View) {

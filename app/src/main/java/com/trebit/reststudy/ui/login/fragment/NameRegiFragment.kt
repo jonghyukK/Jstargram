@@ -54,12 +54,15 @@ class NameRegiFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.getUser()
     }
 
     fun clearText(v: View){
         viewModel.inputName.value = ""
         et_name.setText("")
+    }
+
+    fun nextPage(v: View) {
+        mBinding.activity?.addFragment(PasswordFragment.newInstance())
     }
 
 
