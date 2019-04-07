@@ -12,12 +12,12 @@ import android.view.ViewGroup
 import com.trebit.reststudy.R
 import com.trebit.reststudy.RES_FAILED
 import com.trebit.reststudy.RES_SUCCESS
-import com.trebit.reststudy.databinding.FragmentPasswordBinding
+import com.trebit.reststudy.databinding.LoginFragmentPasswordBinding
 import com.trebit.reststudy.toast
 import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_password.*
+import kotlinx.android.synthetic.main.login_fragment_password.*
 import javax.inject.Inject
 
 /**
@@ -34,7 +34,7 @@ class PasswordFragment : Fragment() {
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: LoginViewModel
-    private lateinit var mBinding : FragmentPasswordBinding
+    private lateinit var mBinding : LoginFragmentPasswordBinding
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -44,7 +44,7 @@ class PasswordFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        mBinding  = DataBindingUtil.inflate(inflater, R.layout.fragment_password, container, false)
+        mBinding  = DataBindingUtil.inflate(inflater, R.layout.login_fragment_password, container, false)
         viewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(LoginViewModel::class.java)
         mBinding.viewModel = viewModel
         mBinding.fragment  = this
@@ -56,9 +56,12 @@ class PasswordFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        // 계정 생성 Observer.
         viewModel.signUpResult.observe(this, android.arch.lifecycle.Observer {
             when (it) {
+                // 생성 Success
                 RES_SUCCESS -> mBinding.activity?.addFragment(SignUpSuccessFragment.newInstance())
+                // 생성 Failed
                 RES_FAILED -> context?.toast { getString(R.string.desc_sign_up_failed) }
             }
         })

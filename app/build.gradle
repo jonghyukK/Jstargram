@@ -61,4 +61,7 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
 
+    // circle Image View
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
 }

@@ -1,7 +1,7 @@
 package com.trebit.reststudy.di.module
 
 import com.trebit.reststudy.ui.login.activity.LoginActivity
-import com.trebit.reststudy.ui.main.MainActivity
+import com.trebit.reststudy.ui.main.activity.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

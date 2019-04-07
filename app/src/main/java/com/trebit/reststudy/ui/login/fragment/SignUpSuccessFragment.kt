@@ -9,13 +9,12 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.orhanobut.logger.Logger
 import com.trebit.reststudy.R
-import com.trebit.reststudy.databinding.FragmentSignUpSuccessBinding
+import com.trebit.reststudy.databinding.LoginFragmentSignUpSuccessBinding
 import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_sign_up_success.*
+import kotlinx.android.synthetic.main.login_fragment_sign_up_success.*
 import javax.inject.Inject
 
 /**
@@ -33,7 +32,7 @@ class SignUpSuccessFragment : Fragment() {
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: LoginViewModel
-    private lateinit var mBinding : FragmentSignUpSuccessBinding
+    private lateinit var mBinding : LoginFragmentSignUpSuccessBinding
 
 
     override fun onAttach(context: Context?) {
@@ -44,7 +43,7 @@ class SignUpSuccessFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up_success,  container, false)
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.login_fragment_sign_up_success,  container, false)
         viewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(LoginViewModel::class.java)
         mBinding.viewModel = viewModel
         mBinding.fragment = this

@@ -10,11 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.trebit.reststudy.R
-import com.trebit.reststudy.databinding.FragmentNameRegiBinding
+import com.trebit.reststudy.databinding.LoginFragmentNameRegiBinding
 import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_name_regi.*
+import kotlinx.android.synthetic.main.login_fragment_name_regi.*
 import javax.inject.Inject
 
 
@@ -32,7 +32,7 @@ class NameRegiFragment : Fragment() {
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel : LoginViewModel
-    private lateinit var mBinding  : FragmentNameRegiBinding
+    private lateinit var mBinding  : LoginFragmentNameRegiBinding
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -42,18 +42,13 @@ class NameRegiFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        mBinding  = DataBindingUtil.inflate(inflater, R.layout.fragment_name_regi, container, false)
+        mBinding  = DataBindingUtil.inflate(inflater, R.layout.login_fragment_name_regi, container, false)
         viewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(LoginViewModel::class.java)
         mBinding.viewModel = viewModel
         mBinding.fragment  = this
         mBinding.activity  = activity as LoginActivity
 
         return mBinding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
     }
 
     fun clearText(v: View){

@@ -11,11 +11,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.trebit.reststudy.R
-import com.trebit.reststudy.databinding.FragmentSignUpBinding
+import com.trebit.reststudy.databinding.LoginFragmentSignUpBinding
 import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_sign_up.*
+import kotlinx.android.synthetic.main.login_fragment_sign_up.*
 import javax.inject.Inject
 
 
@@ -25,7 +25,7 @@ class SignUpFragment : Fragment() {
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel : LoginViewModel
-    private lateinit var mBinding  : FragmentSignUpBinding
+    private lateinit var mBinding  : LoginFragmentSignUpBinding
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -33,11 +33,12 @@ class SignUpFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater          : LayoutInflater,
+        container         : ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        mBinding  = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
+        mBinding  = DataBindingUtil.inflate(inflater, R.layout.login_fragment_sign_up, container, false)
         viewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(LoginViewModel::class.java)
         mBinding.viewModel = viewModel
         mBinding.fragment  = this
@@ -49,6 +50,7 @@ class SignUpFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        // Email Validate Observer.
         viewModel.isValidEmail.observe(this, Observer {
             tv_alreadyRegiEmail.visibility =
                 if ( it == null || it == "Y" ) View.GONE else View.VISIBLE

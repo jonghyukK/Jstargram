@@ -89,8 +89,6 @@ class LoginViewModel @Inject constructor(
                         resMsg    : ${it.resMsg}
                         isValidate: ${it.isValidate}
                     """.trimIndent())
-
-                    Logger.d(it)
                 },
                     { Logger.e(it.message.toString()) }
                 ))

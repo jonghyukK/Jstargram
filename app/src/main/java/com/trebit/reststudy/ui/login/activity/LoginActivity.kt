@@ -13,7 +13,7 @@ import com.trebit.reststudy.*
 import com.trebit.reststudy.databinding.ActivityLoginBinding
 import com.trebit.reststudy.ui.login.fragment.SignUpFragment
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
-import com.trebit.reststudy.ui.main.MainActivity
+import com.trebit.reststudy.ui.main.activity.MainActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
@@ -35,18 +35,23 @@ class LoginActivity : AppCompatActivity() {
         mBinding.viewModel = viewModel
         mBinding.activity  = this
 
+        init()
+    }
+
+    private fun init() {
+
+        // Login Observer.
         viewModel.loginResult.observe(this, Observer {
             when(it) {
+                // Login Success.
                 RES_SUCCESS -> {
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
-
+                // Login Failed.
                 RES_FAILED -> toast { getString(R.string.desc_login_falied) }
             }
         })
-
-        R.layout.layout_test
     }
 
     // Email, Password EditText Clear.
@@ -65,10 +70,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // 로그인 버튼 클릭
     fun doLogin(v: View) {
         viewModel.requestLogin()
     }
 
+    // 가입하기
     fun goSignUpPage(v: View) {
         addFragment(SignUpFragment.newInstance())
     }

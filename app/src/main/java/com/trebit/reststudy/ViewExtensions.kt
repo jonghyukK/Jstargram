@@ -44,6 +44,12 @@ inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Fragmen
         .commit()
 }
 
+inline fun FragmentManager.inTransactionNotStack(func: FragmentTransaction.() -> FragmentTransaction) {
+    beginTransaction()
+        .func()
+        .commit()
+}
+
 
 fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int) {
     supportFragmentManager.inTransaction { add(frameId, fragment) }
@@ -52,6 +58,10 @@ fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int) {
 
 fun AppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) {
     supportFragmentManager.inTransaction { replace(frameId, fragment) }
+}
+
+fun AppCompatActivity.replaceFragmentNotStack(fragment: Fragment, frameId: Int) {
+    supportFragmentManager.inTransactionNotStack { replace(frameId, fragment) }
 }
 
 

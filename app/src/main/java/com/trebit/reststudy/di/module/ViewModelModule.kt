@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.trebit.reststudy.di.ViewModelFactory
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
-import com.trebit.reststudy.ui.main.MainViewModel
+import com.trebit.reststudy.ui.main.viewmodel.MainViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
