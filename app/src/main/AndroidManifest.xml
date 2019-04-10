@@ -15,12 +15,8 @@
             android:usesCleartextTraffic="true">
 
         <activity
-                android:name=".ui.main.activity.MainActivity" />
-
-
-        <activity
-                android:name=".ui.login.activity.LoginActivity">
-
+                android:name=".ui.splash.SplashActivity"
+                android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
@@ -28,6 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.login.activity.LoginActivity" />
+
+        <activity android:name=".ui.main.activity.MainActivity" />
+
+        <activity android:name=".ui.BaseActivity"/>
     </application>
 
 </manifest>

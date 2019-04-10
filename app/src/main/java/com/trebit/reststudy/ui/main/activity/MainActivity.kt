@@ -3,30 +3,38 @@ package com.trebit.reststudy.ui.main.activity
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
+import android.os.Build.VERSION_CODES.P
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
+import com.orhanobut.logger.Logger
+import com.trebit.reststudy.LOGIN_EMAIL
 import com.trebit.reststudy.R
-import com.trebit.reststudy.addFragment
 import com.trebit.reststudy.databinding.ActivityMainBinding
-import com.trebit.reststudy.replaceFragment
-import com.trebit.reststudy.replaceFragmentNotStack
+import com.trebit.reststudy.ui.BaseActivity
 import com.trebit.reststudy.ui.main.fragment.FirstTabFragment
 import com.trebit.reststudy.ui.main.fragment.SecondTabFragment
-import com.trebit.reststudy.ui.main.fragment.ThirdTabFragment
+import com.trebit.reststudy.ui.main.fragment.UserHomeFragment
 import com.trebit.reststudy.ui.main.viewmodel.MainViewModel
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var mViewModel: MainViewModel
-    private lateinit var mBinding : ActivityMainBinding
+    private lateinit var mViewModel   : MainViewModel
+    private lateinit var mBinding     : ActivityMainBinding
+
+    private lateinit var firstFrag    : FirstTabFragment
+    private lateinit var secondFrag   : SecondTabFragment
+    private lateinit var userHomeFrag : UserHomeFragment
+
+    private var mBackStackArray: MutableList<TabState> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,45 +44,135 @@ class MainActivity : AppCompatActivity() {
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         mBinding.viewModel = mViewModel
 
-        init()
+        initView()
+
+        reqMyAccountInfo()
     }
 
-    private fun init() {
-        // Set First Fragment.
-        replaceFragmentNotStack(FirstTabFragment.newInstance(), R.id.fl_mainContainer)
-        // set Bottom Navigation Event Listener.
+    private fun initView() {
         bnv_navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        bnv_navigationView.menu.findItem(R.id.navi_home).isChecked = true
+
+        firstFrag    = FirstTabFragment.newInstance()
+        secondFrag   = SecondTabFragment.newInstance()
+        userHomeFrag = UserHomeFragment.newInstance()
+
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fl_mainContainer, firstFrag)
+            .add(R.id.fl_mainContainer, secondFrag)
+            .add(R.id.fl_mainContainer, userHomeFrag)
+            .commit()
+        setTabStateFragment(TabState.HOME)
+        mBackStackArray.add(TabState.HOME)
     }
 
+
+    private fun reqMyAccountInfo() {
+        val loginEmail = intent.getStringExtra(LOGIN_EMAIL)
+        mViewModel.getUser(loginEmail)
+    }
 
     private val mOnNavigationItemSelectedListener
             = BottomNavigationView.OnNavigationItemSelectedListener {
-        when (it.itemId) {
-            R.id.navi_home -> {
-                replaceFragment(FirstTabFragment.newInstance())
-                return@OnNavigationItemSelectedListener true
+
+            when (it.itemId) {
+                // Home
+                R.id.navi_home -> {
+                    setTabStateFragment(TabState.HOME)
+
+                    if( mBackStackArray.contains(TabState.HOME))
+                        mBackStackArray.remove(TabState.HOME)
+
+                    mBackStackArray.add(TabState.HOME)
+                    return@OnNavigationItemSelectedListener true
+                }
+
+                // Add Picture
+                R.id.navi_add -> {
+                    setTabStateFragment(TabState.ADD)
+
+                    if( mBackStackArray.contains(TabState.ADD))
+                        mBackStackArray.remove(TabState.ADD)
+
+                    mBackStackArray.add(TabState.ADD)
+                    return@OnNavigationItemSelectedListener true
+                }
+
+                // My Page
+                R.id.navi_mypage -> {
+                    setTabStateFragment(TabState.MYPAGE)
+
+                    if( mBackStackArray.contains(TabState.MYPAGE))
+                        mBackStackArray.remove(TabState.MYPAGE)
+
+                    mBackStackArray.add(TabState.MYPAGE)
+                    return@OnNavigationItemSelectedListener true
+                }
             }
 
-            R.id.navi_add -> {
-                replaceFragment(SecondTabFragment.newInstance())
-                return@OnNavigationItemSelectedListener true
-            }
-
-            R.id.navi_mypage -> {
-                replaceFragment(ThirdTabFragment.newInstance())
-                return@OnNavigationItemSelectedListener true
-            }
-        }
         false
     }
 
-    fun addFragment(frag: Fragment){
-        addFragment(frag, R.id.fl_mainContainer)
+    private fun setTabStateFragment(state: TabState) {
+        val transaction = supportFragmentManager.beginTransaction()
+
+        when (state) {
+            TabState.HOME -> {
+                transaction.show(firstFrag)
+                transaction.hide(secondFrag)
+                transaction.hide(userHomeFrag)
+            }
+            TabState.ADD -> {
+                transaction.hide(firstFrag)
+                transaction.show(secondFrag)
+                transaction.hide(userHomeFrag)
+            }
+            TabState.MYPAGE -> {
+                transaction.hide(firstFrag)
+                transaction.hide(secondFrag)
+                transaction.show(userHomeFrag)
+            }
+        }
+        transaction.commit()
     }
 
-    fun replaceFragment(frag: Fragment){
-        replaceFragment(frag, R.id.fl_mainContainer)
+    override fun onBackPressed() {
+        if(mBackStackArray.size == 1) {
+            finish()
+            return
+        }
+
+        val lastIdx = mBackStackArray.size - 1
+        mBackStackArray.removeAt(lastIdx)
+
+        when ( mBackStackArray[lastIdx - 1]) {
+            TabState.HOME   -> {
+                setTabStateFragment(TabState.HOME)
+                bnv_navigationView.menu.findItem(R.id.navi_home).isChecked = true
+            }
+            TabState.ADD    -> {
+                setTabStateFragment(TabState.ADD)
+                bnv_navigationView.menu.findItem(R.id.navi_add).isChecked = true
+            }
+            TabState.MYPAGE -> {
+                setTabStateFragment(TabState.MYPAGE)
+                bnv_navigationView.menu.findItem(R.id.navi_mypage).isChecked = true
+            }
+        }
+    }
+
+    fun showProfileDialogFrag(frag: DialogFragment) {
+        frag.show(supportFragmentManager, "test")
+    }
+
+
+
+    enum class TabState {
+        HOME,
+        ADD,
+        MYPAGE
     }
 
 
 }
+

@@ -134,8 +134,35 @@
                             android:onClick="@{activity::clearText}"
                             app:clearImage="@{viewModel.inputPw}"
                             />
-
                 </RelativeLayout>
+
+
+                <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_below="@+id/rl_pwLayout">
+
+                    <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/cb_autoLogin"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_centerVertical="true"
+                            android:checked="false"
+                            app:buttonTint="@color/blue_malibu"
+                            />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/cb_autoLogin"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="5dp"
+                            android:text="자동 로그인"
+                            android:textColor="@color/blue_malibu"/>
+                </RelativeLayout>
+
 
 
                 <!-- ㅂㅣ밀번호를 잊으셨나요 Layout -->
@@ -163,7 +190,7 @@
                         android:layout_marginTop="30dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:background="@drawable/background_button"
+                        android:background="@drawable/bg_login_btn"
                         android:textColor="@android:color/white"
                         android:textSize="16sp"
                         android:textStyle="bold"

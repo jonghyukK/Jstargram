@@ -5,7 +5,10 @@ import android.arch.lifecycle.Observer
 import android.databinding.BindingAdapter
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
+import com.trebit.reststudy.data.model.UserVo
 
 /**
  * Rest_study
@@ -60,3 +63,26 @@ fun bindingBtnEnable2(
         })
     }
 }
+
+@BindingAdapter("textSet")
+fun bindingTextData(
+    view  : TextView,
+    value: MutableLiveData<UserVo>?
+) {
+    val parentActivity = view.getParentActivity()
+
+    if (parentActivity != null && value != null) {
+        value.observe(parentActivity, Observer { value ->
+            when (view.id) {
+                R.id.tv_userEmail   -> view.text = value?.email
+                R.id.tv_contentsCnt -> view.text = value?.contents_cnt.toString()
+                R.id.tv_followerCnt -> view.text = value?.follower_cnt.toString()
+                R.id.tv_followingCnt-> view.text = value?.following_cnt.toString()
+                R.id.tv_userName    -> view.text = value?.name
+                R.id.tv_introduce   -> view.text = value?.introduce
+                R.id.tv_myEmail     -> view.text = value?.email
+            }
+        })
+    }
+}
+

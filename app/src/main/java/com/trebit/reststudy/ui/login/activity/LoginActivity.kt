@@ -7,18 +7,19 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.trebit.reststudy.*
 import com.trebit.reststudy.databinding.ActivityLoginBinding
+import com.trebit.reststudy.ui.BaseActivity
 import com.trebit.reststudy.ui.login.fragment.SignUpFragment
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import com.trebit.reststudy.ui.main.activity.MainActivity
+import com.trebit.reststudy.utils.SharedPref
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -39,19 +40,42 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        // 자동 로그인 상태 (o)                                                                                                                                                                                                                                     c
+        if (mPref.isAutoLogin(PREF_CHECKED_AUTO_LOGIN)) {
+            et_email.setText(mPref.getPrefEmail(PREF_EMAIL))
+            et_pw   .setText(mPref.getPrefPw(PREF_PW))
+            cb_autoLogin.isChecked = true
+        }
 
         // Login Observer.
         viewModel.loginResult.observe(this, Observer {
             when(it) {
                 // Login Success.
                 RES_SUCCESS -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    saveLoginInfo()
+
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra(LOGIN_EMAIL, viewModel.inputEmail.value)
+                    startActivity(intent)
                     finish()
                 }
                 // Login Failed.
                 RES_FAILED -> toast { getString(R.string.desc_login_falied) }
             }
         })
+    }
+
+    private fun saveLoginInfo() {
+        // Email to Pref
+        mPref.putData(PREF_EMAIL,
+            if (cb_autoLogin.isChecked) viewModel.inputEmail.value else DEFAULT_S)
+
+        // PW to Pref
+        mPref.putData(PREF_PW,
+            if (cb_autoLogin.isChecked) viewModel.inputPw.value else DEFAULT_S)
+
+        // Auto Login to Pref
+        mPref.putData(PREF_CHECKED_AUTO_LOGIN, cb_autoLogin.isChecked)
     }
 
     // Email, Password EditText Clear.
@@ -87,4 +111,5 @@ class LoginActivity : AppCompatActivity() {
     fun removeFragment(v: View) {
         removeFragment()
     }
+
 }

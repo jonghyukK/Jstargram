@@ -28,6 +28,13 @@ data class RequestLoginBody(
     val password : String
 )
 
+// Update User
+data class UpdateUserBody(
+    val name        : String,
+    val introduce   : String?,
+    val profile_img : String?
+)
+
 
 
 
@@ -46,5 +53,18 @@ data class ValidateEmailVo(
     val resCode    : String,
     val resMsg     : String,
     val isValidate : String
+)
+
+// Get User
+data class UserVo(
+    val resCode       : String,
+    val resMsg        : String,
+    val email         : String,
+    var name          : String,
+    var introduce     : String,
+    var profile_img   : String,
+    val contents_cnt  : Int,
+    val follower_cnt  : Int,
+    val following_cnt : Int
 )
 

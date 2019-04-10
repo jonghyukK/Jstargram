@@ -11,11 +11,13 @@
             android:background="@color/white">
 
 
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Second"
-                android:textColor="@color/black"/>
+                android:text="Second Fragment"
+                android:textColor="@color/black"
+                android:textSize="50sp"/>
 
 
 

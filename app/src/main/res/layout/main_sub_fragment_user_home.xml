@@ -5,6 +5,15 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+                name="mainActivity"
+                type="com.trebit.reststudy.ui.main.activity.MainActivity"/>
+        <variable
+                name="userHomeFragment"
+                type="com.trebit.reststudy.ui.main.fragment.UserHomeFragment"/>
+        <variable
+                name="mainViewModel"
+                type="com.trebit.reststudy.ui.main.viewmodel.MainViewModel"/>
 
     </data>
 
@@ -17,12 +26,12 @@
                 android:id="@+id/tv_userEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="hyuk.08.20"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"/>
+                app:textSet="@{mainViewModel.myAccountInfo}"
+                />
 
         <!-- 상단 프로필, 게시물, 팔로워, 팔로잉 정보 Layout -->
         <RelativeLayout
@@ -30,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_below="@+id/tv_userEmail"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 >
@@ -88,7 +97,7 @@
                             android:textColor="@color/black"
                             android:textSize="20sp"
                             android:textStyle="bold"
-                            tools:text="300"/>
+                            app:textSet="@{mainViewModel.myAccountInfo}"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -116,7 +125,7 @@
                             android:textColor="@color/black"
                             android:textSize="20sp"
                             android:textStyle="bold"
-                            tools:text="300"/>
+                            app:textSet="@{mainViewModel.myAccountInfo}"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -144,7 +153,7 @@
                             android:textColor="@color/black"
                             android:textSize="20sp"
                             android:textStyle="bold"
-                            tools:text="300"/>
+                            app:textSet="@{mainViewModel.myAccountInfo}"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -158,18 +167,74 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <TextView
-                android:id="@+id/tv_userName"
-                android:layout_width="wrap_content"
+        <!-- name, introduce, button Layout -->
+        <LinearLayout
+                android:id="@+id/ll_middleLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_userInfoLayout"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginTop="18dp"
-                android:layout_below="@+id/rl_userInfoLayout"
-                tools:text="91.08.20"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:orientation="vertical">
+
+            <!-- User Name -->
+            <TextView
+                    android:id="@+id/tv_userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:textSet="@{mainViewModel.myAccountInfo}"/>
+
+            <!-- User Introduce -->
+            <TextView
+                    android:id="@+id/tv_introduce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:textSet="@{mainViewModel.myAccountInfo}"/>
+
+            <!-- follow or profile modify -->
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/gray_3">
+
+                <Button
+                        android:id="@+id/btn_editProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="37dp"
+                        android:layout_margin="1dp"
+                        android:background="@drawable/bg_profile_btn"
+                        android:textColor="@color/black"
+                        android:text="@string/modify_profile"
+                        android:onClick="@{userHomeFragment::goEditProfile}"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!-- 하단 Tab Layout -->
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/ll_middleLayout">
+
+            <android.support.design.widget.TabLayout
+                    android:id="@+id/tl_tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/tl_tabLayout"/>
+        </RelativeLayout>
 
 
 

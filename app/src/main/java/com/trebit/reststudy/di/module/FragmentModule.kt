@@ -5,8 +5,11 @@ import com.trebit.reststudy.ui.login.fragment.PasswordFragment
 import com.trebit.reststudy.ui.login.fragment.SignUpFragment
 import com.trebit.reststudy.ui.login.fragment.SignUpSuccessFragment
 import com.trebit.reststudy.ui.main.fragment.FirstTabFragment
+import com.trebit.reststudy.ui.main.fragment.ProfileEditFragment
 import com.trebit.reststudy.ui.main.fragment.SecondTabFragment
-import com.trebit.reststudy.ui.main.fragment.ThirdTabFragment
+import com.trebit.reststudy.ui.main.fragment.sub.DataGridFragment
+import com.trebit.reststudy.ui.main.fragment.sub.DataVerticalFragment
+import com.trebit.reststudy.ui.main.fragment.UserHomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -52,6 +55,29 @@ abstract class FragmentModule {
     @ContributesAndroidInjector
     abstract fun contributeSecondTabFragment(): SecondTabFragment
 
+
+
+    /*********************************************************************
+     *
+     *   Sub Fragments ...
+     *
+     *********************************************************************/
     @ContributesAndroidInjector
-    abstract fun contributeThirdTabFragment(): ThirdTabFragment
+    abstract fun contributeUserHomeFragment(): UserHomeFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeDataGridFragment(): DataGridFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeDataVerticalFragment(): DataVerticalFragment
+
+
+
+    /*********************************************************************
+     *
+     *   Profile Fragments ...
+     *
+     *********************************************************************/
+    @ContributesAndroidInjector
+    abstract fun contributeProfileEditFragment(): ProfileEditFragment
 }

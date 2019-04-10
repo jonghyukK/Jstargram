@@ -9,9 +9,19 @@ package com.trebit.reststudy
  */
 
 
-//const val BASE_API_URL = "http://192.168.2.1:3000/"
-const val BASE_API_URL = "http://192.168.0.7:3000/"
+const val BASE_API_URL = "http://192.168.2.1:3000/"
+//const val BASE_API_URL = "http://192.168.0.7:3000/"
 
 const val RES_SUCCESS = "200"
 const val RES_FAILED  = "444"
+
+
+const val DEFAULT_S = "empty"
+const val DEFAULT_B = false
+const val DEFAULT_I = 0
+const val LOGIN_EMAIL = "LOGIN_EMAIL"
+
+const val PREF_EMAIL = "PREF_EMAIL"
+const val PREF_PW    = "PREF_PW"
+const val PREF_CHECKED_AUTO_LOGIN = "PREF_CHECKED_AUTO_LOGIN"
 

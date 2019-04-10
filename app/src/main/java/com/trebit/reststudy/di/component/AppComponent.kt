@@ -2,10 +2,7 @@ package com.trebit.reststudy.di.component
 
 import android.app.Application
 import com.trebit.reststudy.AppController
-import com.trebit.reststudy.di.module.ActivityModule
-import com.trebit.reststudy.di.module.ApiModule
-import com.trebit.reststudy.di.module.FragmentModule
-import com.trebit.reststudy.di.module.ViewModelModule
+import com.trebit.reststudy.di.module.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
