@@ -40,6 +40,9 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun init() {
+
+        addTextWatcherDouble(iv_clearEmail, iv_clearPW, btn_login, et_email, et_pw)
+
         // 자동 로그인 상태 (o)                                                                                                                                                                                                                                     c
         if (mPref.isAutoLogin(PREF_CHECKED_AUTO_LOGIN)) {
             et_email.setText(mPref.getPrefEmail(PREF_EMAIL))
@@ -55,7 +58,7 @@ class LoginActivity : BaseActivity() {
                     saveLoginInfo()
 
                     val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra(LOGIN_EMAIL, viewModel.inputEmail.value)
+                    intent.putExtra(LOGIN_EMAIL, et_email.text.toString())
                     startActivity(intent)
                     finish()
                 }
@@ -67,41 +70,23 @@ class LoginActivity : BaseActivity() {
 
     private fun saveLoginInfo() {
         // Email to Pref
-        mPref.putData(PREF_EMAIL,
-            if (cb_autoLogin.isChecked) viewModel.inputEmail.value else DEFAULT_S)
+        mPref.putData(PREF_EMAIL, et_email.text.toString())
 
         // PW to Pref
-        mPref.putData(PREF_PW,
-            if (cb_autoLogin.isChecked) viewModel.inputPw.value else DEFAULT_S)
+        mPref.putData(PREF_PW, et_pw.text.toString())
 
         // Auto Login to Pref
         mPref.putData(PREF_CHECKED_AUTO_LOGIN, cb_autoLogin.isChecked)
     }
 
-    // Email, Password EditText Clear.
-    fun clearText(view: View) {
-        when(view.id) {
-            // clear email
-            R.id.iv_clearEmail -> {
-                viewModel.inputEmail.value = ""
-                et_email.setText("")
-            }
-            // clear pw
-            R.id.iv_clearPW -> {
-                viewModel.inputPw.value = ""
-                et_pw.setText("")
-            }
+
+    fun onClickEvent(v: View) {
+        when ( v.id ) {
+            // Login
+            R.id.btn_login -> viewModel.requestLogin(et_email.text.toString(), et_pw.text.toString())
+            // Sign Up
+            R.id.tv_signup -> addFragment(SignUpFragment.newInstance())
         }
-    }
-
-    // 로그인 버튼 클릭
-    fun doLogin(v: View) {
-        viewModel.requestLogin()
-    }
-
-    // 가입하기
-    fun goSignUpPage(v: View) {
-        addFragment(SignUpFragment.newInstance())
     }
 
     fun addFragment(fragment: Fragment) {

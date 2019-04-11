@@ -9,11 +9,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.trebit.reststudy.R
-import com.trebit.reststudy.RES_FAILED
-import com.trebit.reststudy.RES_SUCCESS
+import com.trebit.reststudy.*
 import com.trebit.reststudy.databinding.LoginFragmentPasswordBinding
-import com.trebit.reststudy.toast
 import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import dagger.android.support.AndroidSupportInjection
@@ -56,6 +53,8 @@ class PasswordFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        et_makePw.addTextWatcher(iv_clearMakePw, btn_makePwNext)
+
         // 계정 생성 Observer.
         viewModel.signUpResult.observe(this, android.arch.lifecycle.Observer {
             when (it) {
@@ -67,20 +66,11 @@ class PasswordFragment : Fragment() {
         })
     }
 
-    fun clearText(v: View) {
-        viewModel.inputMakePW.value = ""
-        et_makePw.setText("")
-    }
-
     fun doSignUpFinish(v: View) {
-        viewModel.createUser()
+        viewModel.createUser(et_makePw.text.toString())
+        viewModel.myPW.value = et_makePw.text.toString()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.inputMakePW.postValue("")
-        viewModel.signUpResult.postValue("")
-    }
 
     companion object {
         @JvmStatic

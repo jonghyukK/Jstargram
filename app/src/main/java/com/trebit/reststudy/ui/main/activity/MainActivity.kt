@@ -1,7 +1,9 @@
 package com.trebit.reststudy.ui.main.activity
 
+import android.app.Activity
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Build.VERSION_CODES.P
 import android.os.Bundle
@@ -10,8 +12,11 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.orhanobut.logger.Logger
+import com.trebit.reststudy.INTENT_PROFILE
+import com.trebit.reststudy.INTENT_PROFILE_DATA
 import com.trebit.reststudy.LOGIN_EMAIL
 import com.trebit.reststudy.R
+import com.trebit.reststudy.data.model.UserVo
 import com.trebit.reststudy.databinding.ActivityMainBinding
 import com.trebit.reststudy.ui.BaseActivity
 import com.trebit.reststudy.ui.main.fragment.FirstTabFragment
@@ -161,11 +166,21 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    fun showProfileDialogFrag(frag: DialogFragment) {
-        frag.show(supportFragmentManager, "test")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if ( resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                // profile Update [ from ProfileEditActivity ]
+                INTENT_PROFILE -> {
+                    data?.let {
+                        val resultData = data.extras.getSerializable(INTENT_PROFILE_DATA) as UserVo
+                        mViewModel.myAccountInfo.postValue(resultData)
+                    }
+                }
+            }
+        }
     }
-
-
 
     enum class TabState {
         HOME,

@@ -25,23 +25,37 @@ class LoginViewModel @Inject constructor(
     private val compositeDisposable by lazy { CompositeDisposable() }
     private val repository by lazy { DataRepository(apiService) }
 
-    val inputEmail     : MutableLiveData<String> = MutableLiveData()
-    val inputPw        : MutableLiveData<String> = MutableLiveData()
-    val inputMakeEmail : MutableLiveData<String> = MutableLiveData()
-    val inputName      : MutableLiveData<String> = MutableLiveData()
-    val inputMakePW    : MutableLiveData<String> = MutableLiveData()
+//    val inputEmail     : MutableLiveData<String> = MutableLiveData()
+//    val inputPw        : MutableLiveData<String> = MutableLiveData()
+//    val inputMakeEmail : MutableLiveData<String> = MutableLiveData()
+//    val inputName      : MutableLiveData<String> = MutableLiveData()
+//    val inputMakePW    : MutableLiveData<String> = MutableLiveData()
 
     val isValidEmail   : MutableLiveData<String> = MutableLiveData()
     val signUpResult   : MutableLiveData<String> = MutableLiveData()
     val loginResult    : MutableLiveData<String> = MutableLiveData()
 
 
+    val myEmail : MutableLiveData<String> = MutableLiveData()
+    val myPW    : MutableLiveData<String> = MutableLiveData()
+    val myName  : MutableLiveData<String> = MutableLiveData()
+
+
+    fun clearSignValue(){
+        myEmail.value = null
+        myPW.value = null
+        myName.value = null
+    }
+
+
+
+
     // call Login API.
-    fun requestLogin(){
+    fun requestLogin(email: String, pw: String){
         compositeDisposable.add(
             repository.requestLogin(
-                email    = inputEmail.value!!,
-                password = inputPw.value!!)
+                email    = email,
+                password = pw)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ loginResult.value = it.resCode
@@ -56,12 +70,12 @@ class LoginViewModel @Inject constructor(
     }
 
     // call Sign Up User API.
-    fun createUser() {
+    fun createUser(inputPW: String) {
         compositeDisposable.add(
             repository.createUser(
-                email    = inputMakeEmail.value!!,
-                name     = inputName.value!!,
-                password = inputMakePW.value!!)
+                email    = myEmail.value!!,
+                name     = myName.value!!,
+                password = inputPW)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ signUpResult.value = it.resCode
@@ -76,10 +90,10 @@ class LoginViewModel @Inject constructor(
     }
 
     // call Validation Check for Email API.
-    fun validateEmail() {
+    fun validateEmail(inputEmail: String) {
         compositeDisposable.add(
             repository.validateEmail(
-                email = inputMakeEmail.value!!)
+                email = inputEmail)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ isValidEmail.value = it.isValidate

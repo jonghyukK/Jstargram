@@ -29,6 +29,8 @@
 
         <activity android:name=".ui.main.activity.MainActivity" />
 
+        <activity android:name=".ui.profile.ProfileEditActivity" />
+
         <activity android:name=".ui.BaseActivity"/>
     </application>
 

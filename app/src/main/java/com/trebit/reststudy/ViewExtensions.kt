@@ -6,7 +6,12 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 
 /**
@@ -80,4 +85,72 @@ fun AppCompatActivity.removeFragment() {
                 supportFragmentManager.beginTransaction().remove(frag).commit()
         }
     }
+}
+
+fun EditText.addTextWatcher(img: ImageView,
+                            btn: Button? = null) {
+    this.addTextChangedListener(object: TextWatcher {
+        override fun afterTextChanged (s: Editable?){}
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int){}
+        override fun onTextChanged    (s: CharSequence?, start: Int, before: Int, count: Int){
+            img.visibility = if ( this@addTextWatcher.text.isNotEmpty()) View.VISIBLE else View.GONE
+
+            btn?.let { btn.isEnabled = this@addTextWatcher.text.isNotEmpty() }
+        }
+    })
+
+    img.setOnClickListener { this.setText("") }
+}
+
+fun addTextWatcherDouble(img1 : ImageView,
+                         img2 : ImageView,
+                         btn  : Button?   = null,
+                         et1  : EditText? = null,
+                         et2  : EditText? = null
+){
+    var isFirstETField  = false
+    var isSecondETField = false
+
+    et1?.addTextChangedListener(object: TextWatcher{
+        override fun afterTextChanged(s: Editable?) {}
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            s?.let{
+                if ( s.isNotEmpty()){
+                    img1.visibility = View.VISIBLE
+                    isFirstETField  = true
+                } else {
+                    img1.visibility = View.GONE
+                    isFirstETField = false
+                }
+            }
+
+            btn?.isEnabled = isFirstETField && isSecondETField
+            img1.setOnClickListener { et1.setText("") }
+        }
+    })
+
+    et2?.addTextChangedListener(object: TextWatcher{
+        override fun afterTextChanged(s: Editable?) {}
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            s?.let{
+                if ( s.isNotEmpty()){
+                    img2.visibility = View.VISIBLE
+                    isSecondETField  = true
+                } else {
+                    img2.visibility = View.GONE
+                    isSecondETField = false
+                }
+            }
+
+            btn?.isEnabled = isFirstETField && isSecondETField
+            img2.setOnClickListener { et2.setText("") }
+        }
+    })
+
+
+
+
+
 }

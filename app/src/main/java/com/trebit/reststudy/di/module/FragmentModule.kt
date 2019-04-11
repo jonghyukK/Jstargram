@@ -5,7 +5,6 @@ import com.trebit.reststudy.ui.login.fragment.PasswordFragment
 import com.trebit.reststudy.ui.login.fragment.SignUpFragment
 import com.trebit.reststudy.ui.login.fragment.SignUpSuccessFragment
 import com.trebit.reststudy.ui.main.fragment.FirstTabFragment
-import com.trebit.reststudy.ui.main.fragment.ProfileEditFragment
 import com.trebit.reststudy.ui.main.fragment.SecondTabFragment
 import com.trebit.reststudy.ui.main.fragment.sub.DataGridFragment
 import com.trebit.reststudy.ui.main.fragment.sub.DataVerticalFragment
@@ -71,13 +70,4 @@ abstract class FragmentModule {
     @ContributesAndroidInjector
     abstract fun contributeDataVerticalFragment(): DataVerticalFragment
 
-
-
-    /*********************************************************************
-     *
-     *   Profile Fragments ...
-     *
-     *********************************************************************/
-    @ContributesAndroidInjector
-    abstract fun contributeProfileEditFragment(): ProfileEditFragment
 }

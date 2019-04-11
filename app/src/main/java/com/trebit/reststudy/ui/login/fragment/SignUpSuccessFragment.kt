@@ -25,7 +25,6 @@ import javax.inject.Inject
  * Description:
  */
 
-
 class SignUpSuccessFragment : Fragment() {
 
     @Inject
@@ -60,7 +59,7 @@ class SignUpSuccessFragment : Fragment() {
 
     private fun initView(){
         val res = resources
-        val registedID = String.format(res.getString(R.string.desc_sign_up_success), viewModel.inputName.value)
+        val registedID = String.format(res.getString(R.string.desc_sign_up_success), viewModel.myName.value)
         tv_signUpDesc.text = registedID
     }
 

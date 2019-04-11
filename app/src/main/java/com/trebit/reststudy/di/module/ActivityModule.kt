@@ -2,6 +2,7 @@ package com.trebit.reststudy.di.module
 
 import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.main.activity.MainActivity
+import com.trebit.reststudy.ui.profile.ProfileEditActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -21,4 +22,7 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector(modules = [FragmentModule::class])
     abstract fun contributeLoginActivity(): LoginActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeProfileEditActivity(): ProfileEditActivity
 }

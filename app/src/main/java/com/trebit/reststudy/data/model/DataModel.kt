@@ -1,5 +1,7 @@
 package com.trebit.reststudy.data.model
 
+import java.io.Serializable
+
 /**
  * Rest_study
  * Class: DataModel
@@ -66,5 +68,5 @@ data class UserVo(
     val contents_cnt  : Int,
     val follower_cnt  : Int,
     val following_cnt : Int
-)
+): Serializable
 

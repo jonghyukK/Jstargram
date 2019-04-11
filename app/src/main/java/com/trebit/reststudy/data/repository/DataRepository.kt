@@ -32,9 +32,9 @@ class DataRepository(private val apiService: ApiService){
     fun getUser(email: String)
             = apiService.getUser(email)
 
-    fun updateUser(email: String,
-                   name : String,
-                   introduce: String?,
+    fun updateUser(email      : String,
+                   name       : String,
+                   introduce  : String?,
                    profile_img: String?)
             = apiService.updateUser(email, UpdateUserBody(name, introduce, profile_img))
 }

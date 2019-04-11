@@ -80,7 +80,6 @@ fun bindingTextData(
                 R.id.tv_followingCnt-> view.text = value?.following_cnt.toString()
                 R.id.tv_userName    -> view.text = value?.name
                 R.id.tv_introduce   -> view.text = value?.introduce
-                R.id.tv_myEmail     -> view.text = value?.email
             }
         })
     }

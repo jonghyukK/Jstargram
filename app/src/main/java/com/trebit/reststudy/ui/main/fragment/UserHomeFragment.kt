@@ -3,6 +3,7 @@ package com.trebit.reststudy.ui.main.fragment
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -11,12 +12,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.orhanobut.logger.Logger
+import com.trebit.reststudy.INTENT_PROFILE
+import com.trebit.reststudy.INTENT_PROFILE_DATA
 import com.trebit.reststudy.R
 import com.trebit.reststudy.adapter.ItemShowingTypeAdapter
 import com.trebit.reststudy.addFragment
 import com.trebit.reststudy.databinding.MainSubFragmentUserHomeBinding
 import com.trebit.reststudy.ui.main.activity.MainActivity
 import com.trebit.reststudy.ui.main.viewmodel.MainViewModel
+import com.trebit.reststudy.ui.profile.ProfileEditActivity
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.main_sub_fragment_user_home.*
 import javax.inject.Inject
@@ -51,17 +55,13 @@ class UserHomeFragment: Fragment() {
         mBinding.mainViewModel    = mMainViewModel
         mBinding.userHomeFragment = this
 
-
         return mBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        Logger.d("UserHomeFragment onActivityCreated")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initTabLayout()
     }
-
 
     private fun initTabLayout() {
         tl_tabLayout.addTab(tl_tabLayout.newTab().setIcon(R.drawable.icon_item_grid_b))
@@ -81,7 +81,8 @@ class UserHomeFragment: Fragment() {
     }
 
     fun goEditProfile(v: View){
-        mBinding.mainActivity?.showProfileDialogFrag(ProfileEditFragment.newInstance())
+        activity?.startActivityForResult(
+            Intent(activity, ProfileEditActivity::class.java), INTENT_PROFILE)
     }
 
     companion object {

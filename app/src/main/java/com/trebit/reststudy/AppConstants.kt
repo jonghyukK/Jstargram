@@ -20,6 +20,9 @@ const val DEFAULT_S = "empty"
 const val DEFAULT_B = false
 const val DEFAULT_I = 0
 const val LOGIN_EMAIL = "LOGIN_EMAIL"
+const val INTENT_PROFILE_DATA = "INTENT_PROFILE_DATA"
+const val INTENT_PROFILE = 2000
+
 
 const val PREF_EMAIL = "PREF_EMAIL"
 const val PREF_PW    = "PREF_PW"

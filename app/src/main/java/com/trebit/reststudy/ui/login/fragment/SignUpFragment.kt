@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.trebit.reststudy.R
+import com.trebit.reststudy.addTextWatcher
 import com.trebit.reststudy.databinding.LoginFragmentSignUpBinding
 import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
@@ -18,6 +19,13 @@ import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.login_fragment_sign_up.*
 import javax.inject.Inject
 
+/**
+ * Rest_study
+ * Class: SignUpFragment
+ * Created by kangjonghyuk on 03/04/2019.
+ *
+ * Description:
+ */
 
 class SignUpFragment : Fragment() {
 
@@ -37,7 +45,6 @@ class SignUpFragment : Fragment() {
         container         : ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         mBinding  = DataBindingUtil.inflate(inflater, R.layout.login_fragment_sign_up, container, false)
         viewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(LoginViewModel::class.java)
         mBinding.viewModel = viewModel
@@ -50,33 +57,31 @@ class SignUpFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        et_inputMakeEmail.addTextWatcher(iv_clearValue, btn_next)
+
         // Email Validate Observer.
         viewModel.isValidEmail.observe(this, Observer {
-            tv_alreadyRegiEmail.visibility =
-                if ( it == null || it == "Y" ) View.GONE else View.VISIBLE
 
-            if ( it == "Y")
+            // validate Success
+            if ( it == "Y") {
+                tv_alreadyRegiEmail.visibility = View.GONE
+                viewModel.myEmail.value = et_inputMakeEmail.text.toString()
                 mBinding.activity?.addFragment(NameRegiFragment.newInstance())
+            } else {
+                tv_alreadyRegiEmail.visibility = View.VISIBLE
+            }
         })
     }
 
 
     // initializing inputed Email.
-    fun clearText(v: View){
-        viewModel.inputMakeEmail.value = ""
-        et_inputMakeEmail.setText("")
-        tv_alreadyRegiEmail.visibility = View.GONE
-    }
+//    fun clearText(v: View){
+//        tv_alreadyRegiEmail.visibility = View.GONE
+//    }
 
     // validate Email.
     fun validateEmail(v: View) {
-        viewModel.validateEmail()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.inputMakeEmail.postValue("")
-        viewModel.isValidEmail.postValue(null)
+        viewModel.validateEmail(et_inputMakeEmail.text.toString())
     }
 
     companion object {

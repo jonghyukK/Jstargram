@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.trebit.reststudy.R
+import com.trebit.reststudy.addTextWatcher
 import com.trebit.reststudy.databinding.LoginFragmentNameRegiBinding
 import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
@@ -51,19 +52,16 @@ class NameRegiFragment : Fragment() {
         return mBinding.root
     }
 
-    fun clearText(v: View){
-        viewModel.inputName.value = ""
-        et_name.setText("")
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        et_name.addTextWatcher(iv_clearName, btn_nameNext)
     }
+
 
     fun nextPage(v: View) {
         mBinding.activity?.addFragment(PasswordFragment.newInstance())
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.inputName.postValue("")
+        viewModel.myName.value = et_name.text.toString()
     }
 
     companion object {

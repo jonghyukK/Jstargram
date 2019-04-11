@@ -76,7 +76,6 @@
                             android:paddingStart="15dp"
                             android:paddingEnd="50dp"
                             android:singleLine="true"
-                            android:text="@={viewModel.inputEmail}"
                             android:inputType="textEmailAddress"
                             />
 
@@ -89,8 +88,6 @@
                             android:padding="10dp"
                             android:visibility="gone"
                             android:src="@drawable/icon_clear"
-                            android:onClick="@{activity::clearText}"
-                            app:clearImage="@{viewModel.inputEmail}"
                             />
                 </RelativeLayout>
 
@@ -118,7 +115,6 @@
                             android:paddingStart="15dp"
                             android:paddingEnd="50dp"
                             android:singleLine="true"
-                            android:text="@={viewModel.inputPw}"
                             android:inputType="textPassword"
                             />
 
@@ -131,8 +127,6 @@
                             android:padding="10dp"
                             android:visibility="gone"
                             android:src="@drawable/icon_clear"
-                            android:onClick="@{activity::clearText}"
-                            app:clearImage="@{viewModel.inputPw}"
                             />
                 </RelativeLayout>
 
@@ -196,9 +190,7 @@
                         android:textStyle="bold"
                         android:text="@string/login"
                         android:enabled="false"
-                        android:onClick="@{activity::doLogin}"
-                        app:textEmail="@{viewModel.inputEmail}"
-                        app:textPw="@{viewModel.inputPw}"
+                        android:onClick="@{activity::onClickEvent}"
                         />
             </RelativeLayout>
 
@@ -242,7 +234,7 @@
                             android:focusable="true"
                             android:textColor="@drawable/color_text"
                             android:text="@string/join"
-                            android:onClick="@{activity::goSignUpPage}"
+                            android:onClick="@{activity::onClickEvent}"
                             />
 
                 </LinearLayout>

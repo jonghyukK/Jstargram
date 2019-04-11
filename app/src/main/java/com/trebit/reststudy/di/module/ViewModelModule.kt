@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import com.trebit.reststudy.di.ViewModelFactory
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import com.trebit.reststudy.ui.main.viewmodel.MainViewModel
+import com.trebit.reststudy.ui.profile.ProfileViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -32,5 +33,11 @@ internal abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LoginViewModel::class)
     protected abstract fun loginViewModel(loginViewModel: LoginViewModel): ViewModel
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    protected abstract fun profileViewModel(profileViewModel: ProfileViewModel): ViewModel
 
 }

@@ -6,7 +6,6 @@
         >
 
     <data>
-
         <variable
                 name="viewModel"
                 type="com.trebit.reststudy.ui.login.viewmodel.LoginViewModel"/>
@@ -71,7 +70,6 @@
                     android:paddingEnd="50dp"
                     android:singleLine="true"
                     android:inputType="textEmailAddress"
-                    android:text="@={viewModel.inputMakeEmail}"
                     />
 
 
@@ -84,8 +82,6 @@
                     android:padding="10dp"
                     android:visibility="gone"
                     android:src="@drawable/icon_clear"
-                    android:onClick="@{fragment::clearText}"
-                    app:clearImage="@{viewModel.inputMakeEmail}"
                     />
         </RelativeLayout>
 
@@ -117,7 +113,6 @@
                 android:text="@string/next"
                 android:enabled="false"
                 android:onClick="@{fragment::validateEmail}"
-                app:textValue="@{viewModel.inputMakeEmail}"
                 />
 
         <TextView
