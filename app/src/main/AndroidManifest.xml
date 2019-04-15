@@ -3,6 +3,9 @@
           package="com.trebit.reststudy">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
             android:name=".AppController"
@@ -31,7 +34,20 @@
 
         <activity android:name=".ui.profile.ProfileEditActivity" />
 
+        <activity android:name=".ui.profile.ImagePickerActivity" />
+
         <activity android:name=".ui.BaseActivity"/>
+
+
+        <provider
+                android:authorities="com.trebit.reststudy.provider"
+                android:name="android.support.v4.content.FileProvider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>

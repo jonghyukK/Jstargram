@@ -1,5 +1,7 @@
 package com.trebit.reststudy
 
+import android.Manifest
+
 /**
  * TrebitM-AOS
  * Class: AppConstants
@@ -22,6 +24,7 @@ const val DEFAULT_I = 0
 const val LOGIN_EMAIL = "LOGIN_EMAIL"
 const val INTENT_PROFILE_DATA = "INTENT_PROFILE_DATA"
 const val INTENT_PROFILE = 2000
+const val REQ_MULTIPLE_PERMISSIONS = 3000
 
 
 const val PREF_EMAIL = "PREF_EMAIL"

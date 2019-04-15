@@ -49,16 +49,7 @@ class LoginActivity : BaseActivity() {
         viewModel.loginResult.observe(this, Observer {
             when(it) {
                 // Login Success.
-                RES_SUCCESS -> {
-                    // Email to Pref
-                    mPref.putData(PREF_EMAIL, et_email.text.toString())
-
-                    // 자동 로그인 Check가 되어 있으면 Save.
-                    if (cb_autoLogin.isChecked)
-                        saveLoginInfo()
-
-                    startMainActivity()
-                }
+                RES_SUCCESS -> startMainActivity()
                 // Login Failed.
                 RES_FAILED -> toast { getString(R.string.desc_login_falied) }
             }
@@ -74,6 +65,13 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun startMainActivity() {
+        // Email to Pref
+        mPref.putData(PREF_EMAIL, et_email.text.toString())
+
+        // 자동 로그인 Check가 되어 있으면 Save.
+        if (cb_autoLogin.isChecked)
+            saveLoginInfo()
+
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(LOGIN_EMAIL, et_email.text.toString())
         startActivity(intent)

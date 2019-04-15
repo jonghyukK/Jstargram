@@ -28,6 +28,7 @@
                     android:layout_below="@+id/tv_title"
                     android:layout_marginTop="30dp"
                     android:layout_centerHorizontal="true"
+                    android:lineSpacingExtra="2dp"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     android:gravity="center"/>
@@ -42,7 +43,9 @@
                     android:layout_marginTop="50dp"
                     android:layout_marginBottom="40dp"
                     android:background="@drawable/bg_login_btn"
-                    android:text="@string/login"/>
+                    android:text="@string/login"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
         </RelativeLayout>
     </RelativeLayout>
 

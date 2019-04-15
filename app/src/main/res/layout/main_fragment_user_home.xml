@@ -41,7 +41,7 @@
                 android:layout_gravity="end"
                 android:fitsSystemWindows="true"
                 app:headerLayout="@layout/nav_header"
-                app:menu="@menu/drawer_user_home_fragment"/>
+                app:menu="@menu/menu_drawer_items"/>
 
     </android.support.v4.widget.DrawerLayout>
 </layout>
