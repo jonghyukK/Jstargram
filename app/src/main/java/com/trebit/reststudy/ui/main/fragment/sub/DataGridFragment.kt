@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.orhanobut.logger.Logger
 import com.trebit.reststudy.R
 import com.trebit.reststudy.databinding.FragmentDataGridBinding
+import com.trebit.reststudy.ui.BaseFragment
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -22,7 +23,7 @@ import javax.inject.Inject
  * Description:
  */
 
-class DataGridFragment : Fragment() {
+class DataGridFragment : BaseFragment() {
 
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory

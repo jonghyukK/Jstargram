@@ -2,6 +2,7 @@ package com.trebit.reststudy.ui.login.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.support.v4.app.Fragment
 import com.orhanobut.logger.Logger
 import com.trebit.reststudy.data.remote.ApiService
 import com.trebit.reststudy.data.repository.DataRepository
@@ -25,30 +26,12 @@ class LoginViewModel @Inject constructor(
     private val compositeDisposable by lazy { CompositeDisposable() }
     private val repository by lazy { DataRepository(apiService) }
 
-//    val inputEmail     : MutableLiveData<String> = MutableLiveData()
-//    val inputPw        : MutableLiveData<String> = MutableLiveData()
-//    val inputMakeEmail : MutableLiveData<String> = MutableLiveData()
-//    val inputName      : MutableLiveData<String> = MutableLiveData()
-//    val inputMakePW    : MutableLiveData<String> = MutableLiveData()
-
     val isValidEmail   : MutableLiveData<String> = MutableLiveData()
     val signUpResult   : MutableLiveData<String> = MutableLiveData()
     val loginResult    : MutableLiveData<String> = MutableLiveData()
 
-
     val myEmail : MutableLiveData<String> = MutableLiveData()
-    val myPW    : MutableLiveData<String> = MutableLiveData()
     val myName  : MutableLiveData<String> = MutableLiveData()
-
-
-    fun clearSignValue(){
-        myEmail.value = null
-        myPW.value = null
-        myName.value = null
-    }
-
-
-
 
     // call Login API.
     fun requestLogin(email: String, pw: String){

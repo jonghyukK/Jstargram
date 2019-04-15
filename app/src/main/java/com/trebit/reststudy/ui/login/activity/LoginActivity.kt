@@ -40,27 +40,24 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun init() {
-
         addTextWatcherDouble(iv_clearEmail, iv_clearPW, btn_login, et_email, et_pw)
 
-        // 자동 로그인 상태 (o)                                                                                                                                                                                                                                     c
-        if (mPref.isAutoLogin(PREF_CHECKED_AUTO_LOGIN)) {
-            et_email.setText(mPref.getPrefEmail(PREF_EMAIL))
-            et_pw   .setText(mPref.getPrefPw(PREF_PW))
-            cb_autoLogin.isChecked = true
-        }
+        // init Email Text.
+        et_email.setText(mPref.getPrefEmail(PREF_EMAIL))
 
         // Login Observer.
         viewModel.loginResult.observe(this, Observer {
             when(it) {
                 // Login Success.
                 RES_SUCCESS -> {
-                    saveLoginInfo()
+                    // Email to Pref
+                    mPref.putData(PREF_EMAIL, et_email.text.toString())
 
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra(LOGIN_EMAIL, et_email.text.toString())
-                    startActivity(intent)
-                    finish()
+                    // 자동 로그인 Check가 되어 있으면 Save.
+                    if (cb_autoLogin.isChecked)
+                        saveLoginInfo()
+
+                    startMainActivity()
                 }
                 // Login Failed.
                 RES_FAILED -> toast { getString(R.string.desc_login_falied) }
@@ -69,9 +66,6 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun saveLoginInfo() {
-        // Email to Pref
-        mPref.putData(PREF_EMAIL, et_email.text.toString())
-
         // PW to Pref
         mPref.putData(PREF_PW, et_pw.text.toString())
 
@@ -79,18 +73,24 @@ class LoginActivity : BaseActivity() {
         mPref.putData(PREF_CHECKED_AUTO_LOGIN, cb_autoLogin.isChecked)
     }
 
-
-    fun onClickEvent(v: View) {
-        when ( v.id ) {
-            // Login
-            R.id.btn_login -> viewModel.requestLogin(et_email.text.toString(), et_pw.text.toString())
-            // Sign Up
-            R.id.tv_signup -> addFragment(SignUpFragment.newInstance())
-        }
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra(LOGIN_EMAIL, et_email.text.toString())
+        startActivity(intent)
+        finish()
     }
 
-    fun addFragment(fragment: Fragment) {
-        addFragment(fragment, R.id.rl_container)
+
+    fun onClickEvent(v: View) {
+        val inputEmail = et_email.text.toString()
+        val inputPassW = et_pw.text.toString()
+
+        when ( v.id ) {
+            // Login
+            R.id.btn_login -> viewModel.requestLogin(inputEmail, inputPassW)
+            // Sign Up
+            R.id.tv_signup -> addFragment(SignUpFragment.newInstance(), R.id.rl_container)
+        }
     }
 
     fun removeFragment(v: View) {

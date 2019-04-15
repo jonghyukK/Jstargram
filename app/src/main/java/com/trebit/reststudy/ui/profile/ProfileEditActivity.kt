@@ -48,6 +48,8 @@ class ProfileEditActivity: BaseActivity() {
     }
 
     private fun init() {
+        et_editName.addTextWatcher(iv_clearEditName)
+
         mViewModel.myProfileInfo.observe(this, Observer { value ->
             value?.let {
                 val intent = Intent()
@@ -56,7 +58,6 @@ class ProfileEditActivity: BaseActivity() {
                 finish()
             }
         })
-        et_editName.addTextWatcher(iv_clearEditName)
     }
 
 
@@ -68,8 +69,6 @@ class ProfileEditActivity: BaseActivity() {
             R.id.tv_doFinish       -> updateUser()
             // 프로필 사진 바꾸기
             R.id.tv_editProfileImg -> {}
-            // Clear Name
-            R.id.iv_clearEditName  -> et_editName.setText("")
         }
     }
 

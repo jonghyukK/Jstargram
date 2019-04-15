@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.trebit.reststudy.R
 import com.trebit.reststudy.databinding.MainFragmentSecondTabBinding
+import com.trebit.reststudy.ui.BaseFragment
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -21,7 +22,7 @@ import javax.inject.Inject
  * Description:
  */
 
-class SecondTabFragment: Fragment() {
+class SecondTabFragment: BaseFragment() {
 
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory

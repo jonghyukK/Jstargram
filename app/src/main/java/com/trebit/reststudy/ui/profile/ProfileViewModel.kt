@@ -29,7 +29,6 @@ class ProfileViewModel @Inject constructor(
     private val repository by lazy { DataRepository(apiService) }
 
     val myProfileInfo : MutableLiveData<UserVo> = MutableLiveData()
-    val inputName     : MutableLiveData<Boolean> = MutableLiveData()
 
     fun updateUser(email       : String,
                    name        : String,

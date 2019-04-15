@@ -16,7 +16,7 @@ const val RES_SUCCESS = "200"
 const val RES_FAILED  = "444"
 
 
-const val DEFAULT_S = "empty"
+const val DEFAULT_S = ""
 const val DEFAULT_B = false
 const val DEFAULT_I = 0
 const val LOGIN_EMAIL = "LOGIN_EMAIL"

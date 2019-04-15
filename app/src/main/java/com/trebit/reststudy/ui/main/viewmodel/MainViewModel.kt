@@ -53,18 +53,4 @@ class MainViewModel @Inject constructor(
                     """.trimIndent())
                 }, { Logger.e(it.message.toString())}))
     }
-
-    fun updateUser(email       : String,
-                   name        : String,
-                   introduce   : String?,
-                   profile_img : String?): Single<UserVo> {
-
-        return repository.updateUser(
-            email       = email,
-            name        = name,
-            introduce   = introduce,
-            profile_img = profile_img)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
 }

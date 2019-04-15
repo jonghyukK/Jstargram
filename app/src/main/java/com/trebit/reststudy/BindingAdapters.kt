@@ -19,50 +19,49 @@ import com.trebit.reststudy.data.model.UserVo
  */
 
 
-@BindingAdapter("clearImage")
-fun bindingClearImg(view: ImageView, text: MutableLiveData<String>?) {
-    val parentActivity = view.getParentActivity()
-
-    if (parentActivity != null && text != null) {
-        text.observe(parentActivity, Observer {
-            text.value?.let {
-                view.visibility = if (it.isNotEmpty()) View.VISIBLE else View.GONE
-            }
-        })
-    }
-}
-
-@BindingAdapter("textEmail", "textPw")
-fun bindingBtnEnable(
-    view  : Button,
-    email : MutableLiveData<String>?,
-    pw    : MutableLiveData<String>?
-) {
-    val parentActivity = view.getParentActivity()
-
-    if (parentActivity != null && email != null && pw != null) {
-        email.observe(parentActivity, Observer { value1 ->
-            pw.observe(parentActivity, Observer { value2 ->
-                view.isEnabled = value1!!.isNotEmpty() && value2!!.isNotEmpty()
-            })
-        })
-    }
-}
-
-
-@BindingAdapter("textValue")
-fun bindingBtnEnable2(
-    view  : Button,
-    value : MutableLiveData<String>?
-) {
-    val parentActivity = view.getParentActivity()
-
-    if (parentActivity != null && value != null) {
-        value.observe(parentActivity, Observer { value ->
-            view.isEnabled = value!!.isNotEmpty()
-        })
-    }
-}
+//@BindingAdapter("clearImage")
+//fun bindingClearImg(view: ImageView, text: MutableLiveData<String>?) {
+//    val parentActivity = view.getParentActivity()
+//
+//    if (parentActivity != null && text != null) {
+//        text.observe(parentActivity, Observer {
+//            text.value?.let {
+//                view.visibility = if (it.isNotEmpty()) View.VISIBLE else View.GONE
+//            }
+//        })
+//    }
+//}
+//
+//@BindingAdapter("textEmail", "textPw")
+//fun bindingBtnEnable(
+//    view  : Button,
+//    email : MutableLiveData<String>?,
+//    pw    : MutableLiveData<String>?
+//) {
+//    val parentActivity = view.getParentActivity()
+//
+//    if (parentActivity != null && email != null && pw != null) {
+//        email.observe(parentActivity, Observer { value1 ->
+//            pw.observe(parentActivity, Observer { value2 ->
+//                view.isEnabled = value1!!.isNotEmpty() && value2!!.isNotEmpty()
+//            })
+//        })
+//    }
+//}
+//
+//@BindingAdapter("textValue")
+//fun bindingBtnEnable2(
+//    view  : Button,
+//    value : MutableLiveData<String>?
+//) {
+//    val parentActivity = view.getParentActivity()
+//
+//    if (parentActivity != null && value != null) {
+//        value.observe(parentActivity, Observer { value ->
+//            view.isEnabled = value!!.isNotEmpty()
+//        })
+//    }
+//}
 
 @BindingAdapter("textSet")
 fun bindingTextData(
@@ -74,7 +73,7 @@ fun bindingTextData(
     if (parentActivity != null && value != null) {
         value.observe(parentActivity, Observer { value ->
             when (view.id) {
-                R.id.tv_userEmail   -> view.text = value?.email
+//                R.id.tv_userEmail   -> view.text = value?.email
                 R.id.tv_contentsCnt -> view.text = value?.contents_cnt.toString()
                 R.id.tv_followerCnt -> view.text = value?.follower_cnt.toString()
                 R.id.tv_followingCnt-> view.text = value?.following_cnt.toString()

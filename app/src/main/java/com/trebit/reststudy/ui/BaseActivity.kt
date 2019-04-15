@@ -21,4 +21,6 @@ open class BaseActivity: AppCompatActivity() {
 
         mPref = SharedPref(this)
     }
+
+
 }

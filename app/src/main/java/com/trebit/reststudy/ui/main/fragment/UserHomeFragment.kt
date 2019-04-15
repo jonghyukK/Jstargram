@@ -5,24 +5,29 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v4.view.GravityCompat
+import android.support.v7.app.ActionBarDrawerToggle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import com.orhanobut.logger.Logger
-import com.trebit.reststudy.INTENT_PROFILE
-import com.trebit.reststudy.INTENT_PROFILE_DATA
-import com.trebit.reststudy.R
+import com.trebit.reststudy.*
 import com.trebit.reststudy.adapter.ItemShowingTypeAdapter
-import com.trebit.reststudy.addFragment
-import com.trebit.reststudy.databinding.MainSubFragmentUserHomeBinding
+import com.trebit.reststudy.databinding.MainFragmentUserHomeBinding
+import com.trebit.reststudy.ui.BaseFragment
+import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.main.activity.MainActivity
 import com.trebit.reststudy.ui.main.viewmodel.MainViewModel
 import com.trebit.reststudy.ui.profile.ProfileEditActivity
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.main_sub_fragment_user_home.*
+import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.main_fragment_user_home.*
+import kotlinx.android.synthetic.main.main_fragment_user_home_content.*
 import javax.inject.Inject
 
 /**
@@ -33,12 +38,12 @@ import javax.inject.Inject
  * Description:
  */
 
-class UserHomeFragment: Fragment() {
+class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var mBinding: MainSubFragmentUserHomeBinding
+    private lateinit var mBinding: MainFragmentUserHomeBinding
     private lateinit var mMainViewModel : MainViewModel
 
     override fun onAttach(context: Context?) {
@@ -49,7 +54,7 @@ class UserHomeFragment: Fragment() {
     override fun onCreateView(inflater          : LayoutInflater,
                               container         : ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        mBinding       = DataBindingUtil.inflate(inflater, R.layout.main_sub_fragment_user_home, container, false)
+        mBinding       = DataBindingUtil.inflate(inflater, R.layout.main_fragment_user_home, container, false)
         mMainViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(MainViewModel::class.java)
         mBinding.mainActivity     = activity as MainActivity
         mBinding.mainViewModel    = mMainViewModel
@@ -60,9 +65,18 @@ class UserHomeFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Tab Layout Init.
         initTabLayout()
+
+        // NavigationView Init.
+        val toggle = ActionBarDrawerToggle(activity, dl_mainDrawerRoot, toolbar, R.string.drawer_open, R.string.drawer_close)
+        dl_mainDrawerRoot.addDrawerListener(toggle)
+        nv_navView.setNavigationItemSelectedListener(this)
     }
 
+
+    // TabBar Layout Settings.
     private fun initTabLayout() {
         tl_tabLayout.addTab(tl_tabLayout.newTab().setIcon(R.drawable.icon_item_grid_b))
         tl_tabLayout.addTab(tl_tabLayout.newTab().setIcon(R.drawable.icon_item_vertical_b))
@@ -78,12 +92,42 @@ class UserHomeFragment: Fragment() {
                 vp_viewPager.currentItem = p0!!.position
             }
         })
+
+        iv_modifyProfileImg.setColorFilter(
+            iv_modifyProfileImg.context.resources.getColor(R.color.blue_malibu), PorterDuff.Mode.SRC_ATOP)
     }
 
+
+    // go Profile Edit Activity.
     fun goEditProfile(v: View){
         activity?.startActivityForResult(
             Intent(activity, ProfileEditActivity::class.java), INTENT_PROFILE)
     }
+
+
+    // Event For ToolBar Btn.
+    fun onClickToolBarBtn(v: View){
+        if (dl_mainDrawerRoot.isDrawerOpen(GravityCompat.END)){
+            dl_mainDrawerRoot.closeDrawer(GravityCompat.END)
+        } else {
+            dl_mainDrawerRoot.openDrawer(GravityCompat.END)
+        }
+    }
+
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            // Logout
+            R.id.nav_logout -> {
+                mPref.putData(PREF_CHECKED_AUTO_LOGIN, false)
+                startActivity(Intent(activity, LoginActivity::class.java))
+                activity?.finish()
+            }
+        }
+        dl_mainDrawerRoot.closeDrawer(GravityCompat.END)
+        return true
+    }
+
 
     companion object {
         @JvmStatic

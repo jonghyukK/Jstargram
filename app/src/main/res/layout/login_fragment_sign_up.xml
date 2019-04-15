@@ -7,9 +7,6 @@
 
     <data>
         <variable
-                name="viewModel"
-                type="com.trebit.reststudy.ui.login.viewmodel.LoginViewModel"/>
-        <variable
                 name="fragment"
                 type="com.trebit.reststudy.ui.login.fragment.SignUpFragment"/>
         <variable

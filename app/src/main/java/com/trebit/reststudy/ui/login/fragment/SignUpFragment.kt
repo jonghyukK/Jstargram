@@ -11,8 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.trebit.reststudy.R
-import com.trebit.reststudy.addTextWatcher
+import com.trebit.reststudy.addFragment
+import com.trebit.reststudy.addTextWatcherDouble
 import com.trebit.reststudy.databinding.LoginFragmentSignUpBinding
+import com.trebit.reststudy.ui.BaseFragment
 import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import dagger.android.support.AndroidSupportInjection
@@ -27,11 +29,13 @@ import javax.inject.Inject
  * Description:
  */
 
-class SignUpFragment : Fragment() {
+class SignUpFragment : BaseFragment() {
 
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private val VALID_EMAIL   = "Y"
+    private val INVALID_EMAIL = "N"
     private lateinit var viewModel : LoginViewModel
     private lateinit var mBinding  : LoginFragmentSignUpBinding
 
@@ -47,37 +51,35 @@ class SignUpFragment : Fragment() {
     ): View? {
         mBinding  = DataBindingUtil.inflate(inflater, R.layout.login_fragment_sign_up, container, false)
         viewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(LoginViewModel::class.java)
-        mBinding.viewModel = viewModel
         mBinding.fragment  = this
         mBinding.activity  = activity as LoginActivity
 
         return mBinding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        addTextWatcherDouble(img1 = iv_clearValue, btn  = btn_next, et1  = et_inputMakeEmail)
+        viewModel.isValidEmail.value = null
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        et_inputMakeEmail.addTextWatcher(iv_clearValue, btn_next)
-
         // Email Validate Observer.
         viewModel.isValidEmail.observe(this, Observer {
-
-            // validate Success
-            if ( it == "Y") {
-                tv_alreadyRegiEmail.visibility = View.GONE
-                viewModel.myEmail.value = et_inputMakeEmail.text.toString()
-                mBinding.activity?.addFragment(NameRegiFragment.newInstance())
-            } else {
-                tv_alreadyRegiEmail.visibility = View.VISIBLE
+            when (it) {
+                // 사용 가능 Email.
+                VALID_EMAIL -> {
+                    tv_alreadyRegiEmail.visibility = View.GONE
+                    viewModel.myEmail.value = et_inputMakeEmail.text.toString()
+                    addFragment(NameRegiFragment.newInstance(), R.id.rl_container)
+                }
+                // 사용 불가 Email.
+                INVALID_EMAIL -> tv_alreadyRegiEmail.visibility = View.VISIBLE
             }
         })
     }
-
-
-    // initializing inputed Email.
-//    fun clearText(v: View){
-//        tv_alreadyRegiEmail.visibility = View.GONE
-//    }
 
     // validate Email.
     fun validateEmail(v: View) {

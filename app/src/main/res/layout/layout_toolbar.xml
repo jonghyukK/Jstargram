@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+                name="userHomeFragment"
+                type="com.trebit.reststudy.ui.main.fragment.UserHomeFragment"/>
+    </data>
+
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/gray_2"
+            >
+
+        <ImageView
+                android:id="@+id/iv_showNavi"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/icon_top_menu"
+                android:onClick="@{userHomeFragment::onClickToolBarBtn}"/>
+
+    </android.support.v7.widget.Toolbar>
+</layout>
+

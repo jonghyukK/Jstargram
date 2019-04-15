@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="mainActivity"
+                type="com.trebit.reststudy.ui.main.activity.MainActivity"/>
+
+        <variable
+                name="userHomeFragment"
+                type="com.trebit.reststudy.ui.main.fragment.UserHomeFragment"/>
+
+        <variable
+                name="mainViewModel"
+                type="com.trebit.reststudy.ui.main.viewmodel.MainViewModel"/>
+    </data>
+
+
+    <android.support.v4.widget.DrawerLayout
+            android:id="@+id/dl_mainDrawerRoot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:openDrawer="end"
+            >
+
+        <include
+                layout="@layout/main_fragment_user_home_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:mainActivity="@{mainActivity}"
+                app:userHomeFragment="@{userHomeFragment}"
+                app:mainViewModel="@{mainViewModel}"/>
+
+        <android.support.design.widget.NavigationView
+                android:id="@+id/nv_navView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:fitsSystemWindows="true"
+                app:headerLayout="@layout/nav_header"
+                app:menu="@menu/drawer_user_home_fragment"/>
+
+    </android.support.v4.widget.DrawerLayout>
+</layout>
