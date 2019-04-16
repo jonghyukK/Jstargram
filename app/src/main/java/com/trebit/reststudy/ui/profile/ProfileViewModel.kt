@@ -12,6 +12,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 /**
@@ -65,6 +66,20 @@ class ProfileViewModel @Inject constructor(
                     writer: String) {
         compositeDisposable.add(
             repository.uploadImage(body, writer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Logger.d(it.toString())
+                }, {
+                    Logger.e(it.localizedMessage)
+                })
+        )
+    }
+
+    fun uploadImage2(file : MultipartBody.Part,
+                     desc : RequestBody){
+        compositeDisposable.add(
+            repository.uploadImage2(file, desc)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

@@ -6,6 +6,7 @@ import com.trebit.reststudy.data.model.ImgUploadBody
 import com.trebit.reststudy.data.model.UpdateUserBody
 import com.trebit.reststudy.data.remote.ApiService
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Singleton
 
 /**
@@ -44,6 +45,10 @@ class DataRepository(private val apiService: ApiService){
     fun uploadImage(file  : MultipartBody.Part,
                     writer: String)
     = apiService.uploadImage(file, writer)
+
+    fun uploadImage2(file : MultipartBody.Part,
+                     desc : RequestBody)
+    = apiService.uploadImage2(desc, file)
 
 
 

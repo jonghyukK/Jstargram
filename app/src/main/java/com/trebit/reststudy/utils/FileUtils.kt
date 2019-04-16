@@ -1,5 +1,7 @@
 package com.trebit.reststudy.utils
 
+import android.content.Context
+import android.net.Uri
 import android.os.Environment
 import com.trebit.reststudy.TEMP_FORDER_PATH
 import java.io.ByteArrayOutputStream
@@ -7,6 +9,12 @@ import java.io.File
 import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import android.provider.MediaStore
+import android.provider.DocumentsContract
+import android.content.ContentUris
+import android.os.Build
+import android.util.Log
+
 
 /**
  * Jstargram
@@ -24,26 +32,10 @@ class FileUtils {
             val timeStamp = SimpleDateFormat("HHmmss").format(Date())
             val imgFileName = "Jstagram_${timeStamp}_"
             val storageDir = File(TEMP_FORDER_PATH)
-            if ( !storageDir.exists())
+            if (!storageDir.exists())
                 storageDir.mkdirs()
 
             return File.createTempFile(imgFileName, ".jpg", storageDir)
-        }
-
-
-        fun getBytes(iss: InputStream): ByteArray{
-            val byteBuff = ByteArrayOutputStream()
-
-            val buffSize = 1024
-            val buff = ByteArray(buffSize)
-
-            var len = 0
-            while (iss.read(buff) != -1) {
-                len = iss.read(buff)
-                byteBuff.write(buff, 0, len)
-            }
-
-            return byteBuff.toByteArray()
         }
     }
 }

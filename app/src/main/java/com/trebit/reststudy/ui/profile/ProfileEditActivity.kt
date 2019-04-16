@@ -26,6 +26,7 @@ import android.graphics.Bitmap
 import android.media.MediaScannerConnection
 import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
+import com.orhanobut.logger.Logger
 import com.trebit.reststudy.ui.customview.SelectEditActionDialog
 import com.trebit.reststudy.utils.FileUtilJava
 import com.trebit.reststudy.utils.FileUtils.Companion.createImageFile
@@ -189,8 +190,23 @@ class ProfileEditActivity: BaseActivity() {
                 MediaScannerConnection.scanFile(this, arrayOf(mPhotoUri.path), null) { path, uri -> }
             }
             CROP_FROM_CAMERA -> {
+
+                val file = File(mPhotoUri.path)
                 val iStream = contentResolver.openInputStream(mPhotoUri)
-                uploadImage(FileUtilJava.getBytes(iStream))
+                val imgBytes = FileUtilJava.getBytes(iStream)
+
+                val requestFile = RequestBody.create(
+                    MediaType.parse(contentResolver.getType(mPhotoUri)),
+                    imgBytes)
+                val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
+
+                val desc = mPref.getPrefEmail(PREF_EMAIL)
+                val descBody = RequestBody.create(MultipartBody.FORM, desc)
+
+                mViewModel.uploadImage2(body, descBody)
+
+//                val iStream = contentResolver.openInputStream(mPhotoUri)
+//                uploadImage(FileUtilJava.getBytes(iStream))
 
 //                iv_editProfileImg.setImageURI(null)
 //                iv_editProfileImg.setImageURI(mPhotoUri)

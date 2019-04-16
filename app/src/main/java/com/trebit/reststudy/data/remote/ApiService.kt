@@ -69,5 +69,12 @@ interface ApiService {
     fun uploadImage(@Part file: MultipartBody.Part,
                     @Path("writer") writer: String): Single<FileUploadResponse>
 
+    @Multipart
+    @POST("upload/create2")
+    fun uploadImage2(
+        @Part("desc") desc: RequestBody,
+        @Part file: MultipartBody.Part
+    ): Single<FileUploadResponse>
+
 
 }
