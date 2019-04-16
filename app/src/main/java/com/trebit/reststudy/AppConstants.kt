@@ -1,6 +1,7 @@
 package com.trebit.reststudy
 
 import android.Manifest
+import android.os.Environment
 
 /**
  * TrebitM-AOS
@@ -25,6 +26,9 @@ const val LOGIN_EMAIL = "LOGIN_EMAIL"
 const val INTENT_PROFILE_DATA = "INTENT_PROFILE_DATA"
 const val INTENT_PROFILE = 2000
 const val REQ_MULTIPLE_PERMISSIONS = 3000
+const val FILE_AUTHORITY = "com.trebit.reststudy.provider"
+const val INTENT_CROP_ACTION = "com.android.camera.action.CROP"
+val TEMP_FORDER_PATH = "${Environment.getExternalStorageDirectory()}/Jstagram/"
 
 
 const val PREF_EMAIL = "PREF_EMAIL"

@@ -11,6 +11,7 @@ import com.trebit.reststudy.data.repository.DataRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 /**
@@ -57,6 +58,20 @@ class ProfileViewModel @Inject constructor(
                     """.trimIndent())
 
                 }, { Logger.e(it.message.toString())})
+        )
+    }
+
+    fun uploadImage(body  : MultipartBody.Part,
+                    writer: String) {
+        compositeDisposable.add(
+            repository.uploadImage(body, writer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Logger.d(it.toString())
+                }, {
+                    Logger.e(it.localizedMessage)
+                })
         )
     }
 }

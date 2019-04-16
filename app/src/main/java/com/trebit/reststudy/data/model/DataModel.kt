@@ -37,6 +37,8 @@ data class UpdateUserBody(
     val profile_img : String?
 )
 
+data class ImgUploadBody(val writer: String)
+
 
 
 
@@ -69,4 +71,12 @@ data class UserVo(
     val follower_cnt  : Int,
     val following_cnt : Int
 ): Serializable
+
+
+
+
+data class FileUploadResponse(
+    val message: String,
+    val path: String
+)
 

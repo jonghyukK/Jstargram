@@ -68,11 +68,6 @@ class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedL
 
         // Tab Layout Init.
         initTabLayout()
-
-        // NavigationView Init.
-        val toggle = ActionBarDrawerToggle(activity, dl_mainDrawerRoot, toolbar, R.string.drawer_open, R.string.drawer_close)
-        dl_mainDrawerRoot.addDrawerListener(toggle)
-        nv_navView.setNavigationItemSelectedListener(this)
     }
 
 
@@ -95,6 +90,11 @@ class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedL
 
         iv_modifyProfileImg.setColorFilter(
             iv_modifyProfileImg.context.resources.getColor(R.color.blue_malibu), PorterDuff.Mode.SRC_ATOP)
+
+        // NavigationView Init.
+        val toggle = ActionBarDrawerToggle(activity, dl_mainDrawerRoot, toolbar, R.string.drawer_open, R.string.drawer_close)
+        dl_mainDrawerRoot.addDrawerListener(toggle)
+        nv_navView.setNavigationItemSelectedListener(this)
     }
 
 

@@ -2,6 +2,8 @@ package com.trebit.reststudy.data.remote
 
 import com.trebit.reststudy.data.model.*
 import io.reactivex.Single
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 /**
@@ -47,6 +49,25 @@ interface ApiService {
     @PUT("user/updateUser/{email}")
     fun updateUser(@Path("email") email: String,
                    @Body body: UpdateUserBody) : Single<UserVo>
+
+
+
+
+    /****************************************************************
+     *
+     *   Image Upload APIs...
+     *
+     ***************************************************************/
+    @Multipart
+    @POST("/upload/create")
+    fun uploadImage(@Part file: MultipartBody.Part,
+                    @Body writer: ImgUploadBody): Single<FileUploadResponse>
+
+
+    @Multipart
+    @POST("upload/create/{writer}")
+    fun uploadImage(@Part file: MultipartBody.Part,
+                    @Path("writer") writer: String): Single<FileUploadResponse>
 
 
 }

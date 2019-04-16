@@ -2,7 +2,6 @@ package com.trebit.reststudy.ui.profile
 
 import android.Manifest
 import android.app.Activity
-import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
@@ -25,15 +24,15 @@ import android.support.v4.app.ActivityCompat
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.media.MediaScannerConnection
-import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
-import android.widget.TextView
 import com.trebit.reststudy.ui.customview.SelectEditActionDialog
-import kotlinx.android.synthetic.main.dialog_profile_edit_action.*
+import com.trebit.reststudy.utils.FileUtilJava
+import com.trebit.reststudy.utils.FileUtils.Companion.createImageFile
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -54,6 +53,8 @@ class ProfileEditActivity: BaseActivity() {
     private lateinit var mMainViewModel : MainViewModel
     private lateinit var mBinding       : ActivityProfileEditBinding
     private lateinit var mPhotoUri      : Uri
+
+    private var mTempFile: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,24 +102,23 @@ class ProfileEditActivity: BaseActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode) {
             REQ_MULTIPLE_PERMISSIONS -> {
-
                 for ( i in 0 until permissions.size) {
                     when ( permissions[i]) {
                         PERMISSIONS[0] -> {
                             if ( grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                                showNoPermissionToastAndFinish()
+                                toast { getString(R.string.desc_permission)}
                                 return
                                 }
                         }
                         PERMISSIONS[1] -> {
                             if ( grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                                showNoPermissionToastAndFinish()
+                                toast { getString(R.string.desc_permission)}
                                 return
                             }
                         }
                         PERMISSIONS[2] -> {
                             if ( grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                                showNoPermissionToastAndFinish()
+                                toast { getString(R.string.desc_permission)}
                                 return
                             }
                         }
@@ -127,10 +127,6 @@ class ProfileEditActivity: BaseActivity() {
                 selectAction()
             }
         }
-    }
-
-    private fun showNoPermissionToastAndFinish() {
-        toast { "권한 요청에 동의 해주셔야 이용 가능합니다. 설정에서 권한 허용 하시기 바랍니다."}
     }
 
     fun onClickEvent(v: View) {
@@ -144,6 +140,7 @@ class ProfileEditActivity: BaseActivity() {
         }
     }
 
+    // 사진 촬영 or 갤러리 팝업.
     private fun selectAction() {
         SelectEditActionDialog(this, { takePhoto() }) { goToGallery() }.show()
     }
@@ -151,30 +148,18 @@ class ProfileEditActivity: BaseActivity() {
     // 사진 촬영.
     private fun takePhoto(){
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        var photoFile: File? = null
 
         try {
-            photoFile = createImageFile()
+            mTempFile = createImageFile()
         } catch ( e: IOException) {
             e.printStackTrace()
         }
 
-        if ( photoFile != null) {
-            mPhotoUri = FileProvider.getUriForFile(this, "com.trebit.reststudy.provider", photoFile)
+        if ( mTempFile != null) {
+            mPhotoUri = FileProvider.getUriForFile(this, FILE_AUTHORITY, mTempFile!!)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoUri)
             startActivityForResult(intent, PICK_FROM_CAMERA)
         }
-    }
-
-    private fun createImageFile(): File {
-        val timeStamp = SimpleDateFormat("HHmmss").format(Date())
-        val imageFileName = "kangtest_${timeStamp}_"
-        val storageDir = File("${Environment.getExternalStorageDirectory()}/KangTest/")
-        if ( !storageDir.exists()) {
-            storageDir.mkdirs()
-        }
-
-        return File.createTempFile(imageFileName, ".jpg", storageDir)
     }
 
     // 갤러리 선택.
@@ -186,7 +171,8 @@ class ProfileEditActivity: BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if ( resultCode != Activity.RESULT_OK){
-            toast { "do Canceled1" }
+            // Temp File Delete.
+            mTempFile?.delete()
             return
         }
 
@@ -203,15 +189,29 @@ class ProfileEditActivity: BaseActivity() {
                 MediaScannerConnection.scanFile(this, arrayOf(mPhotoUri.path), null) { path, uri -> }
             }
             CROP_FROM_CAMERA -> {
-                iv_editProfileImg.setImageURI(null)
-                iv_editProfileImg.setImageURI(mPhotoUri)
-                revokeUriPermission(mPhotoUri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                val iStream = contentResolver.openInputStream(mPhotoUri)
+                uploadImage(FileUtilJava.getBytes(iStream))
+
+//                iv_editProfileImg.setImageURI(null)
+//                iv_editProfileImg.setImageURI(mPhotoUri)
+//                revokeUriPermission(mPhotoUri,
+//                    Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             }
         }
     }
 
+    private fun uploadImage(imageBytes: ByteArray) {
+        val file = File(mPhotoUri.path)
+        val requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes)
+        val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
+
+        mViewModel.uploadImage(body, mPref.getPrefEmail(PREF_EMAIL))
+    }
+
+
+
     private fun cropImage() {
-        val intent = Intent("com.android.camera.action.CROP")
+        val intent = Intent(INTENT_CROP_ACTION)
         intent.setDataAndType(mPhotoUri, "image/*")
         val list = packageManager.queryIntentActivities(intent, 0)
         grantUriPermission(list[0].activityInfo.packageName, mPhotoUri,
@@ -235,10 +235,10 @@ class ProfileEditActivity: BaseActivity() {
                 e.printStackTrace()
             }
 
-            val folder = File("${Environment.getExternalStorageDirectory()}/KangTest/")
+            val folder = File(TEMP_FORDER_PATH)
             val tempFile = File(folder.toString(), croppedFileName?.name)
-            mPhotoUri = FileProvider.getUriForFile(this,
-                "com.trebit.reststudy.provider", tempFile)
+            mPhotoUri = FileProvider.getUriForFile(this, FILE_AUTHORITY, tempFile)
+
             intent.putExtra("return-data", false)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoUri)
             intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString())
@@ -263,7 +263,7 @@ class ProfileEditActivity: BaseActivity() {
             email       = mPref.getPrefEmail(PREF_EMAIL),
             name        = et_editName     .text.toString(),
             introduce   = et_editIntroduce.text.toString(),
-            profile_img = "profile_path")
+            profile_img = "")
     }
 
     companion object {

@@ -38,6 +38,7 @@
     <string name="desc_email_auth_error">이메일이 잘못되었습니다. \n다시 한 번 확인해 주세요.</string>
     <string name="desc_login_falied">이메일 혹은 비밀번호가 올바르지 않습니다. \n다시 한 번 확인해 주세요.</string>
     <string name="desc_input_name">이름을 입력해주세요.</string>
+    <string name="desc_permission">권한 요청에 모두 동의해주셔야 이용 가능합니다. \n 설정에서 권한 허용을 하시기 바랍니다.</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
