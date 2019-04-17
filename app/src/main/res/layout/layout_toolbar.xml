@@ -8,6 +8,9 @@
         <variable
                 name="userHomeFragment"
                 type="com.trebit.reststudy.ui.main.fragment.UserHomeFragment"/>
+        <variable
+                name="mainViewModel"
+                type="com.trebit.reststudy.ui.main.viewmodel.MainViewModel"/>
     </data>
 
     <android.support.v7.widget.Toolbar
@@ -15,17 +18,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            android:background="@color/gray_2"
+            android:background="@color/gray_1"
             >
+
+        <TextView
+                android:id="@+id/tv_myEmailInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:textSet="@{mainViewModel.myAccountInfo}"
+                tools:text="saz300@naver.com"/>
 
         <ImageView
                 android:id="@+id/iv_showNavi"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="end"
-                android:layout_marginEnd="15dp"
+                android:padding="12dp"
                 android:src="@drawable/icon_top_menu"
                 android:onClick="@{userHomeFragment::onClickToolBarBtn}"/>
+
+
 
     </android.support.v7.widget.Toolbar>
 </layout>

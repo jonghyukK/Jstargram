@@ -12,8 +12,8 @@ import android.os.Environment
  */
 
 
-//const val BASE_API_URL = "http://192.168.2.1:3000/"
-const val BASE_API_URL = "http://192.168.0.7:3000/"
+const val BASE_API_URL = "http://192.168.2.1:3000/"
+//const val BASE_API_URL = "http://192.168.0.7:3000/"
 
 const val RES_SUCCESS = "200"
 const val RES_FAILED  = "444"

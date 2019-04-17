@@ -16,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.trebit.reststudy.*
 import com.trebit.reststudy.adapter.ItemShowingTypeAdapter
 import com.trebit.reststudy.databinding.MainFragmentUserHomeBinding
@@ -25,9 +26,13 @@ import com.trebit.reststudy.ui.main.activity.MainActivity
 import com.trebit.reststudy.ui.main.viewmodel.MainViewModel
 import com.trebit.reststudy.ui.profile.ProfileEditActivity
 import dagger.android.support.AndroidSupportInjection
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.main_fragment_user_home.*
 import kotlinx.android.synthetic.main.main_fragment_user_home_content.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -88,15 +93,11 @@ class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedL
             }
         })
 
-        iv_modifyProfileImg.setColorFilter(
-            iv_modifyProfileImg.context.resources.getColor(R.color.blue_malibu), PorterDuff.Mode.SRC_ATOP)
-
         // NavigationView Init.
         val toggle = ActionBarDrawerToggle(activity, dl_mainDrawerRoot, toolbar, R.string.drawer_open, R.string.drawer_close)
         dl_mainDrawerRoot.addDrawerListener(toggle)
         nv_navView.setNavigationItemSelectedListener(this)
     }
-
 
     // go Profile Edit Activity.
     fun goEditProfile(v: View){

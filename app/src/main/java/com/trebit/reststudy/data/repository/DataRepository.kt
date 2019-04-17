@@ -1,8 +1,7 @@
 package com.trebit.reststudy.data.repository
 
-import com.trebit.reststudy.data.model.RequestLoginBody
 import com.trebit.reststudy.data.model.CreateUserBody
-import com.trebit.reststudy.data.model.ImgUploadBody
+import com.trebit.reststudy.data.model.RequestLoginBody
 import com.trebit.reststudy.data.model.UpdateUserBody
 import com.trebit.reststudy.data.remote.ApiService
 import okhttp3.MultipartBody
@@ -42,13 +41,12 @@ class DataRepository(private val apiService: ApiService){
             = apiService.updateUser(email, UpdateUserBody(name, introduce, profile_img))
 
 
-    fun uploadImage(file  : MultipartBody.Part,
-                    writer: String)
-    = apiService.uploadImage(file, writer)
 
-    fun uploadImage2(file : MultipartBody.Part,
-                     desc : RequestBody)
-    = apiService.uploadImage2(desc, file)
+    fun updateUserWithProfile(name     : RequestBody,
+                              introduce: RequestBody,
+                              email    : RequestBody,
+                              file     : MultipartBody.Part)
+    = apiService.updateUserWithProfile(name, introduce, email, file)
 
 
 

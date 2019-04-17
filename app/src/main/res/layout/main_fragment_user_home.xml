@@ -4,7 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
                 name="mainActivity"
                 type="com.trebit.reststudy.ui.main.activity.MainActivity"/>
@@ -17,7 +16,6 @@
                 name="mainViewModel"
                 type="com.trebit.reststudy.ui.main.viewmodel.MainViewModel"/>
     </data>
-
 
     <android.support.v4.widget.DrawerLayout
             android:id="@+id/dl_mainDrawerRoot"

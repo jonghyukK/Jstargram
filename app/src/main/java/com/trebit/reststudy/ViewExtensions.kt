@@ -14,6 +14,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import io.reactivex.internal.util.BackpressureHelper.add
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 /**
  * Jstargram
@@ -128,9 +130,7 @@ fun addTextWatcherDouble(img1 : ImageView,
             img2?.setOnClickListener { et2.setText("") }
         }
     })
-
-
-
-
-
 }
+
+fun createRequestBody(value: String): RequestBody
+        = RequestBody.create(MultipartBody.FORM, value)

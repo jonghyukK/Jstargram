@@ -3,12 +3,10 @@ package com.trebit.reststudy
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.databinding.BindingAdapter
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.trebit.reststudy.data.model.UserVo
+import de.hdodenhof.circleimageview.CircleImageView
 
 /**
  * Rest_study
@@ -19,67 +17,41 @@ import com.trebit.reststudy.data.model.UserVo
  */
 
 
-//@BindingAdapter("clearImage")
-//fun bindingClearImg(view: ImageView, text: MutableLiveData<String>?) {
-//    val parentActivity = view.getParentActivity()
-//
-//    if (parentActivity != null && text != null) {
-//        text.observe(parentActivity, Observer {
-//            text.value?.let {
-//                view.visibility = if (it.isNotEmpty()) View.VISIBLE else View.GONE
-//            }
-//        })
-//    }
-//}
-//
-//@BindingAdapter("textEmail", "textPw")
-//fun bindingBtnEnable(
-//    view  : Button,
-//    email : MutableLiveData<String>?,
-//    pw    : MutableLiveData<String>?
-//) {
-//    val parentActivity = view.getParentActivity()
-//
-//    if (parentActivity != null && email != null && pw != null) {
-//        email.observe(parentActivity, Observer { value1 ->
-//            pw.observe(parentActivity, Observer { value2 ->
-//                view.isEnabled = value1!!.isNotEmpty() && value2!!.isNotEmpty()
-//            })
-//        })
-//    }
-//}
-//
-//@BindingAdapter("textValue")
-//fun bindingBtnEnable2(
-//    view  : Button,
-//    value : MutableLiveData<String>?
-//) {
-//    val parentActivity = view.getParentActivity()
-//
-//    if (parentActivity != null && value != null) {
-//        value.observe(parentActivity, Observer { value ->
-//            view.isEnabled = value!!.isNotEmpty()
-//        })
-//    }
-//}
-
 @BindingAdapter("textSet")
 fun bindingTextData(
     view  : TextView,
-    value: MutableLiveData<UserVo>?
+    value : MutableLiveData<UserVo>?
 ) {
     val parentActivity = view.getParentActivity()
 
     if (parentActivity != null && value != null) {
         value.observe(parentActivity, Observer { value ->
             when (view.id) {
-//                R.id.tv_userEmail   -> view.text = value?.email
+                R.id.tv_myEmailInfo -> view.text = value?.email
                 R.id.tv_contentsCnt -> view.text = value?.contents_cnt.toString()
                 R.id.tv_followerCnt -> view.text = value?.follower_cnt.toString()
                 R.id.tv_followingCnt-> view.text = value?.following_cnt.toString()
                 R.id.tv_userName    -> view.text = value?.name
                 R.id.tv_introduce   -> view.text = value?.introduce
             }
+        })
+    }
+}
+
+@BindingAdapter("bindingImage")
+fun bindingImageView(
+    view  : CircleImageView,
+    value : MutableLiveData<UserVo>?
+){
+    val parentActivity = view.getParentActivity()
+
+    if (parentActivity != null && value != null){
+        value.observe(parentActivity, Observer{ value ->
+            Glide.with(view.context)
+                .load(BASE_API_URL + value?.profile_img)
+                .fitCenter()
+                .error(R.drawable.icon_clear)
+                .into(view)
         })
     }
 }

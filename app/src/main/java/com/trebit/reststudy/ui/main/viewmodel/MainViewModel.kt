@@ -40,6 +40,7 @@ class MainViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ myAccountInfo.value = it
+
                     Logger.d("""
                         resCode         : ${it.resCode}
                         resMsg          : ${it.resMsg}
@@ -51,6 +52,7 @@ class MainViewModel @Inject constructor(
                         follower_cnt    : ${it.follower_cnt}
                         following_cnt   : ${it.following_cnt}
                     """.trimIndent())
+
                 }, { Logger.e(it.message.toString())}))
     }
 }

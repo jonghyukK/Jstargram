@@ -22,17 +22,22 @@ interface ApiService {
      *   Login, Sign Up APIs ...
      *
      ***************************************************************/
+    // Create User.
     @POST("user/sign_up")
     fun createUser(@Body body: CreateUserBody)
             : Single<ResponseVo>
 
+
+    // Check Email Validation.
     @GET("user/validateEmail/{email}")
     fun validateEmail(@Path("email") email: String)
             : Single<ValidateEmailVo>
 
+    // Check Login Validation.
     @POST("user/login")
     fun requestLogin(@Body body: RequestLoginBody)
             : Single<ResponseVo>
+
 
 
 
@@ -41,40 +46,27 @@ interface ApiService {
      *   Main APIs ...
      *
      ***************************************************************/
+
+    // Get User Information by Email.
     @GET("user/getUser/{email}")
     fun getUser(@Path("email") email: String)
             : Single<UserVo>
 
 
+    // Update User without Profile.
     @PUT("user/updateUser/{email}")
     fun updateUser(@Path("email") email: String,
                    @Body body: UpdateUserBody) : Single<UserVo>
 
 
-
-
-    /****************************************************************
-     *
-     *   Image Upload APIs...
-     *
-     ***************************************************************/
+    // Update User with Profile.
     @Multipart
-    @POST("/upload/create")
-    fun uploadImage(@Part file: MultipartBody.Part,
-                    @Body writer: ImgUploadBody): Single<FileUploadResponse>
-
-
-    @Multipart
-    @POST("upload/create/{writer}")
-    fun uploadImage(@Part file: MultipartBody.Part,
-                    @Path("writer") writer: String): Single<FileUploadResponse>
-
-    @Multipart
-    @POST("upload/create2")
-    fun uploadImage2(
-        @Part("desc") desc: RequestBody,
+    @POST("user/updateUser")
+    fun updateUserWithProfile(
+        @Part("name")      name     : RequestBody,
+        @Part("introduce") introduce: RequestBody,
+        @Part("email")     email    : RequestBody,
         @Part file: MultipartBody.Part
-    ): Single<FileUploadResponse>
-
+    ): Single<UserVo>
 
 }

@@ -89,7 +89,7 @@
                         android:id="@+id/iv_editProfileImg"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:src="@drawable/sample_02"
+                        app:bindingImage="@{mainViewModel.myAccountInfo}"
                         app:civ_border_width="2dp"
                         app:civ_border_color="@color/gray_2"/>
 

@@ -3,6 +3,7 @@ package com.trebit.reststudy
 import android.app.Activity
 import android.app.Application
 import android.support.v4.app.Fragment
+import com.bumptech.glide.request.target.ViewTarget
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.trebit.reststudy.di.component.DaggerAppComponent
@@ -48,6 +49,8 @@ class AppController : Application(), HasActivityInjector, HasSupportFragmentInje
 
         // init Log Library
         initLogger()
+
+        ViewTarget.setTagId(R.id.glide_tag)
     }
 
     /** Init Log Library **/

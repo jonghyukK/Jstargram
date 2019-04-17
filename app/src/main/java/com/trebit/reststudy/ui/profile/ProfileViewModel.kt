@@ -2,9 +2,8 @@ package com.trebit.reststudy.ui.profile
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.databinding.Bindable
-import android.view.View
 import com.orhanobut.logger.Logger
+import com.trebit.reststudy.createRequestBody
 import com.trebit.reststudy.data.model.UserVo
 import com.trebit.reststudy.data.remote.ApiService
 import com.trebit.reststudy.data.repository.DataRepository
@@ -13,6 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.io.File
 import javax.inject.Inject
 
 /**
@@ -32,10 +32,10 @@ class ProfileViewModel @Inject constructor(
 
     val myProfileInfo : MutableLiveData<UserVo> = MutableLiveData()
 
-    fun updateUser(email       : String,
-                   name        : String,
+    fun updateUser(name        : String,
                    introduce   : String,
-                   profile_img : String) {
+                   email       : String,
+                   profile_img : String?) {
         compositeDisposable.add(
             repository.updateUser(
                 email       = email,
@@ -62,28 +62,33 @@ class ProfileViewModel @Inject constructor(
         )
     }
 
-    fun uploadImage(body  : MultipartBody.Part,
-                    writer: String) {
-        compositeDisposable.add(
-            repository.uploadImage(body, writer)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    Logger.d(it.toString())
-                }, {
-                    Logger.e(it.localizedMessage)
-                })
-        )
-    }
 
-    fun uploadImage2(file : MultipartBody.Part,
-                     desc : RequestBody){
+    fun updateUserWithProfile(name     : String,
+                              introduce: String,
+                              email    : String,
+                              file : MultipartBody.Part){
         compositeDisposable.add(
-            repository.uploadImage2(file, desc)
+            repository.updateUserWithProfile(
+                name      = createRequestBody(name),
+                introduce = createRequestBody(introduce),
+                email     = createRequestBody(email),
+                file      = file)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    Logger.d(it.toString())
+                .subscribe({ myProfileInfo.value = it
+
+                    Logger.d("""
+                        resCode         : ${it.resCode}
+                        resMsg          : ${it.resMsg}
+                        email           : ${it.email}
+                        name            : ${it.name}
+                        introduce       : ${it.introduce}
+                        profile_img     : ${it.profile_img}
+                        contents_cnt    : ${it.contents_cnt}
+                        follower_cnt    : ${it.follower_cnt}
+                        following_cnt   : ${it.following_cnt}
+                    """.trimIndent())
+
                 }, {
                     Logger.e(it.localizedMessage)
                 })

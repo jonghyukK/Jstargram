@@ -26,6 +26,7 @@ import android.graphics.Bitmap
 import android.media.MediaScannerConnection
 import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.orhanobut.logger.Logger
 import com.trebit.reststudy.ui.customview.SelectEditActionDialog
 import com.trebit.reststudy.utils.FileUtilJava
@@ -133,9 +134,9 @@ class ProfileEditActivity: BaseActivity() {
     fun onClickEvent(v: View) {
         when(v.id) {
             // 취소
-            R.id.tv_cancel         -> finish()
+            R.id.tv_cancel -> finish()
             // 완료
-            R.id.tv_doFinish       -> updateUser()
+            R.id.tv_doFinish -> updateUser()
             // 프로필 사진 바꾸기
             R.id.tv_editProfileImg -> if (checkPermissions()) { selectAction() }
         }
@@ -190,41 +191,13 @@ class ProfileEditActivity: BaseActivity() {
                 MediaScannerConnection.scanFile(this, arrayOf(mPhotoUri.path), null) { path, uri -> }
             }
             CROP_FROM_CAMERA -> {
-
-                val file = File(mPhotoUri.path)
-                val iStream = contentResolver.openInputStream(mPhotoUri)
-                val imgBytes = FileUtilJava.getBytes(iStream)
-
-                val requestFile = RequestBody.create(
-                    MediaType.parse(contentResolver.getType(mPhotoUri)),
-                    imgBytes)
-                val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
-
-                val desc = mPref.getPrefEmail(PREF_EMAIL)
-                val descBody = RequestBody.create(MultipartBody.FORM, desc)
-
-                mViewModel.uploadImage2(body, descBody)
-
-//                val iStream = contentResolver.openInputStream(mPhotoUri)
-//                uploadImage(FileUtilJava.getBytes(iStream))
-
-//                iv_editProfileImg.setImageURI(null)
-//                iv_editProfileImg.setImageURI(mPhotoUri)
-//                revokeUriPermission(mPhotoUri,
-//                    Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                iv_editProfileImg.setImageURI(null)
+                iv_editProfileImg.setImageURI(mPhotoUri)
+                revokeUriPermission(mPhotoUri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             }
         }
     }
-
-    private fun uploadImage(imageBytes: ByteArray) {
-        val file = File(mPhotoUri.path)
-        val requestFile = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes)
-        val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
-
-        mViewModel.uploadImage(body, mPref.getPrefEmail(PREF_EMAIL))
-    }
-
-
 
     private fun cropImage() {
         val intent = Intent(INTENT_CROP_ACTION)
@@ -269,17 +242,41 @@ class ProfileEditActivity: BaseActivity() {
     }
 
 
+    // Update User Profile API.
     private fun updateUser() {
         if (et_editName.text.isEmpty()) {
             toast { getString(R.string.desc_input_name) }
             return
         }
 
-        mViewModel.updateUser(
-            email       = mPref.getPrefEmail(PREF_EMAIL),
-            name        = et_editName     .text.toString(),
-            introduce   = et_editIntroduce.text.toString(),
-            profile_img = "")
+        val name       : String = et_editName.text.toString()
+        val introduce  : String = et_editIntroduce.text.toString()
+        val email      : String = mPref.getPrefEmail(PREF_EMAIL)
+        val profileImg : String?= mMainViewModel.myAccountInfo.value?.profile_img
+
+        // Profile 변경 (x)
+        if (!::mPhotoUri.isInitialized) {
+            mViewModel.updateUser(
+                name        = name,
+                introduce   = introduce,
+                email       = email,
+                profile_img = profileImg)
+        } else {
+            // Profile 변경 (o)
+            val file = File(mPhotoUri.path)
+            val iStream = contentResolver.openInputStream(mPhotoUri)
+            val imgBytes = FileUtilJava.getBytes(iStream)
+
+            val requestFile = RequestBody.create(MediaType.parse(contentResolver.getType(mPhotoUri)), imgBytes)
+            val fileBody = MultipartBody.Part.createFormData("image", file.name, requestFile)
+
+            mViewModel.updateUserWithProfile(
+                name      = name,
+                introduce = introduce,
+                email     = email,
+                file      = fileBody
+            )
+        }
     }
 
     companion object {

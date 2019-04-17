@@ -37,7 +37,7 @@ data class UpdateUserBody(
     val profile_img : String?
 )
 
-data class ImgUploadBody(val writer: String)
+
 
 
 
@@ -75,8 +75,10 @@ data class UserVo(
 
 
 
-data class FileUploadResponse(
-    val message: String,
-    val path: String
-)
+/****************************************************************
+ *
+ *   Adapters Model
+ *
+ ***************************************************************/
 
+data class GalleryItems(val path: String)
