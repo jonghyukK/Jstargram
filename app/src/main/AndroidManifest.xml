@@ -37,6 +37,9 @@
         <activity android:name=".ui.profile.ImagePickerActivity" />
 
         <activity android:name=".ui.BaseActivity"/>
+        
+        <activity android:name="com.yalantis.ucrop.UCropActivity"
+                android:theme="@style/AppTheme"/>
 
 
         <provider

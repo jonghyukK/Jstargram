@@ -2,18 +2,12 @@ package com.trebit.reststudy.utils
 
 import android.content.Context
 import android.net.Uri
-import android.os.Environment
+import android.provider.MediaStore
 import com.trebit.reststudy.TEMP_FORDER_PATH
-import java.io.ByteArrayOutputStream
+import com.trebit.reststudy.data.model.GalleryItems
 import java.io.File
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
-import android.provider.MediaStore
-import android.provider.DocumentsContract
-import android.content.ContentUris
-import android.os.Build
-import android.util.Log
 
 
 /**
@@ -37,5 +31,24 @@ class FileUtils {
 
             return File.createTempFile(imgFileName, ".jpg", storageDir)
         }
+
+        // Device Local Image 가져오기.
+        fun getLocalImagesPath(ctx: Context): List<GalleryItems> {
+            val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            val projection= arrayOf(MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+
+            val cursor = ctx.contentResolver.query(uri, projection, null, null, null)
+            val columnIdxData = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+            var absolutePathOfImg = ""
+            val localImgLists = mutableListOf<GalleryItems>()
+
+            while (cursor.moveToNext()) {
+                absolutePathOfImg = cursor.getString(columnIdxData)
+                localImgLists.add(GalleryItems(absolutePathOfImg))
+            }
+
+            return localImgLists
+        }
+
     }
 }

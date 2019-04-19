@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+                name="fragment"
+                type="com.trebit.reststudy.ui.main.fragment.SecondTabFragment"/>
     </data>
 
     <RelativeLayout
@@ -10,23 +15,42 @@
             android:layout_height="match_parent"
             android:background="@color/white">
 
-        <TextView
-                android:id="@+id/tv_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Second Fragment"
-                android:textColor="@color/black"
-                android:textSize="50sp"/>
+        <FrameLayout
+                android:id="@+id/ucrop_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:id="@+id/image_view_logo"
+                    android:layout_width="@dimen/ucrop_default_crop_logo_size"
+                    android:layout_height="@dimen/ucrop_default_crop_logo_size"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ucrop_vector_ic_crop"
+                    tools:background="@drawable/ucrop_vector_ic_crop"
+                    tools:ignore="ContentDescription,MissingPrefix" />
+
+            <com.yalantis.ucrop.view.UCropView
+                    android:id="@+id/ucrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0" />
+        </FrameLayout>
+
+
+        <!--<ImageView-->
+                <!--android:id="@+id/iv_selectedImg"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="300dp"/>-->
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_galleryList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_text"/>
-
-
-
-
+                android:layout_below="@+id/ucrop_frame"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="4"
+                app:reverseLayout="false"
+                app:bind_items="@{fragment.getLocalImages()}"/>
 
     </RelativeLayout>
 </layout>

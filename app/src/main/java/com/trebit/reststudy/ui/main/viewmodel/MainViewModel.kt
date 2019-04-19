@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.os.Build.VERSION_CODES.P
 import com.orhanobut.logger.Logger
+import com.trebit.reststudy.data.model.GalleryItems
 import com.trebit.reststudy.data.model.UserVo
 import com.trebit.reststudy.data.remote.ApiService
 import com.trebit.reststudy.data.repository.DataRepository
@@ -55,4 +56,6 @@ class MainViewModel @Inject constructor(
 
                 }, { Logger.e(it.message.toString())}))
     }
+
+
 }

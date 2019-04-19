@@ -1,26 +1,32 @@
 package com.trebit.reststudy.ui.main.fragment
 
 import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.database.Cursor
+import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.net.Uri
+import android.graphics.PorterDuff
+import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
-import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.orhanobut.logger.Logger
 import com.trebit.reststudy.R
 import com.trebit.reststudy.adapter.GalleryAdapter
-import com.trebit.reststudy.data.model.GalleryItems
 import com.trebit.reststudy.databinding.MainFragmentSecondTabBinding
 import com.trebit.reststudy.ui.BaseFragment
+import com.trebit.reststudy.ui.main.viewmodel.MainViewModel
+import com.trebit.reststudy.utils.FileUtils
+import com.yalantis.ucrop.view.GestureCropImageView
+import com.yalantis.ucrop.view.OverlayView
+import com.yalantis.ucrop.view.UCropView
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.main_fragment_second_tab.*
 import javax.inject.Inject
+
 
 /**
  * Jstargram
@@ -30,12 +36,19 @@ import javax.inject.Inject
  * Description:
  */
 
-class SecondTabFragment: BaseFragment() {
+class SecondTabFragment: BaseFragment(){
 
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var mBinding: MainFragmentSecondTabBinding
+    private lateinit var mBinding       : MainFragmentSecondTabBinding
+    private lateinit var mMainViewModel : MainViewModel
+
+    private lateinit var mUCropView: UCropView
+    private lateinit var mGestureCropImageView: GestureCropImageView
+    private lateinit var mOverlayView: OverlayView
+
+    val localImages by lazy { FileUtils.getLocalImagesPath(activity!!)}
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -46,7 +59,9 @@ class SecondTabFragment: BaseFragment() {
                               container         : ViewGroup?,
                               savedInstanceState: Bundle?
     ): View? {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.main_fragment_second_tab, container, false)
+        mBinding       = DataBindingUtil.inflate(inflater, R.layout.main_fragment_second_tab, container, false)
+        mMainViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(MainViewModel::class.java)
+        mBinding.fragment = this
 
         return mBinding.root
     }
@@ -54,41 +69,57 @@ class SecondTabFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Logger.d(getAllImagesPath())
+        initiateRootViews(view)
 
-        rv_galleryList.layoutManager = GridLayoutManager(activity, 3)
-        rv_galleryList.adapter = GalleryAdapter().apply { replaceAll(getAllImagesPath())}
     }
 
-    private fun getAllImagesPath(): List<GalleryItems> {
-        val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val cursor : Cursor
-        val column_idx_data : Int
-        val column_idx_folder_name: Int
-        var absolutePathOfImage: String? = null
-        var lists = mutableListOf<GalleryItems>()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initRecyclerView()
+    }
 
-        val projection= arrayOf(MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
 
-        cursor = activity?.contentResolver!!.query(uri, projection, null, null, null)
-        column_idx_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
-        column_idx_folder_name = cursor.getColumnIndexOrThrow((MediaStore.Images.Media.BUCKET_DISPLAY_NAME))
+    private fun initiateRootViews(view: View) {
+        mUCropView = view.findViewById(com.yalantis.ucrop.R.id.ucrop)
+        mGestureCropImageView = mUCropView.cropImageView
+        mOverlayView = mUCropView.overlayView
 
-        while( cursor.moveToNext()) {
-            absolutePathOfImage = cursor.getString(column_idx_data)
-            lists.add(GalleryItems(absolutePathOfImage))
+//        mGestureCropImageView.setTransformImageListener(mImageListener)
+
+        (view.findViewById(com.yalantis.ucrop.R.id.image_view_logo) as ImageView).setColorFilter(
+            activity!!.getColor(R.color.blue_malibu),
+            PorterDuff.Mode.SRC_ATOP
+        )
+
+//        view.findViewById(com.yalantis.ucrop.R.id.ucrop_frame).setBackgroundColor(mRootViewBackgroundColor)
+    }
+
+
+    private fun initRecyclerView() {
+        rv_galleryList.setHasFixedSize(true)
+        rv_galleryList.adapter = GalleryAdapter {
+
+//            Glide.with(this)
+//                .load(it.path)
+//                .optionalFitCenter()
+//                .error(R.drawable.icon_clear)
+//                .into(iv_selectedImg)
+
+            Logger.d("image Click Path : ${it.path}")
+
+            val pictureIntent = Intent(Intent.ACTION_GET_CONTENT)
+            pictureIntent.type = "image/*"
+            pictureIntent.addCategory(Intent.CATEGORY_OPENABLE)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                val mimeTypes = arrayOf("image/jpeg", "image/png")
+                pictureIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+            }
+            activity!!.startActivityForResult(
+                Intent.createChooser(pictureIntent, "Select Picture"),
+                100
+            )
+
         }
-
-
-        var listsss = mutableListOf<GalleryItems>()
-
-        for ( i in 0 .. 20) {
-//            lists.add(GalleryItems(absolutePathOfImage))
-
-            listsss.add(lists[i])
-        }
-
-        return listsss
     }
 
     companion object {

@@ -80,5 +80,4 @@ data class UserVo(
  *   Adapters Model
  *
  ***************************************************************/
-
 data class GalleryItems(val path: String)

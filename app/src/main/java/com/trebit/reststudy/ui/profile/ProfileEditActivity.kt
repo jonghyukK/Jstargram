@@ -185,6 +185,8 @@ class ProfileEditActivity: BaseActivity() {
                 }
                 mPhotoUri = data.data
                 cropImage()
+
+                Logger.d("photoUri : $mPhotoUri")
             }
             PICK_FROM_CAMERA -> {
                 cropImage()
@@ -195,6 +197,8 @@ class ProfileEditActivity: BaseActivity() {
                 iv_editProfileImg.setImageURI(mPhotoUri)
                 revokeUriPermission(mPhotoUri,
                     Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+
+                Logger.d("croped img Path : $mPhotoUri")
             }
         }
     }

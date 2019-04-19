@@ -5,12 +5,10 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.os.Build.VERSION_CODES.P
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.content.ContextCompat
 import com.orhanobut.logger.Logger
 import com.trebit.reststudy.INTENT_PROFILE
 import com.trebit.reststudy.INTENT_PROFILE_DATA
@@ -23,6 +21,8 @@ import com.trebit.reststudy.ui.main.fragment.FirstTabFragment
 import com.trebit.reststudy.ui.main.fragment.SecondTabFragment
 import com.trebit.reststudy.ui.main.fragment.UserHomeFragment
 import com.trebit.reststudy.ui.main.viewmodel.MainViewModel
+import com.trebit.reststudy.utils.FileUtils
+import com.yalantis.ucrop.UCrop
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -178,9 +178,42 @@ class MainActivity : BaseActivity() {
                         mViewModel.myAccountInfo.postValue(resultData)
                     }
                 }
+
+                100 -> {
+                    val sourceUri = data?.data
+                    val file = FileUtils.createImageFile()
+                    val destinationUri = Uri.fromFile(file)
+                    openCropActivity(sourceUri!!, destinationUri)
+
+
+                    Logger.d("""
+                        sourceUri : $sourceUri
+                        desUri : $destinationUri
+                    """.trimIndent())
+                }
+
+                UCrop.REQUEST_CROP -> {
+                    val uri = UCrop.getOutput(data!!)
+                    Logger.d("""
+                        uri : $uri
+                        uriPath : ${uri?.path}
+                    """.trimIndent())
+                }
             }
         }
     }
+
+    private fun openCropActivity(sourceUri: Uri, destinationUri: Uri) {
+        val options = UCrop.Options()
+        options.setCropFrameColor(ContextCompat.getColor(this, R.color.colorAccent))
+        options.setMaxBitmapSize(10000)
+
+        UCrop.of(sourceUri, destinationUri)
+            .withAspectRatio(5f, 5f)
+            .withOptions(options)
+            .start(this)
+    }
+
 
     enum class TabState {
         HOME,

@@ -3,9 +3,14 @@ package com.trebit.reststudy
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.databinding.BindingAdapter
+import android.support.v7.widget.RecyclerView
+import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.trebit.reststudy.adapter.GalleryAdapter
+import com.trebit.reststudy.data.model.GalleryItems
 import com.trebit.reststudy.data.model.UserVo
+import com.trebit.reststudy.utils.GalleryItemDecoration
 import de.hdodenhof.circleimageview.CircleImageView
 
 /**
@@ -55,4 +60,22 @@ fun bindingImageView(
         })
     }
 }
+
+@BindingAdapter("img")
+fun setImageUrl(view: ImageView, url: String) {
+    Glide.with(view.context)
+        .load(url)
+        .optionalFitCenter()
+        .error(R.drawable.icon_clear)
+        .into(view)
+}
+
+@BindingAdapter("bind_items")
+fun bindingRecyclerItems(view: RecyclerView, items: List<GalleryItems>){
+    view.addItemDecoration(GalleryItemDecoration(view.context))
+    val adapter = view.adapter as GalleryAdapter
+    adapter.setGalleryItems(items)
+    adapter.notifyDataSetChanged()
+}
+
 
