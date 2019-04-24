@@ -3,6 +3,8 @@ package com.trebit.reststudy
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.databinding.BindingAdapter
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
 import android.widget.TextView
@@ -76,6 +78,18 @@ fun bindingRecyclerItems(view: RecyclerView, items: List<GalleryItems>){
     val adapter = view.adapter as GalleryAdapter
     adapter.setGalleryItems(items)
     adapter.notifyDataSetChanged()
+}
+
+
+@BindingAdapter("cropImgSet")
+fun bindingCropImageSet(view: ImageView, uri: MutableLiveData<Uri>?){
+    val parentActivity = view.getParentActivity()
+
+    if ( parentActivity != null && uri != null) {
+        uri.observe(parentActivity, Observer { value ->
+            view.setImageBitmap(BitmapFactory.decodeFile(value?.path))
+        })
+    }
 }
 
 

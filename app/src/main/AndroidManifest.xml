@@ -36,6 +36,8 @@
 
         <activity android:name=".ui.profile.ImagePickerActivity" />
 
+        <activity android:name=".ui.picture.PictureActivity" />
+
         <activity android:name=".ui.BaseActivity"/>
         
         <activity android:name="com.yalantis.ucrop.UCropActivity"

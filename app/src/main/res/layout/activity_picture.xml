@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+                name="viewModel"
+                type="com.trebit.reststudy.ui.picture.viewModel.PictureViewModel"/>
+
+        <variable
+                name="activity"
+                type="com.trebit.reststudy.ui.picture.PictureActivity"/>
+    </data>
+
+
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <!-- Tool bar -->
+        <RelativeLayout
+                android:id="@+id/rl_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/gray_5">
+
+            <TextView
+                    android:id="@+id/tv_save"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:text="@string/upload"
+                    android:textColor="@color/blue_malibu"
+                    android:onClick="@{activity::uploadImg}"/>
+        </RelativeLayout>
+
+
+        <ScrollView
+                android:id="@+id/sv_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_toolbar"
+                android:fillViewport="true">
+
+            <RelativeLayout
+                    android:id="@+id/rl_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                <!-- Image Layout -->
+                <FrameLayout
+                        android:id="@+id/fl_imgContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                            android:id="@+id/iv_cropedImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cropImgSet="@{viewModel.mCroppedImgUri}"/>
+
+                    <TextView
+                            android:id="@+id/tv_descImgSelect"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/desc_img_upload"
+                            android:textColor="@color/gray_4"
+                            android:textSize="20dp"
+                            android:layout_gravity="center"/>
+                </FrameLayout>
+
+
+                <!-- Local Image Lists -->
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_galleryList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/fl_imgContainer"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                        app:spanCount="4"
+                        app:reverseLayout="false"
+                        app:bind_items="@{activity.getLocalImages()}"/>
+
+            </RelativeLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+
+</layout>

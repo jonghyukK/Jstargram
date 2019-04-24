@@ -4,7 +4,6 @@ import com.trebit.reststudy.ui.login.fragment.NameRegiFragment
 import com.trebit.reststudy.ui.login.fragment.PasswordFragment
 import com.trebit.reststudy.ui.login.fragment.SignUpFragment
 import com.trebit.reststudy.ui.main.fragment.FirstTabFragment
-import com.trebit.reststudy.ui.main.fragment.SecondTabFragment
 import com.trebit.reststudy.ui.main.fragment.sub.DataGridFragment
 import com.trebit.reststudy.ui.main.fragment.sub.DataVerticalFragment
 import com.trebit.reststudy.ui.main.fragment.UserHomeFragment
@@ -46,8 +45,6 @@ abstract class FragmentModule {
     @ContributesAndroidInjector
     abstract fun contributeFirstTabFragment(): FirstTabFragment
 
-    @ContributesAndroidInjector
-    abstract fun contributeSecondTabFragment(): SecondTabFragment
 
 
 

@@ -31,24 +31,5 @@ class FileUtils {
 
             return File.createTempFile(imgFileName, ".jpg", storageDir)
         }
-
-        // Device Local Image 가져오기.
-        fun getLocalImagesPath(ctx: Context): List<GalleryItems> {
-            val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            val projection= arrayOf(MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-
-            val cursor = ctx.contentResolver.query(uri, projection, null, null, null)
-            val columnIdxData = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
-            var absolutePathOfImg = ""
-            val localImgLists = mutableListOf<GalleryItems>()
-
-            while (cursor.moveToNext()) {
-                absolutePathOfImg = cursor.getString(columnIdxData)
-                localImgLists.add(GalleryItems(absolutePathOfImg))
-            }
-
-            return localImgLists
-        }
-
     }
 }

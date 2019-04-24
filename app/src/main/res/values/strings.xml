@@ -23,6 +23,7 @@
     <string name="edit_profile_img">프로필 사진 바꾸기</string>
     <string name="introduce">소개</string>
     <string name="sign_up_success">회원가입 완료</string>
+    <string name="upload">올리기</string>
 
     <string name="desc_lost_password">비밀번호를 잊으셨나요?</string>
     <string name="desc_have_not_id">계정이 없으신가요?</string>
@@ -39,6 +40,7 @@
     <string name="desc_login_falied">이메일 혹은 비밀번호가 올바르지 않습니다. \n다시 한 번 확인해 주세요.</string>
     <string name="desc_input_name">이름을 입력해주세요.</string>
     <string name="desc_permission">권한 요청에 모두 동의해주셔야 이용 가능합니다. \n 설정에서 권한 허용을 하시기 바랍니다.</string>
+    <string name="desc_img_upload">이미지를 선택해 주세요.</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

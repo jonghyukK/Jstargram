@@ -18,17 +18,8 @@ import android.view.View
 
 class GalleryItemDecoration(ctx: Context): RecyclerView.ItemDecoration() {
 
-    private var size10 : Int
-    private var size5  : Int
-
-    init {
-        size10 = dpToPx(ctx, 2)
-        size5  = dpToPx(ctx, 1)
-    }
-
-    private fun dpToPx(ctx: Context, dp: Int): Int {
-        return dp.dpToPx(ctx.resources.displayMetrics)
-    }
+    private var size10 : Int = DisplayUtils.dpToPx(ctx, 2)
+    private var size5  : Int = DisplayUtils.dpToPx(ctx, 1)
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
@@ -61,6 +52,4 @@ class GalleryItemDecoration(ctx: Context): RecyclerView.ItemDecoration() {
             3 -> outRect.left = size5
         }
     }
-
-    private fun Int.dpToPx(dm: DisplayMetrics): Int = (this * dm.density).toInt()
 }

@@ -5,10 +5,8 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.content.ContextCompat
 import com.orhanobut.logger.Logger
 import com.trebit.reststudy.INTENT_PROFILE
 import com.trebit.reststudy.INTENT_PROFILE_DATA
@@ -18,10 +16,9 @@ import com.trebit.reststudy.data.model.UserVo
 import com.trebit.reststudy.databinding.ActivityMainBinding
 import com.trebit.reststudy.ui.BaseActivity
 import com.trebit.reststudy.ui.main.fragment.FirstTabFragment
-import com.trebit.reststudy.ui.main.fragment.SecondTabFragment
 import com.trebit.reststudy.ui.main.fragment.UserHomeFragment
 import com.trebit.reststudy.ui.main.viewmodel.MainViewModel
-import com.trebit.reststudy.utils.FileUtils
+import com.trebit.reststudy.ui.picture.PictureActivity
 import com.yalantis.ucrop.UCrop
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
@@ -36,7 +33,6 @@ class MainActivity : BaseActivity() {
     private lateinit var mBinding     : ActivityMainBinding
 
     private lateinit var firstFrag    : FirstTabFragment
-    private lateinit var secondFrag   : SecondTabFragment
     private lateinit var userHomeFrag : UserHomeFragment
 
     private var mBackStackArray: MutableList<TabState> = ArrayList()
@@ -59,12 +55,10 @@ class MainActivity : BaseActivity() {
         bnv_navigationView.menu.findItem(R.id.navi_home).isChecked = true
 
         firstFrag    = FirstTabFragment.newInstance()
-        secondFrag   = SecondTabFragment.newInstance()
         userHomeFrag = UserHomeFragment.newInstance()
 
         supportFragmentManager.beginTransaction()
             .add(R.id.fl_mainContainer, firstFrag)
-            .add(R.id.fl_mainContainer, secondFrag)
             .add(R.id.fl_mainContainer, userHomeFrag)
             .commit()
         setTabStateFragment(TabState.HOME)
@@ -93,15 +87,7 @@ class MainActivity : BaseActivity() {
                 }
 
                 // Add Picture
-                R.id.navi_add -> {
-                    setTabStateFragment(TabState.ADD)
-
-                    if( mBackStackArray.contains(TabState.ADD))
-                        mBackStackArray.remove(TabState.ADD)
-
-                    mBackStackArray.add(TabState.ADD)
-                    return@OnNavigationItemSelectedListener true
-                }
+                R.id.navi_add -> startActivity(Intent(this, PictureActivity::class.java))
 
                 // My Page
                 R.id.navi_mypage -> {
@@ -124,17 +110,11 @@ class MainActivity : BaseActivity() {
         when (state) {
             TabState.HOME -> {
                 transaction.show(firstFrag)
-                transaction.hide(secondFrag)
                 transaction.hide(userHomeFrag)
             }
-            TabState.ADD -> {
-                transaction.hide(firstFrag)
-                transaction.show(secondFrag)
-                transaction.hide(userHomeFrag)
-            }
+
             TabState.MYPAGE -> {
                 transaction.hide(firstFrag)
-                transaction.hide(secondFrag)
                 transaction.show(userHomeFrag)
             }
         }
@@ -155,10 +135,7 @@ class MainActivity : BaseActivity() {
                 setTabStateFragment(TabState.HOME)
                 bnv_navigationView.menu.findItem(R.id.navi_home).isChecked = true
             }
-            TabState.ADD    -> {
-                setTabStateFragment(TabState.ADD)
-                bnv_navigationView.menu.findItem(R.id.navi_add).isChecked = true
-            }
+
             TabState.MYPAGE -> {
                 setTabStateFragment(TabState.MYPAGE)
                 bnv_navigationView.menu.findItem(R.id.navi_mypage).isChecked = true
@@ -179,22 +156,12 @@ class MainActivity : BaseActivity() {
                     }
                 }
 
-                100 -> {
-                    val sourceUri = data?.data
-                    val file = FileUtils.createImageFile()
-                    val destinationUri = Uri.fromFile(file)
-                    openCropActivity(sourceUri!!, destinationUri)
-
-
-                    Logger.d("""
-                        sourceUri : $sourceUri
-                        desUri : $destinationUri
-                    """.trimIndent())
-                }
-
                 UCrop.REQUEST_CROP -> {
                     val uri = UCrop.getOutput(data!!)
+
+
                     Logger.d("""
+                        data : $data
                         uri : $uri
                         uriPath : ${uri?.path}
                     """.trimIndent())
@@ -203,24 +170,9 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun openCropActivity(sourceUri: Uri, destinationUri: Uri) {
-        val options = UCrop.Options()
-        options.setCropFrameColor(ContextCompat.getColor(this, R.color.colorAccent))
-        options.setMaxBitmapSize(10000)
-
-        UCrop.of(sourceUri, destinationUri)
-            .withAspectRatio(5f, 5f)
-            .withOptions(options)
-            .start(this)
-    }
-
-
     enum class TabState {
         HOME,
-        ADD,
         MYPAGE
     }
-
-
 }
 
