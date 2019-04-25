@@ -30,7 +30,6 @@ class DataGridFragment : BaseFragment() {
 
     private lateinit var mBinding: FragmentDataGridBinding
 
-
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)

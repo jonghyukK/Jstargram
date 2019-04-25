@@ -30,15 +30,32 @@
                 android:background="@color/gray_5">
 
             <TextView
-                    android:id="@+id/tv_save"
+                    android:id="@+id/tv_next"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:gravity="center"
-                    android:text="@string/upload"
+                    android:text="@string/next"
                     android:textColor="@color/blue_malibu"
-                    android:onClick="@{activity::uploadImg}"/>
+                    android:onClick="@{activity::toolBarEvent}"/>
+
+            <TextView
+                    android:id="@+id/tv_uploadCancell"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="@string/cancel"
+                    android:textColor="@color/black"
+                    android:onClick="@{activity::toolBarEvent}"/>
+
+            <View
+                    android:id="@+id/divider1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/gray_2"/>
         </RelativeLayout>
 
 
@@ -55,27 +72,51 @@
                     android:layout_height="wrap_content">
 
 
-                <!-- Image Layout -->
-                <FrameLayout
-                        android:id="@+id/fl_imgContainer"
+                <RelativeLayout
+                        android:id="@+id/rl_topContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                    <ImageView
-                            android:id="@+id/iv_cropedImage"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:cropImgSet="@{viewModel.mCroppedImgUri}"/>
-
-                    <TextView
-                            android:id="@+id/tv_descImgSelect"
+                    <!-- Image Layout -->
+                    <FrameLayout
+                            android:id="@+id/fl_imgContainer"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/desc_img_upload"
-                            android:textColor="@color/gray_4"
-                            android:textSize="20dp"
-                            android:layout_gravity="center"/>
-                </FrameLayout>
+                            android:layout_height="wrap_content">
+
+                        <ImageView
+                                android:id="@+id/iv_cropedImage"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:cropImgSet="@{viewModel.mCroppedImgUri}"/>
+
+                        <TextView
+                                android:id="@+id/tv_descImgSelect"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/desc_img_upload"
+                                android:textColor="@color/gray_4"
+                                android:textSize="20sp"
+                                android:layout_gravity="center"/>
+                    </FrameLayout>
+
+                    <RelativeLayout
+                            android:id="@+id/rl_editContents"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:layout_toEndOf="@id/fl_imgContainer">
+
+                        <EditText
+                                android:id="@+id/et_inputContent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:background="@null"
+                                android:hint="@string/input_story"
+                                android:textColorHint="@color/gray_4"
+                                android:textSize="15sp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
 
 
                 <!-- Local Image Lists -->
@@ -83,7 +124,7 @@
                         android:id="@+id/rv_galleryList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/fl_imgContainer"
+                        android:layout_below="@+id/rl_topContainer"
                         android:nestedScrollingEnabled="false"
                         app:layoutManager="android.support.v7.widget.GridLayoutManager"
                         app:spanCount="4"
