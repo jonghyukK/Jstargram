@@ -53,7 +53,6 @@ class MainViewModel @Inject constructor(
                         follower_cnt    : ${it.follower_cnt}
                         following_cnt   : ${it.following_cnt}
                     """.trimIndent())
-
                 }, { Logger.e(it.message.toString())}))
     }
 

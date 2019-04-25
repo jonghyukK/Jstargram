@@ -24,6 +24,8 @@
     <string name="introduce">소개</string>
     <string name="sign_up_success">회원가입 완료</string>
     <string name="upload">올리기</string>
+    <string name="confirm">확인</string>
+    <string name="input_story">문구 입력...</string>
 
     <string name="desc_lost_password">비밀번호를 잊으셨나요?</string>
     <string name="desc_have_not_id">계정이 없으신가요?</string>
@@ -41,6 +43,7 @@
     <string name="desc_input_name">이름을 입력해주세요.</string>
     <string name="desc_permission">권한 요청에 모두 동의해주셔야 이용 가능합니다. \n 설정에서 권한 허용을 하시기 바랍니다.</string>
     <string name="desc_img_upload">이미지를 선택해 주세요.</string>
+    <string name="desc_img_not_selected">선택된 이미지가 없습니다.\n 이미지를 선택해 주세요.</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

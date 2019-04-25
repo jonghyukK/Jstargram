@@ -81,3 +81,10 @@ data class UserVo(
  *
  ***************************************************************/
 data class GalleryItems(val path: String)
+
+data class ContentItems(val contentId       : String,
+                        val writer_profile  : String,
+                        val writer_email    : String,
+                        val image_Path      : String,
+                        val content_text    : String,
+                        val favorite_cnt    : String)
