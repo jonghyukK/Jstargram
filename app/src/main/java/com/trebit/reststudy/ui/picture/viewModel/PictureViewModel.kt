@@ -5,10 +5,15 @@ import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
+import com.orhanobut.logger.Logger
+import com.trebit.reststudy.createRequestBody
 import com.trebit.reststudy.data.model.GalleryItems
 import com.trebit.reststudy.data.remote.ApiService
 import com.trebit.reststudy.data.repository.DataRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import okhttp3.MultipartBody
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -52,6 +57,24 @@ class PictureViewModel @Inject constructor(
         }
 
         return localImgTests
+    }
+
+    fun uploadContent(content: String,
+                      writer : String,
+                      file   : MultipartBody.Part) {
+        compositeDisposable.add(
+            repository.uploadContent(
+                content = createRequestBody(content),
+                writer  = createRequestBody(writer),
+                file    = file)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                  Logger.d(it)
+                }, {
+                    Logger.e(it.message.toString())
+                })
+        )
     }
 
 }

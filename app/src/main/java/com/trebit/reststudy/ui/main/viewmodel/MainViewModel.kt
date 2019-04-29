@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.os.Build.VERSION_CODES.P
 import com.orhanobut.logger.Logger
+import com.trebit.reststudy.data.model.ContentItem
 import com.trebit.reststudy.data.model.GalleryItems
 import com.trebit.reststudy.data.model.UserVo
 import com.trebit.reststudy.data.remote.ApiService
@@ -33,6 +34,7 @@ class MainViewModel @Inject constructor(
     private val repository by lazy { DataRepository(apiService) }
 
     val myAccountInfo : MutableLiveData<UserVo> = MutableLiveData()
+    val allContents   : MutableLiveData<List<ContentItem>> = MutableLiveData()
 
     // call User Info.
     fun getUser(email: String){
@@ -54,6 +56,19 @@ class MainViewModel @Inject constructor(
                         following_cnt   : ${it.following_cnt}
                     """.trimIndent())
                 }, { Logger.e(it.message.toString())}))
+    }
+
+
+    fun getContents(){
+        compositeDisposable.add(
+            repository.getContents()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ allContents.value = it
+                    Logger.d(it.toString())
+                }, {
+                    Logger.e(it.message.toString())
+                }))
     }
 
 

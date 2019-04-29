@@ -41,12 +41,18 @@ class DataRepository(private val apiService: ApiService){
             = apiService.updateUser(email, UpdateUserBody(name, introduce, profile_img))
 
 
-
     fun updateUserWithProfile(name     : RequestBody,
                               introduce: RequestBody,
                               email    : RequestBody,
                               file     : MultipartBody.Part)
     = apiService.updateUserWithProfile(name, introduce, email, file)
+
+    fun uploadContent(content : RequestBody,
+                      writer  : RequestBody,
+                      file    : MultipartBody.Part)
+     = apiService.uploadContent(content, writer, file)
+
+    fun getContents() = apiService.getContents()
 
 
 

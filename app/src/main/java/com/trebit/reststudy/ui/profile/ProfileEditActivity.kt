@@ -85,52 +85,6 @@ class ProfileEditActivity: BaseActivity() {
         })
     }
 
-    private fun checkPermissions(): Boolean {
-        var result: Int
-        val permissionList = ArrayList<String>()
-        for (pm in PERMISSIONS) {
-            result = ContextCompat.checkSelfPermission(this, pm)
-            if (result != PackageManager.PERMISSION_GRANTED)
-                permissionList.add(pm)
-        }
-
-        if (permissionList.isNotEmpty()) {
-            ActivityCompat.requestPermissions(this, permissionList.toTypedArray(), REQ_MULTIPLE_PERMISSIONS)
-            return false
-        }
-        return true
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when(requestCode) {
-            REQ_MULTIPLE_PERMISSIONS -> {
-                for ( i in 0 until permissions.size) {
-                    when ( permissions[i]) {
-                        PERMISSIONS[0] -> {
-                            if ( grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                                toast { getString(R.string.desc_permission)}
-                                return
-                                }
-                        }
-                        PERMISSIONS[1] -> {
-                            if ( grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                                toast { getString(R.string.desc_permission)}
-                                return
-                            }
-                        }
-                        PERMISSIONS[2] -> {
-                            if ( grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                                toast { getString(R.string.desc_permission)}
-                                return
-                            }
-                        }
-                    }
-                }
-                selectAction()
-            }
-        }
-    }
-
     fun onClickEvent(v: View) {
         when(v.id) {
             // 취소
@@ -138,7 +92,7 @@ class ProfileEditActivity: BaseActivity() {
             // 완료
             R.id.tv_doFinish -> updateUser()
             // 프로필 사진 바꾸기
-            R.id.tv_editProfileImg -> if (checkPermissions()) { selectAction() }
+            R.id.tv_editProfileImg -> selectAction()
         }
     }
 
@@ -287,10 +241,5 @@ class ProfileEditActivity: BaseActivity() {
         private const val PICK_FROM_CAMERA = 1
         private const val PICK_FROM_ALBUM  = 2
         private const val CROP_FROM_CAMERA = 3
-
-        private val PERMISSIONS = arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA)
     }
 }

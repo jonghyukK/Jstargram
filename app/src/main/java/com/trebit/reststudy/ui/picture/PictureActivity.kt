@@ -12,6 +12,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -20,6 +21,8 @@ import android.view.animation.AccelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import com.orhanobut.logger.Logger
+import com.trebit.reststudy.FILE_AUTHORITY
+import com.trebit.reststudy.PREF_EMAIL
 import com.trebit.reststudy.R
 import com.trebit.reststudy.adapter.GalleryAdapter
 import com.trebit.reststudy.databinding.ActivityPictureBinding
@@ -28,6 +31,7 @@ import com.trebit.reststudy.ui.BaseActivity
 import com.trebit.reststudy.ui.picture.viewModel.PictureViewModel
 import com.trebit.reststudy.utils.DisplayUtils.Companion.dpToPx
 import com.trebit.reststudy.utils.DisplayUtils.Companion.getDisplayWH
+import com.trebit.reststudy.utils.FileUtilJava
 import com.trebit.reststudy.utils.FileUtils
 import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCrop.EXTRA_OUTPUT_URI
@@ -42,6 +46,9 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_picture.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.io.File
 import javax.inject.Inject
 
@@ -171,5 +178,17 @@ class PictureActivity: BaseActivity() {
 
     private fun uploadContents(){
 
+        val file = File(mCroppedImgUri.path)
+        val test = FileProvider.getUriForFile(this, FILE_AUTHORITY, file)
+        val iStream = contentResolver.openInputStream(test)
+        val imgBytes = FileUtilJava.getBytes(iStream)
+
+        val requestFile = RequestBody.create(MediaType.parse(contentResolver.getType(test)), imgBytes)
+        val fileBody = MultipartBody.Part.createFormData("image", file.name, requestFile)
+
+        mViewModel.uploadContent(
+            content = et_inputContent.text.toString(),
+            writer  = mPref.getPrefEmail(PREF_EMAIL),
+            file    = fileBody)
     }
 }

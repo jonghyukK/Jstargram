@@ -48,6 +48,8 @@ class MainActivity : BaseActivity() {
         initView()
 
         reqMyAccountInfo()
+
+        mViewModel.getContents()
     }
 
     private fun initView() {

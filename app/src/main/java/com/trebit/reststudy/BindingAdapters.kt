@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.trebit.reststudy.adapter.ContentsAdapter
 import com.trebit.reststudy.adapter.GalleryAdapter
+import com.trebit.reststudy.data.model.ContentItem
 import com.trebit.reststudy.data.model.GalleryItems
 import com.trebit.reststudy.data.model.UserVo
 import com.trebit.reststudy.utils.GalleryItemDecoration
@@ -54,11 +56,16 @@ fun bindingImageView(
 
     if (parentActivity != null && value != null){
         value.observe(parentActivity, Observer{ value ->
-            Glide.with(view.context)
-                .load(BASE_API_URL + value?.profile_img)
-                .fitCenter()
-                .error(R.drawable.icon_clear)
-                .into(view)
+
+            if ( value?.profile_img == null) {
+                view.setImageResource(R.drawable.icon_clear)
+            } else {
+                Glide.with(view.context)
+                    .load(BASE_API_URL + value.profile_img)
+                    .fitCenter()
+                    .error(R.drawable.icon_clear)
+                    .into(view)
+            }
         })
     }
 }
@@ -78,6 +85,23 @@ fun bindingRecyclerItems(view: RecyclerView, items: List<GalleryItems>){
     val adapter = view.adapter as GalleryAdapter
     adapter.setGalleryItems(items)
     adapter.notifyDataSetChanged()
+}
+//
+//@BindingAdapter("bind_main_items")
+//fun bindingMainContents(view: RecyclerView, items: MutableLiveData<ContentItem>){
+//    val adapter = view.adapter as ContentsAdapter
+//    adapter.setContentItem(items)
+//    adapter.notifyDataSetChanged()
+//}
+
+@BindingAdapter("contentImageSet")
+fun bindingConentImgData(view: ImageView, value: String?) {
+
+    Glide.with(view.context)
+        .load(BASE_API_URL + value)
+        .centerCrop()
+        .error(R.drawable.icon_clear)
+        .into(view)
 }
 
 

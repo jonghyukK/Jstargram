@@ -88,3 +88,11 @@ data class ContentItems(val contentId       : String,
                         val image_Path      : String,
                         val content_text    : String,
                         val favorite_cnt    : String)
+
+data class ContentItem(val contents_id    : String,
+                       val writer_profile : String,
+                       val writer         : String,
+                       val image_path     : String,
+                       val content        : String,
+                       val favorite_cnt   : String,
+                       val comment_cnt    : String)

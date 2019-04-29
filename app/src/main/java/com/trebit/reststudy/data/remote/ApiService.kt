@@ -3,6 +3,7 @@ package com.trebit.reststudy.data.remote
 import com.trebit.reststudy.data.model.*
 import io.reactivex.Single
 import okhttp3.MultipartBody
+import okhttp3.Request
 import okhttp3.RequestBody
 import retrofit2.http.*
 
@@ -68,5 +69,17 @@ interface ApiService {
         @Part("email")     email    : RequestBody,
         @Part file: MultipartBody.Part
     ): Single<UserVo>
+
+
+    @Multipart
+    @POST("upload/uploadContent")
+    fun uploadContent(
+        @Part("content") content : RequestBody,
+        @Part("writer")   writer : RequestBody,
+        @Part file: MultipartBody.Part
+    ): Single<ResponseVo>
+
+    @GET("upload/getContents")
+    fun getContents(): Single<List<ContentItem>>
 
 }

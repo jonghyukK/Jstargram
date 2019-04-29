@@ -3,7 +3,9 @@ package com.trebit.reststudy.adapter
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.trebit.reststudy.data.model.ContentItem
 import com.trebit.reststudy.data.model.ContentItems
+import com.trebit.reststudy.databinding.LayoutItemContentsVerticalBinding
 
 /**
  * Jstargram
@@ -15,9 +17,9 @@ import com.trebit.reststudy.data.model.ContentItems
 
 class ContentsAdapter : RecyclerView.Adapter<ContentsAdapter.ViewHolder>() {
 
-    private var mContentItems: MutableList<ContentItems> = ArrayList()
+    private var mContentItems: MutableList<ContentItem> = ArrayList()
 
-    fun setContentItem(lists: List<ContentItems>){
+    fun setContentItem(lists: List<ContentItem>){
         mContentItems.clear()
         mContentItems.addAll(lists)
         notifyDataSetChanged()
@@ -25,7 +27,7 @@ class ContentsAdapter : RecyclerView.Adapter<ContentsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val inflater = LayoutInflater.from(p0.context)
-        val binding = com.trebit.reststudy.databinding.LayoutItemContentsVerticalBinding.inflate(inflater)
+        val binding = LayoutItemContentsVerticalBinding.inflate(inflater)
         return ViewHolder(binding)
     }
 
@@ -35,8 +37,8 @@ class ContentsAdapter : RecyclerView.Adapter<ContentsAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = mContentItems.size
 
-    inner class ViewHolder(val binding: com.trebit.reststudy.databinding.LayoutItemContentsVerticalBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(item: ContentItems){
+    inner class ViewHolder(val binding: LayoutItemContentsVerticalBinding): RecyclerView.ViewHolder(binding.root){
+        fun bind(item: ContentItem){
             binding.contentItem = item
         }
     }
