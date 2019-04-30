@@ -32,7 +32,7 @@ interface ApiService {
     // Check Email Validation.
     @GET("user/validateEmail/{email}")
     fun validateEmail(@Path("email") email: String)
-            : Single<ValidateEmailVo>
+            : Single<ResponseVo>
 
     // Check Login Validation.
     @POST("user/login")

@@ -33,10 +33,10 @@ class MainViewModel @Inject constructor(
     private val compositeDisposable by lazy { CompositeDisposable() }
     private val repository by lazy { DataRepository(apiService) }
 
-    val myAccountInfo : MutableLiveData<UserVo> = MutableLiveData()
+    val myAccountInfo : MutableLiveData<UserVo>            = MutableLiveData()
     val allContents   : MutableLiveData<List<ContentItem>> = MutableLiveData()
 
-    // call User Info.
+    // get User Info by Email.
     fun getUser(email: String){
         compositeDisposable.add(
             repository.getUser(email = email)
@@ -58,7 +58,7 @@ class MainViewModel @Inject constructor(
                 }, { Logger.e(it.message.toString())}))
     }
 
-
+    // get All Contents.
     fun getContents(){
         compositeDisposable.add(
             repository.getContents()
@@ -66,9 +66,7 @@ class MainViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ allContents.value = it
                     Logger.d(it.toString())
-                }, {
-                    Logger.e(it.message.toString())
-                }))
+                }, { Logger.e(it.message.toString()) }))
     }
 
 

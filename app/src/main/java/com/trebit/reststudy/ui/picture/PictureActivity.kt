@@ -1,6 +1,7 @@
 package com.trebit.reststudy.ui.picture
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.DialogInterface
@@ -21,12 +22,9 @@ import android.view.animation.AccelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import com.orhanobut.logger.Logger
-import com.trebit.reststudy.FILE_AUTHORITY
-import com.trebit.reststudy.PREF_EMAIL
-import com.trebit.reststudy.R
+import com.trebit.reststudy.*
 import com.trebit.reststudy.adapter.GalleryAdapter
 import com.trebit.reststudy.databinding.ActivityPictureBinding
-import com.trebit.reststudy.toast
 import com.trebit.reststudy.ui.BaseActivity
 import com.trebit.reststudy.ui.picture.viewModel.PictureViewModel
 import com.trebit.reststudy.utils.DisplayUtils.Companion.dpToPx
@@ -93,6 +91,18 @@ class PictureActivity: BaseActivity() {
         mBinding.ivCropedImage.layoutParams.height = height
 
         mViewModel.mCroppedImgUri.value = null
+
+        mViewModel.mUploadResult.observe(this, Observer {
+            it?.let {
+                // When Upload Success.
+                if ( it == RES_SUCCESS ) {
+                    setResult(RESULT_OK)
+                    finish()
+                } else {
+                    toast { getString(R.string.desc_upload_failed) }
+                }
+            }
+        })
     }
 
     private fun initRecyclerView() {

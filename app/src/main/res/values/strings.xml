@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">RestStudy</string>
 
+    <string name="logo_name">Jstagram</string>
     <string name="email">이메일</string>
     <string name="email_addr">이메일 주소</string>
     <string name="email_regi">이메일 등록</string>
@@ -22,6 +23,7 @@
     <string name="edit_profile">프로필 편집</string>
     <string name="edit_profile_img">프로필 사진 바꾸기</string>
     <string name="introduce">소개</string>
+    <string name="sign_up">회원 가입</string>
     <string name="sign_up_success">회원가입 완료</string>
     <string name="upload">올리기</string>
     <string name="confirm">확인</string>
@@ -44,6 +46,8 @@
     <string name="desc_permission">권한 요청에 모두 동의해주셔야 이용 가능합니다. \n 설정에서 권한 허용을 하시기 바랍니다.</string>
     <string name="desc_img_upload">이미지를 선택해 주세요.</string>
     <string name="desc_img_not_selected">선택된 이미지가 없습니다.\n 이미지를 선택해 주세요.</string>
+    <string name="desc_upload_failed">업로드가 실패하였습니다. \n잠시 후 다시 시도해 주세요.</string>
+    <string name="desc_signup_error">입력되지 않은 항목이 있습니다.\n 다시 한 번 확인해 주세요.</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

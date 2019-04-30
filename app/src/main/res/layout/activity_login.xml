@@ -8,6 +8,7 @@
 
     <data>
 
+        <import type="android.view.View"/>
         <variable
                 name="viewModel"
                 type="com.trebit.reststudy.ui.login.viewmodel.LoginViewModel"
@@ -49,7 +50,7 @@
                         android:layout_centerHorizontal="true"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="35sp"
-                        android:text="ABCDEFG"
+                        android:text="@string/logo_name"
                         />
 
 
@@ -158,7 +159,6 @@
                 </RelativeLayout>
 
 
-
                 <!-- ㅂㅣ밀번호를 잊으셨나요 Layout -->
                 <TextView
                         android:id="@+id/tv_lostPw"
@@ -190,7 +190,7 @@
                         android:textStyle="bold"
                         android:text="@string/login"
                         android:enabled="false"
-                        android:onClick="@{activity::onClickEvent}"
+                        android:onClick="@{activity::requestLogin}"
                         />
             </RelativeLayout>
 
@@ -234,7 +234,7 @@
                             android:focusable="true"
                             android:textColor="@drawable/color_text"
                             android:text="@string/join"
-                            android:onClick="@{activity::onClickEvent}"
+                            android:onClick="@{activity::reqSignUp}"
                             />
 
                 </LinearLayout>

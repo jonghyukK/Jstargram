@@ -30,7 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 fun bindingTextData(
     view  : TextView,
     value : MutableLiveData<UserVo>?
-) {
+){
     val parentActivity = view.getParentActivity()
 
     if (parentActivity != null && value != null) {
@@ -86,13 +86,7 @@ fun bindingRecyclerItems(view: RecyclerView, items: List<GalleryItems>){
     adapter.setGalleryItems(items)
     adapter.notifyDataSetChanged()
 }
-//
-//@BindingAdapter("bind_main_items")
-//fun bindingMainContents(view: RecyclerView, items: MutableLiveData<ContentItem>){
-//    val adapter = view.adapter as ContentsAdapter
-//    adapter.setContentItem(items)
-//    adapter.notifyDataSetChanged()
-//}
+
 
 @BindingAdapter("contentImageSet")
 fun bindingConentImgData(view: ImageView, value: String?) {

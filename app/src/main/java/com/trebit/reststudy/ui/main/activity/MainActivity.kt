@@ -8,10 +8,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import com.orhanobut.logger.Logger
-import com.trebit.reststudy.INTENT_PROFILE
-import com.trebit.reststudy.INTENT_PROFILE_DATA
-import com.trebit.reststudy.LOGIN_EMAIL
-import com.trebit.reststudy.R
+import com.trebit.reststudy.*
 import com.trebit.reststudy.data.model.UserVo
 import com.trebit.reststudy.databinding.ActivityMainBinding
 import com.trebit.reststudy.ui.BaseActivity
@@ -48,8 +45,6 @@ class MainActivity : BaseActivity() {
         initView()
 
         reqMyAccountInfo()
-
-        mViewModel.getContents()
     }
 
     private fun initView() {
@@ -89,7 +84,8 @@ class MainActivity : BaseActivity() {
                 }
 
                 // Add Picture
-                R.id.navi_add -> startActivity(Intent(this, PictureActivity::class.java))
+                R.id.navi_add -> startActivityForResult(
+                    Intent(this, PictureActivity::class.java), INTENT_PICTURE)
 
                 // My Page
                 R.id.navi_mypage -> {
@@ -150,6 +146,7 @@ class MainActivity : BaseActivity() {
 
         if ( resultCode == Activity.RESULT_OK) {
             when (requestCode) {
+
                 // profile Update [ from ProfileEditActivity ]
                 INTENT_PROFILE -> {
                     data?.let {
@@ -158,16 +155,8 @@ class MainActivity : BaseActivity() {
                     }
                 }
 
-                UCrop.REQUEST_CROP -> {
-                    val uri = UCrop.getOutput(data!!)
-
-
-                    Logger.d("""
-                        data : $data
-                        uri : $uri
-                        uriPath : ${uri?.path}
-                    """.trimIndent())
-                }
+                // Image Upload [ from PictureActivity ]
+                INTENT_PICTURE -> mViewModel.getContents()
             }
         }
     }

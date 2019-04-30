@@ -82,9 +82,9 @@ fun Fragment.removeFragments() {
 
 fun EditText.addTextWatcher(img: ImageView) {
     addTextChangedListener(object: TextWatcher {
-        override fun afterTextChanged(s: Editable?) {}
+        override fun afterTextChanged (s: Editable?) {}
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        override fun onTextChanged    (s: CharSequence?, start: Int, before: Int, count: Int) {
             s?.let {
                 img.visibility = if ( s.isNotEmpty()) View.VISIBLE else View.GONE
             }

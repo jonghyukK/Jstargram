@@ -16,16 +16,29 @@
             android:layout_height="match_parent"
             android:background="@color/white">
 
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                android:background="@color/gray_2">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/logo_name"
+                    android:textSize="18sp"
+                    android:layout_gravity="center"/>
+
+        </android.support.v7.widget.Toolbar>
+
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_contentList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/toolbar"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 app:reverseLayout="true"/>
-
-
-
-
     </RelativeLayout>
 </layout>
 

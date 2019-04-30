@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.View
 import com.trebit.reststudy.*
 import com.trebit.reststudy.databinding.ActivityLoginBinding
@@ -14,7 +13,6 @@ import com.trebit.reststudy.ui.BaseActivity
 import com.trebit.reststudy.ui.login.fragment.SignUpFragment
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import com.trebit.reststudy.ui.main.activity.MainActivity
-import com.trebit.reststudy.utils.SharedPref
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
@@ -47,7 +45,7 @@ class LoginActivity : BaseActivity() {
 
         // Login Observer.
         viewModel.loginResult.observe(this, Observer {
-            when(it) {
+            when(it?.resCode) {
                 // Login Success.
                 RES_SUCCESS -> startMainActivity()
                 // Login Failed.
@@ -56,21 +54,17 @@ class LoginActivity : BaseActivity() {
         })
     }
 
-    private fun saveLoginInfo() {
-        // PW to Pref
-        mPref.putData(PREF_PW, et_pw.text.toString())
-
-        // Auto Login to Pref
-        mPref.putData(PREF_CHECKED_AUTO_LOGIN, cb_autoLogin.isChecked)
-    }
-
     private fun startMainActivity() {
         // Email to Pref
         mPref.putData(PREF_EMAIL, et_email.text.toString())
 
         // 자동 로그인 Check가 되어 있으면 Save.
-        if (cb_autoLogin.isChecked)
-            saveLoginInfo()
+        if (cb_autoLogin.isChecked) {
+            mPref.putData(PREF_PW, et_pw.text.toString())
+            mPref.putData(PREF_AUTO_LOGIN, true)
+        } else {
+            mPref.putData(PREF_AUTO_LOGIN, false)
+        }
 
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(LOGIN_EMAIL, et_email.text.toString())
@@ -78,19 +72,18 @@ class LoginActivity : BaseActivity() {
         finish()
     }
 
-
-    fun onClickEvent(v: View) {
+    // do Login,
+    fun requestLogin(v: View) {
         val inputEmail = et_email.text.toString()
         val inputPassW = et_pw.text.toString()
 
-        when ( v.id ) {
-            // Login
-            R.id.btn_login -> viewModel.requestLogin(inputEmail, inputPassW)
-            // Sign Up
-            R.id.tv_signup -> addFragment(SignUpFragment.newInstance(), R.id.rl_container)
-        }
+        viewModel.requestLogin(inputEmail, inputPassW)
     }
 
+    // do Sign Up.
+    fun reqSignUp(v: View) = addFragment(SignUpFragment.newInstance(), R.id.rl_container)
+
+    // Remove Fragments.
     fun removeFragment(v: View) {
         removeFragment()
     }

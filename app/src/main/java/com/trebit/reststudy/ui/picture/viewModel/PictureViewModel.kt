@@ -25,7 +25,7 @@ import javax.inject.Singleton
  * Description:
  */
 
-@Singleton
+
 class PictureViewModel @Inject constructor(
     apiService: ApiService
 ): ViewModel() {
@@ -33,7 +33,8 @@ class PictureViewModel @Inject constructor(
     private val compositeDisposable by lazy { CompositeDisposable() }
     private val repository by lazy { DataRepository(apiService) }
 
-    val mCroppedImgUri : MutableLiveData<Uri> = MutableLiveData()
+    val mCroppedImgUri : MutableLiveData<Uri>    = MutableLiveData()
+    val mUploadResult  : MutableLiveData<String> = MutableLiveData()
 
 
     // Device Local Image 가져오기.
@@ -70,11 +71,15 @@ class PictureViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                  Logger.d(it)
-                }, {
-                    Logger.e(it.message.toString())
-                })
+                    mUploadResult.value = it.resCode
+                    Logger.d(it)
+                }, { Logger.e(it.message.toString()) })
         )
     }
 
+
+    override fun onCleared() {
+        super.onCleared()
+
+    }
 }

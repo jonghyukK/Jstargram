@@ -1,7 +1,5 @@
 package com.trebit.reststudy.di.module
 
-import com.trebit.reststudy.ui.login.fragment.NameRegiFragment
-import com.trebit.reststudy.ui.login.fragment.PasswordFragment
 import com.trebit.reststudy.ui.login.fragment.SignUpFragment
 import com.trebit.reststudy.ui.main.fragment.FirstTabFragment
 import com.trebit.reststudy.ui.main.fragment.sub.DataGridFragment
@@ -29,13 +27,6 @@ abstract class FragmentModule {
      *********************************************************************/
     @ContributesAndroidInjector
     abstract fun contributeSignUpFragment(): SignUpFragment
-
-    @ContributesAndroidInjector
-    abstract fun contributeNameRegiFragment(): NameRegiFragment
-
-    @ContributesAndroidInjector
-    abstract fun contributePasswordFragment(): PasswordFragment
-
 
     /*********************************************************************
      *

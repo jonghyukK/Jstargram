@@ -5,18 +5,15 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import com.trebit.reststudy.*
 import com.trebit.reststudy.adapter.ItemShowingTypeAdapter
 import com.trebit.reststudy.databinding.MainFragmentUserHomeBinding
@@ -26,13 +23,9 @@ import com.trebit.reststudy.ui.main.activity.MainActivity
 import com.trebit.reststudy.ui.main.viewmodel.MainViewModel
 import com.trebit.reststudy.ui.profile.ProfileEditActivity
 import dagger.android.support.AndroidSupportInjection
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.main_fragment_user_home.*
 import kotlinx.android.synthetic.main.main_fragment_user_home_content.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -120,7 +113,7 @@ class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedL
         when (item.itemId) {
             // Logout
             R.id.nav_logout -> {
-                mPref.putData(PREF_CHECKED_AUTO_LOGIN, false)
+                mPref.putData(PREF_AUTO_LOGIN, false)
                 startActivity(Intent(activity, LoginActivity::class.java))
                 activity?.finish()
             }

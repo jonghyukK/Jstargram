@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.orhanobut.logger.Logger
 import com.trebit.reststudy.R
 import com.trebit.reststudy.adapter.ContentsAdapter
 import com.trebit.reststudy.databinding.MainFragmentFirstTabBinding
@@ -33,8 +34,9 @@ class FirstTabFragment: BaseFragment(){
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var mBinding: MainFragmentFirstTabBinding
-    private lateinit var mMainViewModel: MainViewModel
+    private lateinit var mBinding         : MainFragmentFirstTabBinding
+    private lateinit var mMainViewModel   : MainViewModel
+    private lateinit var mContentsAdapter : ContentsAdapter
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -59,18 +61,16 @@ class FirstTabFragment: BaseFragment(){
         initRecyclerView()
 
         mMainViewModel.allContents.observe(this, Observer {
-            it?.let {
-                val adapter = rv_contentList.adapter as ContentsAdapter
-                adapter.setContentItem(it)
-            }
+            it?.let { mContentsAdapter.setContentItem(it) }
         })
     }
 
     private fun initRecyclerView(){
+        mContentsAdapter = ContentsAdapter()
         rv_contentList.setHasFixedSize(true)
-        rv_contentList.adapter = ContentsAdapter().apply {
+        rv_contentList.adapter = mContentsAdapter
 
-        }
+        mMainViewModel.getContents()
     }
 
 

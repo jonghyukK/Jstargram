@@ -4,6 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable
                 name="contentItem"
                 type="com.trebit.reststudy.data.model.ContentItem"/>
@@ -20,8 +21,7 @@
                 android:id="@+id/ll_topContainer"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:background="@color/gray_2">
+                android:orientation="horizontal">
 
             <!-- Profile Img -->
             <de.hdodenhof.circleimageview.CircleImageView
@@ -45,6 +45,7 @@
         </LinearLayout>
 
 
+        <!-- Content Image -->
         <ImageView
                 android:id="@+id/iv_contentImg"
                 android:layout_width="match_parent"
@@ -52,31 +53,87 @@
                 android:layout_below="@+id/ll_topContainer"
                 app:contentImageSet="@{contentItem.image_path}"/>
 
-        <ImageView
-                android:id="@+id/iv_favorite"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+
+        <RelativeLayout
+                android:id="@+id/rl_middleContainer"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:layout_below="@+id/iv_contentImg"
-                android:layout_marginTop="13dp"
-                android:layout_marginStart="15dp"
-                android:src="@drawable/icon_mypage_b"/>
+                android:layout_marginTop="8dp">
 
-        <TextView
-                android:id="@+id/tv_favoriteInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_favorite"
-                android:layout_marginBottom="5dp"
-                android:layout_marginStart="15dp"
-                tools:text="ch.uu님이 좋아합니다."/>
+            <!-- Favorite Icon -->
+            <ImageView
+                    android:id="@+id/iv_favorite"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_favorite_black"/>
 
-        <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="wrap_content"
+            <!-- Favorite Icon -->
+            <ImageView
+                    android:id="@+id/iv_comment"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_toEndOf="@+id/iv_favorite"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:src="@drawable/icon_comment_black"/>
+        </RelativeLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_favoriteInfo"
-                android:layout_marginStart="15dp"
-                android:textColor="@color/black"
-                tools:text="2월 3일"/>
+                android:layout_below="@+id/rl_middleContainer"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/tv_favoriteInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rl_middleContainer"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="15dp"
+                    android:visibility="@{contentItem.favorite_cnt == 0 ? View.GONE : View.VISIBLE}"
+                    android:text="ch.uu님이 좋아합니다."/>
+
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{contentItem.content.isEmpty ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                        android:id="@+id/tv_writer2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="@{contentItem.writer}"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        tools:text="hyuk.08.20"/>
+
+                <TextView
+                        android:id="@+id/tv_contentText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/tv_writer2"
+                        android:layout_marginStart="10dp"
+                        android:text="@{contentItem.content}"
+                        tools:text="Hello myname is"/>
+
+            </RelativeLayout>
+
+
+            <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_favoriteInfo"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/black"
+                    tools:text="2월 3일"/>
+        </LinearLayout>
+
+
     </RelativeLayout>
 </layout>

@@ -6,49 +6,49 @@
         >
 
     <data>
+
         <variable
                 name="fragment"
                 type="com.trebit.reststudy.ui.login.fragment.SignUpFragment"/>
+
         <variable
                 name="activity"
-                type="com.trebit.reststudy.ui.login.activity.LoginActivity" />
+                type="com.trebit.reststudy.ui.login.activity.LoginActivity"/>
     </data>
 
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            tools:context=".ui.login.fragment.SignUpFragment"
-            >
+            android:clickable="true"
+            android:focusable="true">
 
         <TextView
-                android:id="@+id/tv_emailDesc"
+                android:id="@+id/tv_signup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:text="@string/email_regi"
+                android:textSize="30sp"
                 android:textColor="@color/black"
-                android:textSize="25sp"/>
+                android:text="@string/sign_up"/>
 
         <TextView
-                android:id="@+id/tv_emailRegiDesc"
+                android:id="@+id/tv_descEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_emailDesc"
+                android:layout_below="@+id/tv_signup"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
-                android:text="@string/desc_email_regist"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/black"
-                android:textSize="13sp"/>
-
+                android:text="@string/desc_email_regist"/>
 
         <!-- 이메일 입력 레이아웃 -->
         <RelativeLayout
                 android:id="@+id/rl_inputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@id/tv_emailRegiDesc"
+                android:layout_below="@id/tv_descEmail"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
@@ -69,9 +69,8 @@
                     android:inputType="textEmailAddress"
                     />
 
-
             <ImageView
-                    android:id="@+id/iv_clearValue"
+                    android:id="@+id/iv_clearEmail"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
@@ -82,47 +81,103 @@
                     />
         </RelativeLayout>
 
-        <TextView
-                android:id="@+id/tv_alreadyRegiEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_inputLayout"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
-                android:text="@string/desc_invalid_email"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="12sp"
-                android:visibility="gone"/>
+
+        <!-- 비밀번호 입력 레이아웃 -->
+        <RelativeLayout
+                android:id="@+id/rl_makePw"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/rl_inputLayout"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                >
+
+            <EditText
+                    android:id="@+id/et_inputMakePw"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textColor="@color/black"
+                    android:hint="@string/password"
+                    android:background="@color/gray_1"
+                    android:textSize="15sp"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="50dp"
+                    android:singleLine="true"
+                    android:inputType="textPassword"
+                    />
+
+
+            <ImageView
+                    android:id="@+id/iv_clearPw"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="10dp"
+                    android:visibility="gone"
+                    android:src="@drawable/icon_clear"
+                    />
+        </RelativeLayout>
+
+
+        <!-- 이름 입력 레이아웃 -->
+        <RelativeLayout
+                android:id="@+id/rl_nameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/rl_makePw"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                >
+
+            <EditText
+                    android:id="@+id/et_inputMakeName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textColor="@color/black"
+                    android:hint="@string/name"
+                    android:background="@color/gray_1"
+                    android:textSize="15sp"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="50dp"
+                    android:singleLine="true"
+                    android:inputType="textPersonName"
+                    />
+
+
+            <ImageView
+                    android:id="@+id/iv_clearName"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="10dp"
+                    android:visibility="gone"
+                    android:src="@drawable/icon_clear"
+                    />
+        </RelativeLayout>
+
 
         <!-- 다음 버튼 -->
         <Button
-                android:id="@+id/btn_next"
+                android:id="@+id/btn_signUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_alreadyRegiEmail"
-                android:layout_marginTop="20dp"
+                android:layout_below="@+id/rl_nameLayout"
+                android:layout_marginTop="50dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:background="@drawable/bg_login_btn"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="@string/next"
-                android:enabled="false"
-                android:onClick="@{fragment::validateEmail}"
+                android:text="@string/join"
+                android:onClick="@{fragment::checkInputData}"
                 />
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btn_next"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="@string/desc_receive_info"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="13sp"
-                />
-
 
         <!-- Bottom Layout -->
         <RelativeLayout
@@ -168,7 +223,5 @@
 
             </LinearLayout>
         </RelativeLayout>
-
-
     </RelativeLayout>
 </layout>

@@ -1,20 +1,19 @@
 package com.trebit.reststudy.ui.login.fragment
 
+import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.trebit.reststudy.R
-import com.trebit.reststudy.addFragment
-import com.trebit.reststudy.addTextWatcherDouble
+import com.trebit.reststudy.*
 import com.trebit.reststudy.databinding.LoginFragmentSignUpBinding
 import com.trebit.reststudy.ui.BaseFragment
+import com.trebit.reststudy.ui.customview.SignUpSuccessDialog
 import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.login.viewmodel.LoginViewModel
 import dagger.android.support.AndroidSupportInjection
@@ -34,10 +33,9 @@ class SignUpFragment : BaseFragment() {
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val VALID_EMAIL   = "Y"
-    private val INVALID_EMAIL = "N"
     private lateinit var viewModel : LoginViewModel
     private lateinit var mBinding  : LoginFragmentSignUpBinding
+    private lateinit var mSignUpDialog : SignUpSuccessDialog
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -59,32 +57,59 @@ class SignUpFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addTextWatcherDouble(img1 = iv_clearValue, btn  = btn_next, et1  = et_inputMakeEmail)
-        viewModel.isValidEmail.value = null
+        et_inputMakeEmail.addTextWatcher(mBinding.ivClearEmail)
+        et_inputMakePw   .addTextWatcher(mBinding.ivClearPw)
+        et_inputMakeName .addTextWatcher(mBinding.ivClearName)
+
+        viewModel.signUpResult.value = null
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        // Email Validate Observer.
-        viewModel.isValidEmail.observe(this, Observer {
-            when (it) {
-                // 사용 가능 Email.
-                VALID_EMAIL -> {
-                    tv_alreadyRegiEmail.visibility = View.GONE
-                    viewModel.myEmail.value = et_inputMakeEmail.text.toString()
-                    addFragment(NameRegiFragment.newInstance(), R.id.rl_container)
+        viewModel.signUpResult.observe(this, Observer {
+            when (it?.resCode) {
+                // valid Email.
+                RES_SUCCESS -> {
+                    signUpSuccessDialog()
                 }
-                // 사용 불가 Email.
-                INVALID_EMAIL -> tv_alreadyRegiEmail.visibility = View.VISIBLE
+                // invalide Email.
+                RES_FAILED -> {
+                    activity?.toast { it.resMsg }
+                }
             }
         })
     }
 
-    // validate Email.
-    fun validateEmail(v: View) {
-        viewModel.validateEmail(et_inputMakeEmail.text.toString())
+    private fun signUpSuccessDialog(){
+        mSignUpDialog = SignUpSuccessDialog(
+            ctx   = activity!!,
+            title = getString(R.string.sign_up_success),
+            body  = getString(R.string.desc_sign_up_after)){
+            mSignUpDialog.dismiss()
+            removeFragments()
+            }
+        mSignUpDialog.show()
     }
+
+    // validate Email.
+    fun checkInputData(v: View) {
+        val inputedEmail : String = et_inputMakeEmail.text.toString()
+        val inputedPW    : String = et_inputMakePw   .text.toString()
+        val inputedName  : String = et_inputMakeName .text.toString()
+
+        if ( inputedEmail.isEmpty() || inputedPW.isEmpty() || inputedName.isEmpty()) {
+            AlertDialog.Builder(activity)
+                .setMessage(getString(R.string.desc_signup_error))
+                .setPositiveButton(getString(R.string.confirm)) { _, _ -> }
+                .show()
+            return
+        }
+
+        viewModel.validateEmail(inputedEmail, inputedPW, inputedName)
+    }
+
+
 
     companion object {
         @JvmStatic
