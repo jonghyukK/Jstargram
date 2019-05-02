@@ -2,23 +2,16 @@ package com.trebit.reststudy.ui.login.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.support.v4.app.Fragment
 import com.orhanobut.logger.Logger
 import com.trebit.reststudy.RES_FAILED
 import com.trebit.reststudy.RES_SUCCESS
 import com.trebit.reststudy.data.model.ResponseVo
-import com.trebit.reststudy.data.model.ValidateEmailVo
 import com.trebit.reststudy.data.remote.ApiService
 import com.trebit.reststudy.data.repository.DataRepository
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import javax.xml.datatype.DatatypeConstants.SECONDS
 
 /**
  * Rest_study

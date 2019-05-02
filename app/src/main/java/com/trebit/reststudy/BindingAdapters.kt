@@ -26,51 +26,25 @@ import de.hdodenhof.circleimageview.CircleImageView
  */
 
 
-@BindingAdapter("textSet")
-fun bindingTextData(
-    view  : TextView,
-    value : MutableLiveData<UserVo>?
-){
-    val parentActivity = view.getParentActivity()
-
-    if (parentActivity != null && value != null) {
-        value.observe(parentActivity, Observer { value ->
-            when (view.id) {
-                R.id.tv_myEmailInfo -> view.text = value?.email
-                R.id.tv_contentsCnt -> view.text = value?.contents_cnt.toString()
-                R.id.tv_followerCnt -> view.text = value?.follower_cnt.toString()
-                R.id.tv_followingCnt-> view.text = value?.following_cnt.toString()
-                R.id.tv_userName    -> view.text = value?.name
-                R.id.tv_introduce   -> view.text = value?.introduce
-            }
-        })
-    }
-}
-
-@BindingAdapter("bindingImage")
-fun bindingImageView(
+// Profile Image Bind.
+@BindingAdapter("bind_profile_img")
+fun bindingProfileImage(
     view  : CircleImageView,
-    value : MutableLiveData<UserVo>?
+    value : String?
 ){
-    val parentActivity = view.getParentActivity()
-
-    if (parentActivity != null && value != null){
-        value.observe(parentActivity, Observer{ value ->
-
-            if ( value?.profile_img == null) {
-                view.setImageResource(R.drawable.icon_clear)
-            } else {
-                Glide.with(view.context)
-                    .load(BASE_API_URL + value.profile_img)
-                    .fitCenter()
-                    .error(R.drawable.icon_clear)
-                    .into(view)
-            }
-        })
+    if (value.isNullOrEmpty()) {
+        view.setImageResource(R.drawable.icon_clear)
+    } else {
+        Glide.with(view.context)
+            .load(BASE_API_URL + value)
+            .fitCenter()
+            .error(R.drawable.icon_clear)
+            .into(view)
     }
 }
 
-@BindingAdapter("img")
+// Local Image Bind.
+@BindingAdapter("bind_local_img")
 fun setImageUrl(view: ImageView, url: String) {
     Glide.with(view.context)
         .load(url)
@@ -79,23 +53,25 @@ fun setImageUrl(view: ImageView, url: String) {
         .into(view)
 }
 
+
+// Content Image Bind.
+@BindingAdapter("bind_content_img")
+fun bindingConentImgData(view: ImageView, value: String?) {
+    Glide.with(view.context)
+        .load(BASE_API_URL + value)
+        .centerCrop()
+        .error(R.drawable.icon_clear)
+        .into(view)
+}
+
+
+// Gallery Adapter Bind.
 @BindingAdapter("bind_items")
 fun bindingRecyclerItems(view: RecyclerView, items: List<GalleryItems>){
     view.addItemDecoration(GalleryItemDecoration(view.context))
     val adapter = view.adapter as GalleryAdapter
     adapter.setGalleryItems(items)
     adapter.notifyDataSetChanged()
-}
-
-
-@BindingAdapter("contentImageSet")
-fun bindingConentImgData(view: ImageView, value: String?) {
-
-    Glide.with(view.context)
-        .load(BASE_API_URL + value)
-        .centerCrop()
-        .error(R.drawable.icon_clear)
-        .into(view)
 }
 
 

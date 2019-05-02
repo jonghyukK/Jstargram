@@ -20,15 +20,9 @@ interface ApiService {
 
     /****************************************************************
      *
-     *   Login, Sign Up APIs ...
+     *   Login APIs..
      *
      ***************************************************************/
-    // Create User.
-    @POST("user/sign_up")
-    fun createUser(@Body body: CreateUserBody)
-            : Single<ResponseVo>
-
-
     // Check Email Validation.
     @GET("user/validateEmail/{email}")
     fun validateEmail(@Path("email") email: String)
@@ -41,13 +35,23 @@ interface ApiService {
 
 
 
+    /****************************************************************
+     *
+     *   SignUp APIs..
+     *
+     ***************************************************************/
+    // Create User.
+    @POST("user/sign_up")
+    fun createUser(@Body body: CreateUserBody)
+            : Single<ResponseVo>
+
+
 
     /****************************************************************
      *
-     *   Main APIs ...
+     *   about User APIs...
      *
      ***************************************************************/
-
     // Get User Information by Email.
     @GET("user/getUser/{email}")
     fun getUser(@Path("email") email: String)
@@ -64,22 +68,37 @@ interface ApiService {
     @Multipart
     @POST("user/updateUser")
     fun updateUserWithProfile(
-        @Part("name")      name     : RequestBody,
+        @Part("name"     ) name     : RequestBody,
         @Part("introduce") introduce: RequestBody,
-        @Part("email")     email    : RequestBody,
+        @Part("email"    )  email   : RequestBody,
         @Part file: MultipartBody.Part
     ): Single<UserVo>
 
 
+
+    /****************************************************************
+     *
+     *   Contetns APIs ...
+     *
+     ***************************************************************/
+    // Upload Content.
     @Multipart
     @POST("upload/uploadContent")
     fun uploadContent(
-        @Part("content") content : RequestBody,
-        @Part("writer")   writer : RequestBody,
+        @Part("content") content: RequestBody,
+        @Part("writer" ) writer : RequestBody,
         @Part file: MultipartBody.Part
     ): Single<ResponseVo>
 
+    // get All Contents.
     @GET("upload/getContents")
     fun getContents(): Single<List<ContentItem>>
+
+
+    @DELETE("upload/delete/{contents_id}")
+    fun deleteContent(@Path("contents_id") contents_id: String)
+            : Single<ResponseVo>
+
+
 
 }

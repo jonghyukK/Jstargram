@@ -11,6 +11,9 @@
         <variable
                 name="mainViewModel"
                 type="com.trebit.reststudy.ui.main.viewmodel.MainViewModel"/>
+        <variable
+                name="myAccountInfo"
+                type="com.trebit.reststudy.data.model.UserVo"/>
     </data>
 
     <android.support.v7.widget.Toolbar
@@ -25,7 +28,7 @@
                 android:id="@+id/tv_myEmailInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:textSet="@{mainViewModel.myAccountInfo}"
+                android:text="@{myAccountInfo.email}"
                 tools:text="saz300@naver.com"/>
 
         <ImageView

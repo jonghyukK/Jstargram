@@ -47,20 +47,21 @@ data class UpdateUserBody(
  *   Response Vo.
  *
  ***************************************************************/
+// Default Response Vo.
 data class ResponseVo(
     val resCode: String,
     val resMsg : String
 )
 
 
-// Get User
+// User Info Vo.
 data class UserVo(
     val resCode       : String,
     val resMsg        : String,
     val email         : String,
-    var name          : String,
-    var introduce     : String,
-    var profile_img   : String,
+    val name          : String,
+    val introduce     : String,
+    val profile_img   : String,
     val contents_cnt  : Int,
     val follower_cnt  : Int,
     val following_cnt : Int
@@ -74,12 +75,15 @@ data class UserVo(
  *   Adapters Model
  *
  ***************************************************************/
+// Local Picture Model.
 data class GalleryItems(val path: String)
 
+// Contents Model.
 data class ContentItem(val contents_id    : String,
                        val writer_profile : String,
                        val writer         : String,
                        val image_path     : String,
                        val content        : String,
                        val favorite_cnt   : Int,
-                       val comment_cnt    : Int)
+                       val comment_cnt    : Int,
+                       val createdAt      : String)

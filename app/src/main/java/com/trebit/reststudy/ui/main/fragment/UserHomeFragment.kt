@@ -1,5 +1,6 @@
 package com.trebit.reststudy.ui.main.fragment
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -90,6 +91,10 @@ class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedL
         val toggle = ActionBarDrawerToggle(activity, dl_mainDrawerRoot, toolbar, R.string.drawer_open, R.string.drawer_close)
         dl_mainDrawerRoot.addDrawerListener(toggle)
         nv_navView.setNavigationItemSelectedListener(this)
+
+        mMainViewModel.myAccountInfo.observe(this, Observer {
+            mBinding.myAccountInfo = it
+        })
     }
 
     // go Profile Edit Activity.

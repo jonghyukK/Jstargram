@@ -15,6 +15,10 @@
         <variable
                 name="mainViewModel"
                 type="com.trebit.reststudy.ui.main.viewmodel.MainViewModel"/>
+
+        <variable
+                name="myAccountInfo"
+                type="com.trebit.reststudy.data.model.UserVo"/>
     </data>
 
     <android.support.v4.widget.DrawerLayout
@@ -30,7 +34,8 @@
                 android:layout_height="match_parent"
                 app:mainActivity="@{mainActivity}"
                 app:userHomeFragment="@{userHomeFragment}"
-                app:mainViewModel="@{mainViewModel}"/>
+                app:mainViewModel="@{mainViewModel}"
+                app:myAccountInfo="@{myAccountInfo}"/>
 
         <android.support.design.widget.NavigationView
                 android:id="@+id/nv_navView"

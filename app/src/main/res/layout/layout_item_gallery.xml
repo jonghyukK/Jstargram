@@ -18,7 +18,7 @@
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:scaleType="centerCrop"
-                app:img="@{galleryItem.path}"/>
+                app:bind_local_img="@{galleryItem.path}"/>
 
     </RelativeLayout>
 </layout>

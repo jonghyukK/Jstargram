@@ -43,7 +43,6 @@ class MainActivity : BaseActivity() {
         mBinding.viewModel = mViewModel
 
         initView()
-
         reqMyAccountInfo()
     }
 

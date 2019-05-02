@@ -59,7 +59,7 @@ class MainViewModel @Inject constructor(
     }
 
     // get All Contents.
-    fun getContents(){
+    fun getContents() {
         compositeDisposable.add(
             repository.getContents()
                 .subscribeOn(Schedulers.io())
@@ -67,6 +67,16 @@ class MainViewModel @Inject constructor(
                 .subscribe({ allContents.value = it
                     Logger.d(it.toString())
                 }, { Logger.e(it.message.toString()) }))
+    }
+
+    fun removeContent(contentId: String) {
+        compositeDisposable.add(
+            repository.deleteContent(contentId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Logger.d(it)
+                },{ Logger.e(it.message.toString())}))
     }
 
 

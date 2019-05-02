@@ -19,11 +19,12 @@ import javax.inject.Singleton
 @Singleton
 class DataRepository(private val apiService: ApiService){
 
-    fun createUser(email    : String,
-                   name     : String,
-                   password : String)
-            = apiService.createUser(CreateUserBody(email, name, password))
 
+    /****************************************************************
+     *
+     *   Login APIs..
+     *
+     ***************************************************************/
     fun validateEmail(email: String)
             = apiService.validateEmail(email)
 
@@ -31,6 +32,30 @@ class DataRepository(private val apiService: ApiService){
                      password : String)
             = apiService.requestLogin(RequestLoginBody(email, password))
 
+
+
+
+
+    /****************************************************************
+     *
+     *   SignUp APIs..
+     *
+     ***************************************************************/
+    fun createUser(email    : String,
+                   name     : String,
+                   password : String)
+            = apiService.createUser(CreateUserBody(email, name, password))
+
+
+
+
+
+
+    /****************************************************************
+     *
+     *   about User APIs...
+     *
+     ***************************************************************/
     fun getUser(email: String)
             = apiService.getUser(email)
 
@@ -45,14 +70,24 @@ class DataRepository(private val apiService: ApiService){
                               introduce: RequestBody,
                               email    : RequestBody,
                               file     : MultipartBody.Part)
-    = apiService.updateUserWithProfile(name, introduce, email, file)
+            = apiService.updateUserWithProfile(name, introduce, email, file)
 
+
+
+
+    /****************************************************************
+     *
+     *   Contetns APIs ...
+     *
+     ***************************************************************/
     fun uploadContent(content : RequestBody,
                       writer  : RequestBody,
                       file    : MultipartBody.Part)
      = apiService.uploadContent(content, writer, file)
 
     fun getContents() = apiService.getContents()
+
+    fun deleteContent(contentId: String) = apiService.deleteContent(contentId)
 
 
 

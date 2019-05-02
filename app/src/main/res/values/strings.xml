@@ -28,6 +28,7 @@
     <string name="upload">올리기</string>
     <string name="confirm">확인</string>
     <string name="input_story">문구 입력...</string>
+    <string name="remove">삭제하기</string>
 
     <string name="desc_lost_password">비밀번호를 잊으셨나요?</string>
     <string name="desc_have_not_id">계정이 없으신가요?</string>

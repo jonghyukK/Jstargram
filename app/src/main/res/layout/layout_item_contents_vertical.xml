@@ -17,11 +17,10 @@
 
 
         <!-- Top Layout -->
-        <LinearLayout
+        <RelativeLayout
                 android:id="@+id/ll_topContainer"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal">
+                android:layout_height="60dp">
 
             <!-- Profile Img -->
             <de.hdodenhof.circleimageview.CircleImageView
@@ -30,19 +29,30 @@
                     android:layout_height="42dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
-                    android:layout_gravity="center_vertical"
-                    app:contentImageSet="@{contentItem.writer_profile}"/>
+                    android:layout_centerVertical="true"
+                    app:bind_content_img="@{contentItem.writer_profile}"/>
 
             <!-- Writer Email -->
             <TextView
                     android:id="@+id/tv_writer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_toEndOf="@+id/iv_profileImg"
+                    android:layout_centerVertical="true"
                     android:text="@{contentItem.writer}"
                     android:textSize="18sp"
                     android:textColor="@color/black"/>
-        </LinearLayout>
+            
+            <ImageView
+                    android:id="@+id/iv_more"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="end"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/icon_more_black"/>
+        </RelativeLayout>
 
 
         <!-- Content Image -->
@@ -51,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_below="@+id/ll_topContainer"
-                app:contentImageSet="@{contentItem.image_path}"/>
+                app:bind_content_img="@{contentItem.image_path}"/>
 
 
         <RelativeLayout
@@ -87,16 +97,17 @@
                 android:layout_below="@+id/rl_middleContainer"
                 android:orientation="vertical">
 
+            <!-- 좋아요 정보 -->
             <TextView
                     android:id="@+id/tv_favoriteInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rl_middleContainer"
                     android:layout_marginBottom="5dp"
                     android:layout_marginStart="15dp"
                     android:visibility="@{contentItem.favorite_cnt == 0 ? View.GONE : View.VISIBLE}"
                     android:text="ch.uu님이 좋아합니다."/>
 
+            <!-- 내가 쓴 내용 -->
             <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -123,14 +134,14 @@
 
             </RelativeLayout>
 
-
+            <!-- 글 쓴 날짜 -->
             <TextView
-                    android:id="@+id/tv_date"
+                    android:id="@+id/tv_createdAt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_favoriteInfo"
                     android:layout_marginStart="15dp"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/gray_3"
                     tools:text="2월 3일"/>
         </LinearLayout>
 

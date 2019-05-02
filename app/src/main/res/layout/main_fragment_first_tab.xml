@@ -32,13 +32,18 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_contentList"
+        <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/srl_swipeLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/toolbar"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                app:reverseLayout="true"/>
+                android:layout_height="match_parent"
+                android:layout_below="@+id/toolbar">
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_contentList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
     </RelativeLayout>
 </layout>
 

@@ -16,6 +16,11 @@
         <variable
                 name="mainViewModel"
                 type="com.trebit.reststudy.ui.main.viewmodel.MainViewModel"/>
+
+        <variable
+                name="myAccountInfo"
+                type="com.trebit.reststudy.data.model.UserVo"/>
+
     </data>
 
 
@@ -28,7 +33,8 @@
         <include
                 layout="@layout/layout_toolbar"
                 app:userHomeFragment="@{userHomeFragment}"
-                app:mainViewModel="@{mainViewModel}"/>
+                app:mainViewModel="@{mainViewModel}"
+                app:myAccountInfo="@{myAccountInfo}"/>
 
         <View
                 android:layout_width="match_parent"
@@ -63,7 +69,7 @@
                             android:layout_width="90dp"
                             android:layout_height="90dp"
                             android:layout_centerInParent="true"
-                            app:bindingImage="@{mainViewModel.myAccountInfo}"
+                            app:bind_profile_img="@{myAccountInfo.profile_img}"
                             app:civ_border_width="2dp"
                             app:civ_border_color="#9e9e9e"
                             />
@@ -94,7 +100,7 @@
                                 android:textColor="@color/black"
                                 android:textSize="20sp"
                                 android:textStyle="bold"
-                                app:textSet="@{mainViewModel.myAccountInfo}"/>
+                                android:text="@{String.valueOf(myAccountInfo.contents_cnt)}"/>
 
                         <TextView
                                 android:layout_width="wrap_content"
@@ -122,7 +128,7 @@
                                 android:textColor="@color/black"
                                 android:textSize="20sp"
                                 android:textStyle="bold"
-                                app:textSet="@{mainViewModel.myAccountInfo}"/>
+                                android:text="@{String.valueOf(myAccountInfo.follower_cnt)}"/>
 
                         <TextView
                                 android:layout_width="wrap_content"
@@ -150,7 +156,7 @@
                                 android:textColor="@color/black"
                                 android:textSize="20sp"
                                 android:textStyle="bold"
-                                app:textSet="@{mainViewModel.myAccountInfo}"/>
+                                android:text="@{String.valueOf(myAccountInfo.following_cnt)}"/>
 
                         <TextView
                                 android:layout_width="wrap_content"
@@ -183,7 +189,7 @@
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        app:textSet="@{mainViewModel.myAccountInfo}"/>
+                        android:text="@{myAccountInfo.name}"/>
 
                 <!-- User Introduce -->
                 <TextView
@@ -193,7 +199,7 @@
                         android:layout_marginTop="5dp"
                         android:textColor="@color/black"
                         android:textSize="12sp"
-                        app:textSet="@{mainViewModel.myAccountInfo}"/>
+                        android:text="@{myAccountInfo.introduce}"/>
 
                 <!-- follow or profile modify -->
 
