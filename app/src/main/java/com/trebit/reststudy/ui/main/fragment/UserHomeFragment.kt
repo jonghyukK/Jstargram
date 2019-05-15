@@ -15,11 +15,10 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.ScrollView
 import com.trebit.reststudy.*
 import com.trebit.reststudy.adapter.ItemShowingTypeAdapter
 import com.trebit.reststudy.databinding.MainFragmentUserHomeBinding
+import com.trebit.reststudy.databinding.TestLayoutUserHomeBinding
 import com.trebit.reststudy.ui.BaseFragment
 import com.trebit.reststudy.ui.login.activity.LoginActivity
 import com.trebit.reststudy.ui.main.activity.MainActivity
@@ -28,7 +27,6 @@ import com.trebit.reststudy.ui.profile.ProfileEditActivity
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.main_fragment_user_home.*
-import kotlinx.android.synthetic.main.main_fragment_user_home_content.*
 import kotlinx.android.synthetic.main.main_fragment_user_home_body.*
 import javax.inject.Inject
 
@@ -47,10 +45,20 @@ class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedL
 
     private lateinit var mBinding       : MainFragmentUserHomeBinding
     private lateinit var mMainViewModel : MainViewModel
+    private var mUserEmail : String? = null
+    private var mQuery     : String? = null
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            mUserEmail = it.getString(KEY_EMAIL)
+            mQuery     = it.getString(KEY_QUERY)
+        }
     }
 
     override fun onCreateView(inflater          : LayoutInflater,
@@ -58,9 +66,17 @@ class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedL
                               savedInstanceState: Bundle?): View? {
         mBinding       = DataBindingUtil.inflate(inflater, R.layout.main_fragment_user_home, container, false)
         mMainViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(MainViewModel::class.java)
-        mBinding.mainActivity     = activity as MainActivity
-        mBinding.mainViewModel    = mMainViewModel
+        mBinding.mainActivity  = activity as MainActivity
+        mBinding.mainViewModel = mMainViewModel
         mBinding.userHomeFragment = this
+
+        if ( mQuery == "query") {
+            mBinding.dlMainDrawerRoot.visibility = View.GONE
+            mBinding.rlQueryLayout.visibility    = View.VISIBLE
+        } else {
+            mBinding.dlMainDrawerRoot.visibility = View.VISIBLE
+            mBinding.rlQueryLayout.visibility    = View.GONE
+        }
 
         return mBinding.root
     }
@@ -81,7 +97,7 @@ class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedL
         val adapter = ItemShowingTypeAdapter(
             fm      = fragmentManager!!,
             tabCnt  = tl_tabLayout.tabCount,
-            myEmail = mPref.getPrefEmail(PREF_EMAIL))
+            email   = mUserEmail!!)
 
         vp_viewPager.adapter = adapter
 
@@ -99,10 +115,20 @@ class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedL
         dl_mainDrawerRoot.addDrawerListener(toggle)
         nv_navView.setNavigationItemSelectedListener(this)
 
-        mMainViewModel.myAccountInfo.observe(this, Observer {
-            mBinding.myAccountInfo = it
-        })
+        if ( mQuery == "query") {
+            mMainViewModel.queryUserInfo.observe(this, Observer {
+                mBinding.queryUserInfo = it
+            })
+        } else {
+            mMainViewModel.myAccountInfo.observe(this, Observer {
+                mBinding.myAccountInfo = it
+            })
+        }
+
+        mMainViewModel.getUser(mUserEmail!!)
     }
+
+
 
     // go Profile Edit Activity.
     fun goEditProfile(v: View){
@@ -137,6 +163,12 @@ class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedL
 
     companion object {
         @JvmStatic
-        fun newInstance() = UserHomeFragment()
+        fun newInstance(email: String, query: String) =
+                UserHomeFragment().apply {
+                    arguments = Bundle().apply {
+                        putString(KEY_QUERY, query)
+                        putString(KEY_EMAIL, email)
+                    }
+                }
     }
 }

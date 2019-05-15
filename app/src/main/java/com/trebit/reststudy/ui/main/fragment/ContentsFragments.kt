@@ -172,6 +172,7 @@ class ContentsFragments: BaseFragment(), ContentsAdapter.ContentEventListener {
     }
 
 
+    // Clicked More
     override fun clickedMore(item: ContentItem, pos: Int) {
         val view = layoutInflater.inflate(R.layout.dialog_content_more, null)
         val tvRmContent = view?.findViewById<TextView>(R.id.tv_removeContent)
@@ -185,6 +186,12 @@ class ContentsFragments: BaseFragment(), ContentsAdapter.ContentEventListener {
             mMainViewModel.removeContent(item.contents_id, mPref.getPrefEmail(PREF_EMAIL))
             builder.dismiss()
         }
+    }
+
+    // Clicked Writer
+    override fun clickedWriter(email: String) {
+        Logger.d(email)
+        mBinding.activity?.addUserFragment(UserHomeFragment.newInstance(email, "query"))
     }
 
     companion object {

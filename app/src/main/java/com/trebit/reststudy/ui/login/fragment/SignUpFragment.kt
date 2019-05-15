@@ -33,9 +33,9 @@ class SignUpFragment : BaseFragment() {
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel : LoginViewModel
-    private lateinit var mBinding  : LoginFragmentSignUpBinding
-    private lateinit var mSignUpDialog : SignUpSuccessDialog
+    private lateinit var mLoginViewModel : LoginViewModel
+    private lateinit var mBinding        : LoginFragmentSignUpBinding
+    private lateinit var mSignUpDialog   : SignUpSuccessDialog
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -48,7 +48,7 @@ class SignUpFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         mBinding  = DataBindingUtil.inflate(inflater, R.layout.login_fragment_sign_up, container, false)
-        viewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(LoginViewModel::class.java)
+        mLoginViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(LoginViewModel::class.java)
         mBinding.fragment  = this
         mBinding.activity  = activity as LoginActivity
 
@@ -61,13 +61,13 @@ class SignUpFragment : BaseFragment() {
         et_inputMakePw   .addTextWatcher(mBinding.ivClearPw)
         et_inputMakeName .addTextWatcher(mBinding.ivClearName)
 
-        viewModel.signUpResult.value = null
+        mLoginViewModel.signUpResult.value = null
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.signUpResult.observe(this, Observer {
+        mLoginViewModel.signUpResult.observe(this, Observer {
             when (it?.resCode) {
                 // success.
                 RES_SUCCESS -> signUpSuccessDialog()
@@ -102,7 +102,7 @@ class SignUpFragment : BaseFragment() {
             return
         }
 
-        viewModel.reqSignUp(inputedEmail, inputedPW, inputedName)
+        mLoginViewModel.reqSignUp(inputedEmail, inputedPW, inputedName)
     }
 
 

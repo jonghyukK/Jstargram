@@ -67,7 +67,7 @@ class PictureActivity: BaseActivity() {
     private lateinit var mBinding       : ActivityPictureBinding
     private lateinit var mCroppedImgUri : Uri
 
-    val localImages by lazy { mViewModel.getLocalImagesPath(this) }
+    val mLocalImages by lazy { mViewModel.getLocalImagesPath(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

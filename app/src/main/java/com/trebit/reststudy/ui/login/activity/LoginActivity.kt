@@ -22,16 +22,16 @@ class LoginActivity : BaseActivity() {
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewModel: LoginViewModel
-    private lateinit var mBinding : ActivityLoginBinding
+    private lateinit var mLoginViewModel: LoginViewModel
+    private lateinit var mBinding       : ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
 
         mBinding  = DataBindingUtil.setContentView(this, R.layout.activity_login)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginViewModel::class.java)
-        mBinding.viewModel = viewModel
+        mLoginViewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginViewModel::class.java)
+        mBinding.viewModel = mLoginViewModel
         mBinding.activity  = this
 
         init()
@@ -44,7 +44,7 @@ class LoginActivity : BaseActivity() {
         et_email.setText(mPref.getPrefEmail(PREF_EMAIL))
 
         // Login Observer.
-        viewModel.loginResult.observe(this, Observer {
+        mLoginViewModel.loginResult.observe(this, Observer {
             when(it?.resCode) {
                 // Login Success.
                 RES_SUCCESS -> startMainActivity()
@@ -77,7 +77,7 @@ class LoginActivity : BaseActivity() {
         val inputEmail = et_email.text.toString()
         val inputPassW = et_pw.text.toString()
 
-        viewModel.requestLogin(inputEmail, inputPassW)
+        mLoginViewModel.requestLogin(inputEmail, inputPassW)
     }
 
     // do Sign Up.

@@ -33,6 +33,7 @@ class MainViewModel @Inject constructor(
     private val repository by lazy { DataRepository(apiService) }
 
     val myAccountInfo : MutableLiveData<UserVo> = MutableLiveData()
+    val queryUserInfo : MutableLiveData<UserVo> = MutableLiveData()
 
     val allContents : MutableLiveData<List<ContentItem>> = MutableLiveData()
     val myContents  : MutableLiveData<List<ContentItem>> = MutableLiveData()
@@ -43,7 +44,9 @@ class MainViewModel @Inject constructor(
             repository.getUser(email = email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ myAccountInfo.value = it
+                .subscribe({
+                    myAccountInfo.value = it
+                    queryUserInfo.value = it
 
                     Logger.d("""
                         resCode         : ${it.resCode}

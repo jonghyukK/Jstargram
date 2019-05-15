@@ -86,13 +86,18 @@ class ContentsAdapter(private val viewType: Int) : RecyclerView.Adapter<Recycler
             // Contents Upload Time Circulation.
             binding.tvCreatedAt.text = TimeUtils.calculateContentDate(item.createdAt)
 
-            binding.ivMore.setOnClickListener {
-                mContentEventListener.clickedMore(item, position)
-            }
+            // More Menu
+            binding.ivMore.setOnClickListener { mContentEventListener.clickedMore(item, position) }
+
+            binding.tvWriter.setOnClickListener { mContentEventListener.clickedWriter(item.writer) }
+
         }
     }
 
     interface ContentEventListener {
         fun clickedMore(item: ContentItem, pos: Int)
+
+        fun clickedWriter(email: String)
+
     }
 }

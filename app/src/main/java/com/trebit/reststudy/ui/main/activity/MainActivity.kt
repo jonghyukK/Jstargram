@@ -7,13 +7,13 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
 import android.view.View
 import com.trebit.reststudy.*
 import com.trebit.reststudy.data.model.UserVo
 import com.trebit.reststudy.databinding.ActivityMainBinding
 import com.trebit.reststudy.ui.BaseActivity
 import com.trebit.reststudy.ui.main.fragment.ContentsFragments
-import com.trebit.reststudy.ui.main.fragment.DataType
 import com.trebit.reststudy.ui.main.fragment.UserHomeFragment
 import com.trebit.reststudy.ui.main.fragment.ViewType
 import com.trebit.reststudy.ui.main.viewmodel.MainViewModel
@@ -30,8 +30,8 @@ class MainActivity : BaseActivity() {
     private lateinit var mViewModel   : MainViewModel
     private lateinit var mBinding     : ActivityMainBinding
 
-    private lateinit var firstFrag    : ContentsFragments
-    private lateinit var userHomeFrag : UserHomeFragment
+    private lateinit var mContentFrag  : ContentsFragments
+    private lateinit var mUserHomeFrag : UserHomeFragment
 
     private var mBackStackArray: MutableList<TabState> = ArrayList()
 
@@ -44,7 +44,7 @@ class MainActivity : BaseActivity() {
         mBinding.viewModel = mViewModel
 
         initView()
-        reqMyAccountInfo()
+//        reqMyAccountInfo()
     }
 
     private fun initView() {
@@ -53,17 +53,24 @@ class MainActivity : BaseActivity() {
 
         tv_myEmailInfo.text = intent.getStringExtra(LOGIN_EMAIL)
 
-        firstFrag    = ContentsFragments.newInstance(ViewType.VERTICAL)
-        userHomeFrag = UserHomeFragment.newInstance()
+        mContentFrag    = ContentsFragments.newInstance(ViewType.VERTICAL)
+        mUserHomeFrag = UserHomeFragment .newInstance(intent.getStringExtra(LOGIN_EMAIL), "query")
 
-        mBinding.userHomeFragment = userHomeFrag
+        mBinding.userHomeFragment = mUserHomeFrag
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.fl_mainContainer, firstFrag)
-            .add(R.id.fl_mainContainer, userHomeFrag)
+            .add(R.id.fl_mainContainer, mContentFrag)
+            .add(R.id.fl_mainContainer, mUserHomeFrag)
             .commit()
         setTabStateFragment(TabState.HOME)
         mBackStackArray.add(TabState.HOME)
+    }
+
+    fun addUserFragment(frag: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fl_mainContainer, frag)
+            .commit()
+
     }
 
 
@@ -111,15 +118,15 @@ class MainActivity : BaseActivity() {
 
         when (state) {
             TabState.HOME -> {
-                transaction.show(firstFrag)
-                transaction.hide(userHomeFrag)
+                transaction.show(mContentFrag)
+                transaction.hide(mUserHomeFrag)
                 rl_firstTabToolbar.visibility = View.VISIBLE
                 rl_thirdTabToolbar.visibility = View.GONE
             }
 
             TabState.MYPAGE -> {
-                transaction.hide(firstFrag)
-                transaction.show(userHomeFrag)
+                transaction.hide(mContentFrag)
+                transaction.show(mUserHomeFrag)
                 rl_firstTabToolbar.visibility = View.GONE
                 rl_thirdTabToolbar.visibility = View.VISIBLE
             }

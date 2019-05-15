@@ -129,7 +129,7 @@
                         app:layoutManager="android.support.v7.widget.GridLayoutManager"
                         app:spanCount="3"
                         app:reverseLayout="false"
-                        app:bind_items="@{activity.getLocalImages()}"/>
+                        app:bind_items="@{activity.getMLocalImages()}"/>
 
             </RelativeLayout>
         </ScrollView>

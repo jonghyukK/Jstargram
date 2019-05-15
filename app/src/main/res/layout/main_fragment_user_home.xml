@@ -20,34 +20,62 @@
         <variable
                 name="myAccountInfo"
                 type="com.trebit.reststudy.data.model.UserVo"/>
+
+        <variable
+                name="queryUserInfo"
+                type="com.trebit.reststudy.data.model.UserVo"/>
     </data>
 
 
-    <android.support.v4.widget.DrawerLayout
-            android:id="@+id/dl_mainDrawerRoot"
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:openDrawer="end"
-            >
+            android:layout_height="match_parent">
 
-        <include
-                layout="@layout/main_fragment_user_home_content"
+        <android.support.v4.widget.DrawerLayout
+                android:id="@+id/dl_mainDrawerRoot"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:mainActivity="@{mainActivity}"
-                app:userHomeFragment="@{userHomeFragment}"
-                app:mainViewModel="@{mainViewModel}"
-                app:myAccountInfo="@{myAccountInfo}"/>
+                tools:openDrawer="end"
+                android:visibility="gone"
+                >
 
-        <android.support.design.widget.NavigationView
-                android:id="@+id/nv_navView"
-                android:layout_width="wrap_content"
+            <include
+                    layout="@layout/main_fragment_user_home_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:mainActivity="@{mainActivity}"
+                    app:userHomeFragment="@{userHomeFragment}"
+                    app:mainViewModel="@{mainViewModel}"
+                    app:myAccountInfo="@{myAccountInfo}"/>
+
+            <android.support.design.widget.NavigationView
+                    android:id="@+id/nv_navView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:fitsSystemWindows="true"
+                    app:headerLayout="@layout/nav_header"
+                    app:menu="@menu/menu_drawer_items"/>
+
+        </android.support.v4.widget.DrawerLayout>
+
+        <RelativeLayout
+                android:id="@+id/rl_queryLayout"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:fitsSystemWindows="true"
-                app:headerLayout="@layout/nav_header"
-                app:menu="@menu/menu_drawer_items"/>
+                android:visibility="gone">
 
-    </android.support.v4.widget.DrawerLayout>
+            <include
+                    layout="@layout/test_layout_user_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:mainActivity="@{mainActivity}"
+                    app:userHomeFragment="@{userHomeFragment}"
+                    app:mainViewModel="@{mainViewModel}"
+                    app:queryUserInfo="@{queryUserInfo}"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
 
 </layout>
