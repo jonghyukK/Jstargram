@@ -33,6 +33,15 @@ class DisplayUtils {
 
         fun dpToPx(ctx: Context, dp: Int): Int = dp.dpToPx(ctx.resources.displayMetrics)
 
+        fun calculateNoOfColumns(ctx: Context, columnWidthDp: Float): Int {
+            val dm = ctx.resources.displayMetrics
+            val screenWidthDp = dm.widthPixels / dm.density
+            val noOfColumns = (screenWidthDp / columnWidthDp + 0.5).toInt()
+
+            Logger.d("noOfColumns : $noOfColumns")
+
+            return noOfColumns
+        }
     }
 }
 

@@ -7,16 +7,17 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import com.orhanobut.logger.Logger
+import android.view.View
 import com.trebit.reststudy.*
 import com.trebit.reststudy.data.model.UserVo
 import com.trebit.reststudy.databinding.ActivityMainBinding
 import com.trebit.reststudy.ui.BaseActivity
-import com.trebit.reststudy.ui.main.fragment.FirstTabFragment
+import com.trebit.reststudy.ui.main.fragment.ContentsFragments
+import com.trebit.reststudy.ui.main.fragment.DataType
 import com.trebit.reststudy.ui.main.fragment.UserHomeFragment
+import com.trebit.reststudy.ui.main.fragment.ViewType
 import com.trebit.reststudy.ui.main.viewmodel.MainViewModel
 import com.trebit.reststudy.ui.picture.PictureActivity
-import com.yalantis.ucrop.UCrop
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -29,7 +30,7 @@ class MainActivity : BaseActivity() {
     private lateinit var mViewModel   : MainViewModel
     private lateinit var mBinding     : ActivityMainBinding
 
-    private lateinit var firstFrag    : FirstTabFragment
+    private lateinit var firstFrag    : ContentsFragments
     private lateinit var userHomeFrag : UserHomeFragment
 
     private var mBackStackArray: MutableList<TabState> = ArrayList()
@@ -50,8 +51,12 @@ class MainActivity : BaseActivity() {
         bnv_navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bnv_navigationView.menu.findItem(R.id.navi_home).isChecked = true
 
-        firstFrag    = FirstTabFragment.newInstance()
+        tv_myEmailInfo.text = intent.getStringExtra(LOGIN_EMAIL)
+
+        firstFrag    = ContentsFragments.newInstance(ViewType.VERTICAL)
         userHomeFrag = UserHomeFragment.newInstance()
+
+        mBinding.userHomeFragment = userHomeFrag
 
         supportFragmentManager.beginTransaction()
             .add(R.id.fl_mainContainer, firstFrag)
@@ -108,11 +113,15 @@ class MainActivity : BaseActivity() {
             TabState.HOME -> {
                 transaction.show(firstFrag)
                 transaction.hide(userHomeFrag)
+                rl_firstTabToolbar.visibility = View.VISIBLE
+                rl_thirdTabToolbar.visibility = View.GONE
             }
 
             TabState.MYPAGE -> {
                 transaction.hide(firstFrag)
                 transaction.show(userHomeFrag)
+                rl_firstTabToolbar.visibility = View.GONE
+                rl_thirdTabToolbar.visibility = View.VISIBLE
             }
         }
         transaction.commit()
@@ -155,7 +164,14 @@ class MainActivity : BaseActivity() {
                 }
 
                 // Image Upload [ from PictureActivity ]
-                INTENT_PICTURE -> mViewModel.getContents()
+                INTENT_PICTURE -> {
+                    val cnt = mViewModel.myAccountInfo.value?.contents_cnt
+                    val copyMyInfo = mViewModel.myAccountInfo.value?.copy(contents_cnt = cnt!!.plus(1))
+                    mViewModel.myAccountInfo.value = copyMyInfo
+
+                    mViewModel.getContents("mine", mPref.getPrefEmail(PREF_EMAIL))
+                    mViewModel.getContents("all")
+                }
             }
         }
     }

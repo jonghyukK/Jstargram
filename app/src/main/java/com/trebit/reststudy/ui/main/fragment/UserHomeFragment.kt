@@ -15,6 +15,8 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.ScrollView
 import com.trebit.reststudy.*
 import com.trebit.reststudy.adapter.ItemShowingTypeAdapter
 import com.trebit.reststudy.databinding.MainFragmentUserHomeBinding
@@ -27,6 +29,7 @@ import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.main_fragment_user_home.*
 import kotlinx.android.synthetic.main.main_fragment_user_home_content.*
+import kotlinx.android.synthetic.main.main_fragment_user_home_body.*
 import javax.inject.Inject
 
 /**
@@ -37,12 +40,12 @@ import javax.inject.Inject
  * Description:
  */
 
-class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedListener {
+class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedListener  {
 
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var mBinding: MainFragmentUserHomeBinding
+    private lateinit var mBinding       : MainFragmentUserHomeBinding
     private lateinit var mMainViewModel : MainViewModel
 
     override fun onAttach(context: Context?) {
@@ -75,7 +78,11 @@ class UserHomeFragment: BaseFragment(), NavigationView.OnNavigationItemSelectedL
         tl_tabLayout.addTab(tl_tabLayout.newTab().setIcon(R.drawable.icon_item_grid_b))
         tl_tabLayout.addTab(tl_tabLayout.newTab().setIcon(R.drawable.icon_item_vertical_b))
 
-        val adapter = ItemShowingTypeAdapter(fragmentManager!!, tl_tabLayout.tabCount)
+        val adapter = ItemShowingTypeAdapter(
+            fm      = fragmentManager!!,
+            tabCnt  = tl_tabLayout.tabCount,
+            myEmail = mPref.getPrefEmail(PREF_EMAIL))
+
         vp_viewPager.adapter = adapter
 
         vp_viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tl_tabLayout))

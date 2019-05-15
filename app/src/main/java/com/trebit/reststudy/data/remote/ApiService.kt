@@ -91,13 +91,19 @@ interface ApiService {
     ): Single<ResponseVo>
 
     // get All Contents.
+//    @GET("upload/getContents/{dataType}")
+//    fun getContents(@Path("dataType") dataType: String)
+//            : Single<List<ContentItem>>
+
     @GET("upload/getContents")
-    fun getContents(): Single<List<ContentItem>>
+    fun getContents(@Query("dataType") dataType: String,
+                    @Query("email"   ) email   : String? = null)
+    : Single<List<ContentItem>>
 
 
     @DELETE("upload/delete/{contents_id}")
     fun deleteContent(@Path("contents_id") contents_id: String)
-            : Single<ResponseVo>
+            : Single<DeleteContentsVo>
 
 
 

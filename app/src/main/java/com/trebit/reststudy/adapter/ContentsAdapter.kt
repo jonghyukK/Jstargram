@@ -4,7 +4,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.orhanobut.logger.Logger
+import com.trebit.reststudy.VIEW_TYPE_GRID
+import com.trebit.reststudy.VIEW_TYPE_VERTICAL
 import com.trebit.reststudy.data.model.ContentItem
+import com.trebit.reststudy.databinding.LayoutItemContentsGridBinding
 import com.trebit.reststudy.databinding.LayoutItemContentsVerticalBinding
 import com.trebit.reststudy.utils.TimeUtils
 
@@ -17,10 +21,10 @@ import com.trebit.reststudy.utils.TimeUtils
  * Description:
  */
 
-class ContentsAdapter : RecyclerView.Adapter<ContentsAdapter.ViewHolder>() {
+class ContentsAdapter(private val viewType: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var mContentItems: MutableList<ContentItem> = ArrayList()
-    lateinit var mContentEventListener: ContentEventListener
+    private var mContentItems : MutableList<ContentItem> = ArrayList()
+    lateinit var mContentEventListener : ContentEventListener
 
     fun setContentItem(lists: List<ContentItem>){
         mContentItems.clear()
@@ -28,26 +32,54 @@ class ContentsAdapter : RecyclerView.Adapter<ContentsAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun updateContentItem(item: ContentItem, pos: Int) {
+    fun deleteContentItem(item: ContentItem, pos: Int) {
         mContentItems.remove(item)
         notifyItemRemoved(pos)
     }
 
-    fun getContentItems(): List<ContentItem> = mContentItems
-
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val inflater = LayoutInflater.from(p0.context)
-        val binding = LayoutItemContentsVerticalBinding.inflate(inflater)
-        return ViewHolder(binding)
+    override fun getItemViewType(position: Int): Int {
+        return if ( viewType == VIEW_TYPE_GRID ) VIEW_TYPE_GRID else VIEW_TYPE_VERTICAL
     }
 
-    override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        p0.bind(mContentItems[p1], p1)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+
+        return when ( viewType ) {
+            VIEW_TYPE_GRID -> {
+                val binding = LayoutItemContentsGridBinding.inflate(inflater)
+                GridViewHolder(binding)
+            }
+            else -> {
+                val binding = LayoutItemContentsVerticalBinding.inflate(inflater)
+                VerticalViewHolder(binding)
+            }
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, p1: Int) {
+        if ( holder is GridViewHolder) {
+            holder.bind(mContentItems[p1], p1)
+        } else if ( holder is VerticalViewHolder) {
+            holder.bind(mContentItems[p1], p1)
+        }
     }
 
     override fun getItemCount(): Int = mContentItems.size
 
-    inner class ViewHolder(val binding: LayoutItemContentsVerticalBinding): RecyclerView.ViewHolder(binding.root){
+
+    /*********************************************************************************************
+     *
+     *    View Holders.
+     *
+     *********************************************************************************************/
+    inner class GridViewHolder(val binding: LayoutItemContentsGridBinding): RecyclerView.ViewHolder(binding.root){
+        fun bind(item: ContentItem, position: Int) {
+            binding.contentItem = item
+        }
+    }
+
+
+    inner class VerticalViewHolder(val binding: LayoutItemContentsVerticalBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(item: ContentItem, position: Int){
             binding.contentItem = item
 

@@ -85,7 +85,8 @@ class DataRepository(private val apiService: ApiService){
                       file    : MultipartBody.Part)
      = apiService.uploadContent(content, writer, file)
 
-    fun getContents() = apiService.getContents()
+    fun getContents(dataType : String,
+                    email    : String? = null) = apiService.getContents(dataType, email)
 
     fun deleteContent(contentId: String) = apiService.deleteContent(contentId)
 

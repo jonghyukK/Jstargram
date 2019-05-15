@@ -69,14 +69,10 @@ class SignUpFragment : BaseFragment() {
 
         viewModel.signUpResult.observe(this, Observer {
             when (it?.resCode) {
-                // valid Email.
-                RES_SUCCESS -> {
-                    signUpSuccessDialog()
-                }
-                // invalide Email.
-                RES_FAILED -> {
-                    activity?.toast { it.resMsg }
-                }
+                // success.
+                RES_SUCCESS -> signUpSuccessDialog()
+                // failed.
+                RES_FAILED -> activity?.toast { it.resMsg }
             }
         })
     }
@@ -106,7 +102,7 @@ class SignUpFragment : BaseFragment() {
             return
         }
 
-        viewModel.validateEmail(inputedEmail, inputedPW, inputedName)
+        viewModel.reqSignUp(inputedEmail, inputedPW, inputedName)
     }
 
 

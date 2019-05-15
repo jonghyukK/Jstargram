@@ -14,10 +14,13 @@ import android.os.Environment
 
 //const val BASE_API_URL = "http://192.168.2.1:3000/"
 //const val BASE_API_URL = "http://192.168.0.7:3000/"
-const val BASE_API_URL = "http://192.168.0.5:3000/"
+const val BASE_API_URL = "http://192.168.0.93:3000/"
 
 const val RES_SUCCESS = "200"
 const val RES_FAILED  = "444"
+
+const val VIEW_TYPE_GRID     = 0
+const val VIEW_TYPE_VERTICAL = 1
 
 const val DEFAULT_S = ""
 const val DEFAULT_B = false
@@ -40,4 +43,11 @@ val PERMISSIONS = arrayOf(
     Manifest.permission.READ_EXTERNAL_STORAGE,
     Manifest.permission.WRITE_EXTERNAL_STORAGE,
     Manifest.permission.CAMERA)
+
+const val KEY_VIEW_TYPE = "KEY_VIEW_TYPE"
+const val KEY_EMAIL     = "KET_EMAIL"
+
+const val REQ_MULTI_CONTENTS  = "multi"
+const val REQ_SINGLE_CONTENTS = "single"
+const val REQ_MY_CONTENTS     = "mine"
 

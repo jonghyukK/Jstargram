@@ -127,7 +127,7 @@
                         android:layout_below="@+id/rl_topContainer"
                         android:nestedScrollingEnabled="false"
                         app:layoutManager="android.support.v7.widget.GridLayoutManager"
-                        app:spanCount="4"
+                        app:spanCount="3"
                         app:reverseLayout="false"
                         app:bind_items="@{activity.getLocalImages()}"/>
 

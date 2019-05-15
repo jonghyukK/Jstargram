@@ -7,14 +7,10 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.trebit.reststudy.adapter.ContentsAdapter
 import com.trebit.reststudy.adapter.GalleryAdapter
-import com.trebit.reststudy.data.model.ContentItem
 import com.trebit.reststudy.data.model.GalleryItems
-import com.trebit.reststudy.data.model.UserVo
-import com.trebit.reststudy.utils.GalleryItemDecoration
+import com.trebit.reststudy.utils.RecyclerItemDecoration
 import de.hdodenhof.circleimageview.CircleImageView
 
 /**
@@ -68,7 +64,7 @@ fun bindingConentImgData(view: ImageView, value: String?) {
 // Gallery Adapter Bind.
 @BindingAdapter("bind_items")
 fun bindingRecyclerItems(view: RecyclerView, items: List<GalleryItems>){
-    view.addItemDecoration(GalleryItemDecoration(view.context))
+    view.addItemDecoration(RecyclerItemDecoration(view.context))
     val adapter = view.adapter as GalleryAdapter
     adapter.setGalleryItems(items)
     adapter.notifyDataSetChanged()

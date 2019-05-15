@@ -1,11 +1,13 @@
 package com.trebit.reststudy.adapter
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.trebit.reststudy.ui.main.fragment.FirstTabFragment
-import com.trebit.reststudy.ui.main.fragment.sub.DataGridFragment
-import com.trebit.reststudy.ui.main.fragment.sub.DataVerticalFragment
+import com.trebit.reststudy.KEY_EMAIL
+import com.trebit.reststudy.KEY_VIEW_TYPE
+import com.trebit.reststudy.ui.main.fragment.ContentsFragments
+import com.trebit.reststudy.ui.main.fragment.ViewType
 
 /**
  * Jstargram
@@ -16,16 +18,18 @@ import com.trebit.reststudy.ui.main.fragment.sub.DataVerticalFragment
  */
 
 class ItemShowingTypeAdapter(fm : FragmentManager,
-                             private var tabCount: Int
+                             private var tabCnt: Int,
+                             private val myEmail : String
 ): FragmentPagerAdapter(fm) {
 
     override fun getItem(p0: Int): Fragment? {
+
         return when ( p0 ) {
-            0 -> DataGridFragment.newInstance()
-            1 -> FirstTabFragment.newInstance()
+            0 -> ContentsFragments.newInstance(ViewType.GRID    , myEmail)
+            1 -> ContentsFragments.newInstance(ViewType.VERTICAL, myEmail)
             else -> null
         }
     }
 
-    override fun getCount(): Int = tabCount
+    override fun getCount(): Int = tabCnt
 }

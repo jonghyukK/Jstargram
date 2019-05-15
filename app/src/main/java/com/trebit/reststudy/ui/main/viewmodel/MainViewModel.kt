@@ -2,17 +2,16 @@ package com.trebit.reststudy.ui.main.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.os.Build.VERSION_CODES.P
 import com.orhanobut.logger.Logger
+import com.trebit.reststudy.*
 import com.trebit.reststudy.data.model.ContentItem
-import com.trebit.reststudy.data.model.GalleryItems
+import com.trebit.reststudy.data.model.DeleteContentsVo
 import com.trebit.reststudy.data.model.UserVo
 import com.trebit.reststudy.data.remote.ApiService
 import com.trebit.reststudy.data.repository.DataRepository
-import io.reactivex.Single
+import com.trebit.reststudy.ui.main.fragment.DataType
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -33,8 +32,10 @@ class MainViewModel @Inject constructor(
     private val compositeDisposable by lazy { CompositeDisposable() }
     private val repository by lazy { DataRepository(apiService) }
 
-    val myAccountInfo : MutableLiveData<UserVo>            = MutableLiveData()
-    val allContents   : MutableLiveData<List<ContentItem>> = MutableLiveData()
+    val myAccountInfo : MutableLiveData<UserVo> = MutableLiveData()
+
+    val allContents : MutableLiveData<List<ContentItem>> = MutableLiveData()
+    val myContents  : MutableLiveData<List<ContentItem>> = MutableLiveData()
 
     // get User Info by Email.
     fun getUser(email: String){
@@ -59,25 +60,49 @@ class MainViewModel @Inject constructor(
     }
 
     // get All Contents.
-    fun getContents() {
+    fun getContents(dataType : String,
+                    email    : String? = null) {
         compositeDisposable.add(
-            repository.getContents()
+            repository.getContents(dataType, email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ allContents.value = it
-                    Logger.d(it.toString())
+                .subscribe({
+
+                    when (dataType) {
+                        "all" -> {
+                            allContents.value = it
+                        }
+                        "mine" -> {
+                            myContents.value = it
+                        }
+                    }
+
+                    Logger.d("getContents API Result : $it")
+
                 }, { Logger.e(it.message.toString()) }))
     }
 
-    fun removeContent(contentId: String) {
+    // Delete Contents.
+    fun removeContent(contentId: String,
+                      email    : String) {
         compositeDisposable.add(
             repository.deleteContent(contentId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    when (it.resCode) {
+                        // Success.
+                        RES_SUCCESS -> {
+                            val copyData = myAccountInfo.value?.copy(contents_cnt = it.contentsCnt)
+                            myAccountInfo.postValue(copyData)
+
+                            getContents("all")
+                            getContents("mine", email)
+                        }
+                        // Failed.
+                        RES_FAILED -> Logger.e(it.resMsg)
+                    }
                     Logger.d(it)
                 },{ Logger.e(it.message.toString())}))
     }
-
-
 }

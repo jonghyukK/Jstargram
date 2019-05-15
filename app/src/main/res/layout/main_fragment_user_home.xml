@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
                 name="mainActivity"
                 type="com.trebit.reststudy.ui.main.activity.MainActivity"/>
@@ -20,6 +21,7 @@
                 name="myAccountInfo"
                 type="com.trebit.reststudy.data.model.UserVo"/>
     </data>
+
 
     <android.support.v4.widget.DrawerLayout
             android:id="@+id/dl_mainDrawerRoot"
@@ -47,4 +49,5 @@
                 app:menu="@menu/menu_drawer_items"/>
 
     </android.support.v4.widget.DrawerLayout>
+
 </layout>

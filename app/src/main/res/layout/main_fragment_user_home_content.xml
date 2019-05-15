@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
                 name="mainActivity"
                 type="com.trebit.reststudy.ui.main.activity.MainActivity"/>
@@ -20,226 +21,223 @@
         <variable
                 name="myAccountInfo"
                 type="com.trebit.reststudy.data.model.UserVo"/>
-
     </data>
 
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-        <!-- Tool Bar -->
-        <include
-                layout="@layout/layout_toolbar"
-                app:userHomeFragment="@{userHomeFragment}"
-                app:mainViewModel="@{mainViewModel}"
-                app:myAccountInfo="@{myAccountInfo}"/>
-
-        <View
+        <!-- Top Info Layout -->
+        <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbar"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_3"/>
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:elevation="0dp">
 
-        <!-- Body -->
-        <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white">
-
-
-            <!-- 상단 프로필, 게시물, 팔로워, 팔로잉 정보 Layout -->
             <RelativeLayout
-                    android:id="@+id/rl_userInfoLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    >
-
-                <RelativeLayout
-                        android:id="@+id/rl_profileLayout"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent">
-
-                    <!-- Profile Image View -->
-                    <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/iv_profileImg"
-                            android:layout_width="90dp"
-                            android:layout_height="90dp"
-                            android:layout_centerInParent="true"
-                            app:bind_profile_img="@{myAccountInfo.profile_img}"
-                            app:civ_border_width="2dp"
-                            app:civ_border_color="#9e9e9e"
-                            />
-                </RelativeLayout>
-
-
-                <!-- 게시물, 팔로워, 팔로잉 레이아웃 -->
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_toEndOf="@+id/rl_profileLayout"
-                        android:layout_marginStart="10dp"
-                        android:orientation="horizontal">
-
-                    <!-- 게시물 Layout -->
-                    <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                        <TextView
-                                android:id="@+id/tv_contentsCnt"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:textColor="@color/black"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:text="@{String.valueOf(myAccountInfo.contents_cnt)}"/>
-
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="3dp"
-                                android:text="@string/contents"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="15sp"/>
-                    </LinearLayout>
-
-                    <!-- 팔로워 Layout -->
-                    <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                        <TextView
-                                android:id="@+id/tv_followerCnt"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:textColor="@color/black"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:text="@{String.valueOf(myAccountInfo.follower_cnt)}"/>
-
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="3dp"
-                                android:text="@string/follower"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="15sp"/>
-                    </LinearLayout>
-
-                    <!-- 팔로잉 Layout -->
-                    <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                        <TextView
-                                android:id="@+id/tv_followingCnt"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:textColor="@color/black"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:text="@{String.valueOf(myAccountInfo.following_cnt)}"/>
-
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="3dp"
-                                android:text="@string/following"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="15sp"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </RelativeLayout>
-
-            <!-- name, introduce, button Layout -->
-            <LinearLayout
-                    android:id="@+id/ll_middleLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rl_userInfoLayout"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:orientation="vertical">
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    >
 
-                <!-- User Name -->
-                <TextView
-                        android:id="@+id/tv_userName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:text="@{myAccountInfo.name}"/>
-
-                <!-- User Introduce -->
-                <TextView
-                        android:id="@+id/tv_introduce"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:text="@{myAccountInfo.introduce}"/>
-
-                <!-- follow or profile modify -->
-
+                <!-- 상단 프로필, 게시물, 팔로워, 팔로잉 정보 Layout -->
                 <RelativeLayout
+                        android:id="@+id/rl_userInfoLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="37dp"
-                        android:layout_marginTop="7dp"
-                        android:background="@color/gray_3">
+                        android:layout_height="100dp"
+                        android:layout_marginTop="17dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        >
 
-                    <Button
-                            android:id="@+id/btn_editProfile"
+                    <RelativeLayout
+                            android:id="@+id/rl_profileLayout"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent">
+
+                        <!-- Profile Image View -->
+                        <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/iv_profileImg"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_centerInParent="true"
+                                app:bind_profile_img="@{myAccountInfo.profile_img}"
+                                app:civ_border_width="2dp"
+                                app:civ_border_color="#9e9e9e"
+                                />
+                    </RelativeLayout>
+
+
+                    <!-- 게시물, 팔로워, 팔로잉 레이아웃 -->
+                    <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="37dp"
-                            android:layout_margin="1dp"
-                            android:background="@drawable/bg_profile_btn"
-                            android:textColor="@color/black"
-                            android:text="@string/modify_profile"
-                            android:onClick="@{userHomeFragment::goEditProfile}"/>
+                            android:layout_height="match_parent"
+                            android:layout_toEndOf="@+id/rl_profileLayout">
+
+                        <LinearLayout
+                                android:id="@+id/ll_infoLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:orientation="horizontal">
+
+                            <!-- 게시물 Layout -->
+                            <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                <TextView
+                                        android:id="@+id/tv_contentsCnt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:textColor="@color/black"
+                                        android:textSize="20sp"
+                                        android:textStyle="bold"
+                                        android:text="@{String.valueOf(myAccountInfo.contents_cnt)}"/>
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="1dp"
+                                        android:text="@string/contents"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="15sp"/>
+                            </LinearLayout>
+
+                            <!-- 팔로워 Layout -->
+                            <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                <TextView
+                                        android:id="@+id/tv_followerCnt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:textColor="@color/black"
+                                        android:textSize="20sp"
+                                        android:textStyle="bold"
+                                        android:text="@{String.valueOf(myAccountInfo.follower_cnt)}"/>
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="1dp"
+                                        android:text="@string/follower"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="15sp"/>
+                            </LinearLayout>
+
+                            <!-- 팔로잉 Layout -->
+                            <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                <TextView
+                                        android:id="@+id/tv_followingCnt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:textColor="@color/black"
+                                        android:textSize="20sp"
+                                        android:textStyle="bold"
+                                        android:text="@{String.valueOf(myAccountInfo.following_cnt)}"/>
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="1dp"
+                                        android:text="@string/following"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="15sp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- follow or profile modify -->
+                        <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="37dp"
+                                android:layout_marginTop="7dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_below="@+id/ll_infoLayout"
+                                android:background="@color/gray_3">
+
+                            <Button
+                                    android:id="@+id/btn_editProfile"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="37dp"
+                                    android:layout_margin="1dp"
+                                    android:background="@drawable/bg_profile_btn"
+                                    android:textColor="@color/black"
+                                    android:text="@string/modify_profile"
+                                    android:onClick="@{userHomeFragment::goEditProfile}"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
                 </RelativeLayout>
-            </LinearLayout>
 
-            <!-- 하단 Tab Layout -->
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/ll_middleLayout">
-
-                <android.support.design.widget.TabLayout
-                        android:id="@+id/tl_tabLayout"
+                <!-- name, introduce, button Layout -->
+                <LinearLayout
+                        android:id="@+id/ll_middleLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rl_userInfoLayout"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:orientation="vertical">
 
-                <android.support.v4.view.ViewPager
-                        android:id="@+id/vp_viewPager"
+                    <!-- User Name -->
+                    <TextView
+                            android:id="@+id/tv_userName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:text="@{myAccountInfo.name}"/>
+
+                    <!-- User Introduce -->
+                    <TextView
+                            android:id="@+id/tv_introduce"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:text="@{myAccountInfo.introduce}"/>
+                </LinearLayout>
+
+                <View
+                        android:id="@+id/divider02"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@+id/tl_tabLayout"/>
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@+id/ll_middleLayout"
+                        android:background="@color/gray_3"/>
             </RelativeLayout>
-        </RelativeLayout>
-    </LinearLayout>
 
+
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <include layout="@layout/main_fragment_user_home_body"/>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </layout>

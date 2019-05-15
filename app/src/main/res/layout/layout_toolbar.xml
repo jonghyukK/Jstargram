@@ -40,8 +40,6 @@
                 android:src="@drawable/icon_top_menu"
                 android:onClick="@{userHomeFragment::onClickToolBarBtn}"/>
 
-
-
     </android.support.v7.widget.Toolbar>
 </layout>
 

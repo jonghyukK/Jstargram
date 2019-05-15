@@ -1,9 +1,7 @@
 package com.trebit.reststudy.di.module
 
 import com.trebit.reststudy.ui.login.fragment.SignUpFragment
-import com.trebit.reststudy.ui.main.fragment.FirstTabFragment
-import com.trebit.reststudy.ui.main.fragment.sub.DataGridFragment
-import com.trebit.reststudy.ui.main.fragment.sub.DataVerticalFragment
+import com.trebit.reststudy.ui.main.fragment.ContentsFragments
 import com.trebit.reststudy.ui.main.fragment.UserHomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -34,7 +32,7 @@ abstract class FragmentModule {
      *
      *********************************************************************/
     @ContributesAndroidInjector
-    abstract fun contributeFirstTabFragment(): FirstTabFragment
+    abstract fun contributeFirstTabFragment(): ContentsFragments
 
 
 
@@ -46,11 +44,4 @@ abstract class FragmentModule {
      *********************************************************************/
     @ContributesAndroidInjector
     abstract fun contributeUserHomeFragment(): UserHomeFragment
-
-    @ContributesAndroidInjector
-    abstract fun contributeDataGridFragment(): DataGridFragment
-
-    @ContributesAndroidInjector
-    abstract fun contributeDataVerticalFragment(): DataVerticalFragment
-
 }

@@ -8,6 +8,7 @@ import com.trebit.reststudy.RES_SUCCESS
 import com.trebit.reststudy.data.model.ResponseVo
 import com.trebit.reststudy.data.remote.ApiService
 import com.trebit.reststudy.data.repository.DataRepository
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -32,7 +33,7 @@ class LoginViewModel @Inject constructor(
     val signUpResult : MutableLiveData<ResponseVo> = MutableLiveData()
 
     // call Login API.
-    fun requestLogin(email: String, pw: String){
+    fun requestLogin(email: String, pw: String) {
         compositeDisposable.add(
             repository.requestLogin(
                 email    = email,
@@ -52,74 +53,60 @@ class LoginViewModel @Inject constructor(
     }
 
 
-    // call Validation Check for Email API.
-    fun validateEmail(inputEmail: String,
-                      inputPW   : String,
-                      inputName : String){
-        compositeDisposable.add(
-            repository.validateEmail(email = inputEmail)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    when (it.resCode) {
-                        RES_SUCCESS -> createUser(inputEmail, inputPW, inputName)
-                        RES_FAILED  -> signUpResult.value = it
+    // Call Sign Up API.
+    fun reqSignUp(email : String,
+                  pw    : String,
+                  name  : String){
+
+        // 1. Email Validate Check API.
+        val validateEmail = repository.validateEmail(email)
+            .map {
+                when ( it.resCode ) {
+                    // success
+                    RES_SUCCESS -> Logger.d(it.resMsg)
+                    // failed
+                    RES_FAILED  -> {
+                        signUpResult.postValue(it)
+                        throw Exception()
                     }
-                    Logger.d("""
-                        resCode : ${it.resCode}
-                        resMsg  : ${it.resMsg}
-                    """.trimIndent())},
-                    { Logger.e(it.message.toString()) })
-        )
-    }
+                }
+            }
 
+        // 2. Create User API.
+        val createUser = repository.createUser(
+            email    = email,
+            name     = name,
+            password = pw)
+            .map {
+                when (it.resCode) {
+                    // success
+                    RES_SUCCESS -> signUpResult.postValue(it)
+                    // failed
+                    RES_FAILED -> {
+                        signUpResult.postValue(it)
+                        throw Exception()
+                    }
+                }
+            }
 
-    // call Sign Up User API.
-    private fun createUser(inputEmail: String,
-                           inputPW   : String,
-                           inputName : String) {
+        // 3. Concat (1),(2)
         compositeDisposable.add(
-            repository.createUser(
-                email    = inputEmail,
-                password = inputPW,
-                name     = inputName)
-                .subscribeOn(Schedulers.io())
+            Single.concat(validateEmail, createUser)
+                .lastOrError()
+                .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    signUpResult.value = it
-
                     Logger.d("""
-                        resCode : ${it.resCode}
-                        resMsg  : ${it.resMsg}
-                        """.trimIndent())
-                }, { Logger.e(it.message.toString()) }))
+                        Email Validate : Pass
+                        Create User    : Success
+                    """.trimIndent())
+                }, { Logger.e("Occur Error Sign Up API Calls.") }))
     }
 
-
-//    val test =  { Logger.d("first") }
-//    val test2 =  { Logger.d("Second") }
-//    val test3 =  { Logger.d("Third") }
-//
-//    fun chainFunction() {
-//        val action : () -> Unit  = test
-//        val action2 : () -> Unit = test2
-//        val action3 : () -> Unit = test3
-//
-//        val validateEmail = Observable.just(1)
-//            .map { validateEmail("saz300@naver.com") }
-//            .doOnComplete(action)
-//
-//        val validateEmail2 = Observable.just(1)
-//            .map { validateEmail("kk@daum,net")}
-//            .doOnComplete(action2)
-//
-//        val source = Observable.concat(validateEmail, validateEmail2)
-//            .doOnComplete(action3)
-//
-//        source.subscribe()
-//    }
-//
-//    val action : (String) -> Unit = {  Logger.e(it)}
-
-
+    override fun onCleared() {
+        if(!compositeDisposable.isDisposed) {
+            compositeDisposable.dispose()
+        }
+        super.onCleared()
+    }
 }

@@ -8,6 +8,9 @@
         <variable
                 name="viewModel"
                 type="com.trebit.reststudy.ui.main.viewmodel.MainViewModel"/>
+        <variable
+                name="userHomeFragment"
+                type="com.trebit.reststudy.ui.main.fragment.UserHomeFragment"/>
     </data>
 
 
@@ -17,12 +20,71 @@
             android:layout_height="match_parent"
             android:background="@color/white">
 
+        <!-- ToolBar -->
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:background="@color/gray_2">
+
+            <!-- First Tab Tool Bar -->
+            <RelativeLayout
+                    android:id="@+id/rl_firstTabToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/logo_name"
+                        android:textSize="18sp"
+                        android:layout_centerInParent="true"/>
+            </RelativeLayout>
+
+            <!-- Third Tab Tool Bar -->
+            <RelativeLayout
+                    android:id="@+id/rl_thirdTabToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:id="@+id/tv_myEmailInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        tools:text="saz300@naver.com"/>
+
+                <ImageView
+                        android:id="@+id/iv_showNavi"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:padding="12dp"
+                        android:onClick="@{userHomeFragment::onClickToolBarBtn}"
+                        android:src="@drawable/icon_top_menu"/>
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.Toolbar>
+
+        <View
+                android:id="@+id/divider01"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tb_toolbar"
+                android:background="@color/gray_4"/>
+
+        <!-- Center Fragment Container -->
         <FrameLayout
                 android:id="@+id/fl_mainContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/divider01"
                 android:layout_above="@+id/bnv_navigationView"/>
 
+        <!-- Bottom Navigation View -->
         <android.support.design.widget.BottomNavigationView
                 android:id="@+id/bnv_navigationView"
                 android:layout_width="match_parent"

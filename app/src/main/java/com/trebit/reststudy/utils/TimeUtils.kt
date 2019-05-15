@@ -1,5 +1,6 @@
 package com.trebit.reststudy.utils
 
+import com.orhanobut.logger.Logger
 import java.text.SimpleDateFormat
 
 /**
@@ -26,7 +27,11 @@ class TimeUtils {
             val min = Math.abs(diffTime / 60)
             val sec = Math.abs(diffTime % 60)
 
+            val formatter2 = SimpleDateFormat("yyyy년 MM월 dd일")
+            val date2 = formatter2.format(dataTime)
+
             return when {
+                hour > 48 -> date2
                 hour > 24 -> "1일 전"
                 hour > 0 -> "${hour}시간 전"
                 min > 0 -> "${min}분 전"

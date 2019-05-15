@@ -67,6 +67,11 @@ data class UserVo(
     val following_cnt : Int
 ): Serializable
 
+data class DeleteContentsVo(
+    val resCode     : String,
+    val resMsg      : String,
+    val contentsCnt : Int
+)
 
 
 

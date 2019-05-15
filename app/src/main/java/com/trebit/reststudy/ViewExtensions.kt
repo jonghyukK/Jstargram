@@ -88,7 +88,6 @@ fun EditText.addTextWatcher(img: ImageView) {
             s?.let {
                 img.visibility = if ( s.isNotEmpty()) View.VISIBLE else View.GONE
             }
-
             img.setOnClickListener { setText("") }
         }
     })
